@@ -5,15 +5,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const session = await stripe.checkout.sessions.retrieve(params.id);
+    const { id } = await params;
+    const session = await stripe.checkout.sessions.retrieve(id);
 
     return NextResponse.json({
       paid: session.payment_status === "paid",
     });
-  } catch (err) {
+  } catch (error) {
     return NextResponse.json({ paid: false }, { status: 400 });
   }
 }
