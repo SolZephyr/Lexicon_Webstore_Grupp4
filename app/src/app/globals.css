@@ -8,6 +8,17 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary-green: var(--primary-green);
+  --color-brand-50: #effaf4;
+  --color-brand-100: #d8f3e2;
+  --color-brand-200: #b4e6ca;
+  --color-brand-300: #83d2ab;
+  --color-brand-400: #50b787;
+  --color-brand-500: #2e9b6c;
+  --color-brand-600: #228b60;
+  --color-brand-700: #186446;
+  --color-brand-800: #164f39;
+  --color-brand-900: #134130;
+  --color-brand-950: #09251b;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -86,7 +97,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --primary-green: #2FBF71;
+  --primary-green: #228b60;
 }
 
 .dark {
@@ -154,10 +165,10 @@
 }
 
 .SeparatorRoot[data-orientation="horizontal"] {
-	height: 1px;
-	width: 100%;
+  height: 1px;
+  width: 100%;
 }
 .SeparatorRoot[data-orientation="vertical"] {
-	height: 100%;
-	width: 1px;
+  height: 100%;
+  width: 1px;
 }

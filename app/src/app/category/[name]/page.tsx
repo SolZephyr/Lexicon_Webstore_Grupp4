@@ -51,7 +51,7 @@ export default async function CategoryDetailsPage({
           Voluptates, ea!
         </span>
       </p>
-      <div className="flex flex-col grow sm:flex-row gap-4">
+      <div className="flex flex-col grow md:flex-row gap-4">
         <Sidebar category={name} />
         <Suspense fallback={<Loader />}>
           <ProductsGrid productsTask={products} />

@@ -29,7 +29,7 @@ export default async function ProductsPage({
     : "";
 
   return (
-    <ContentWrapper className="flex flex-col gap-4 sm:flex-row" as="article">
+    <ContentWrapper className="flex flex-col gap-4 md:flex-row" as="article">
       <Sidebar />
       <Suspense fallback={<Loader />}>
         <ProductsGrid title={searchTitle} productsTask={data} />
