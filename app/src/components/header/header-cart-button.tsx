@@ -13,6 +13,7 @@ import { useShoppingCart } from "use-shopping-cart"
 import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CheckoutButton } from "@/components/checkout-button";
 
 
 export default function HeaderCartButton() {
@@ -118,12 +119,7 @@ export default function HeaderCartButton() {
                         <span className="font-bold">
                             {formattedTotalPrice ?? "0 US$"}
                         </span>
-                        <button 
-                            className="mt-4 bg-black text-white px-4 py-2 rounded-md hover:bg-[var(--primary-green)] disabled:opacity-50" 
-                            disabled
-                        >
-                            Checkout
-                        </button>
+                        <CheckoutButton />
                     </div>
                 </SheetFooter>
             </SheetContent>
