@@ -1,30 +1,48 @@
-"use client";
-
-import { useEffect } from "react";
-import { useShoppingCart } from "use-shopping-cart";
-import { ContentWrapper } from "@/components/content-wrapper";
+import Stripe from "stripe";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import ClearCart from "@/components/clear-cart";
+import { ContentWrapper } from "@/components/content-wrapper";
+interface SuccessPageProps {
+  searchParams: { session_id?: string };
+}
 
-export default function SuccessPage() {
-  const { clearCart } = useShoppingCart();
+export default async function SuccessPage(props: { searchParams: Promise<{ session_id?: string }> }) {
+  const searchParams = await props.searchParams;
+  const sessionId = searchParams.session_id;
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-  // Clear the cart once on mount
-  useEffect(() => {
-    clearCart();
-  }, []);
+  if (!sessionId) {
+    redirect("/");
+  }
+
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (session.payment_status !== "paid") {
+      redirect("/");
+    }
+  } catch (err) {
+    console.error("Error retrieving Stripe session:", err);
+    redirect("/");
+  }
 
   return (
-    <ContentWrapper className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold mb-4">🎉 Payment Successful!</h1>
-      <p className="text-lg text-gray-600 mb-8">
-        Thank you for your order. Your cart has been cleared.
-      </p>
-      <Link
-        href="/"
-        className="bg-primary-green hover:bg-green-700 text-white rounded-xl px-8 py-3 text-base font-medium transition-colors"
-      >
-        Back to Home
-      </Link>
+    <ContentWrapper >
+      <ClearCart>
+        <div className="flex flex-col items-center justify-center py-20 px-4">
+          <h1 className="text-3xl font-bold mb-4">🎉 Payment Successful!</h1>
+          <p className="text-lg text-gray-600 mb-8">
+            Thank you for your order. Your cart has been cleared.
+          </p>
+          <Link
+            href="/"
+            className="bg-primary-green hover:bg-green-700 text-white rounded-xl px-8 py-3 text-base font-medium transition-colors"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </ClearCart>
     </ContentWrapper>
   );
 }

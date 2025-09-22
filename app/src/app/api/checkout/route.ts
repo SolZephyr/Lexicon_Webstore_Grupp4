@@ -7,7 +7,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: Request) {
   try {
     const { items } = (await req.json()) as { items: Product[] }; // items from your external API/cart
-    console.log(items);
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

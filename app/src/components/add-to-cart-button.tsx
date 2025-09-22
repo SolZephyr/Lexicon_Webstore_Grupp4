@@ -7,13 +7,16 @@ import { useShoppingCart } from "use-shopping-cart";
 export default function AddToCartButton({ product }: { product: Product }) {
     const { addItem } = useShoppingCart();
     const [quantity, setQuantity] = useState(1);
+    const adjustedPrice = product.discountPercentage
+        ? + (product.price - (product.price * product.discountPercentage / 100)).toFixed(2)
+        : product.price;
 
     const handleAddToCart = () => {
         addItem(
             {
                 id: product.id,
                 name: product.title, // adjust to your Product type
-                price: product.price * 100, // must be in cents!
+                price: adjustedPrice * 100, // must be in cents!
                 currency: "USD",
                 image: product.thumbnail,
                 description: product.description,
@@ -46,7 +49,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
                 onClick={
                     handleAddToCart
                 }
-                className="bg-[var(--primary-green)] hover:bg-green-700 text-white rounded-xl px-12 py-4 text-base font-medium cursor-pointer flex items-center justify-center gap-2 transition-colors"
+                className="bg-primary-green hover:bg-green-700 text-white rounded-xl px-12 py-4 text-base font-medium cursor-pointer flex items-center justify-center gap-2 transition-colors"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
