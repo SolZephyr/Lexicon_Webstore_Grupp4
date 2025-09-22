@@ -28,6 +28,7 @@ export default function DimensionInput({
               className="border p-1 rounded grow w-20"
               id={`dimensions_${key}`}
               name={`dimensions_${key}`}
+              required
               min={0}
               onChange={e =>
                 setDimensions(prev => ({ ...prev, [key]: +e.target.value }))
