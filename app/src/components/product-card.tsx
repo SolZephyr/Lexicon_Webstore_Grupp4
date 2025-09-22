@@ -22,7 +22,7 @@ export default function ProductCard({ product }: { product: ThinProduct }) {
           />
           <p className="text-sm text-gray-500 py-2">{product.rating} ⭐</p>
         </div>
-        <h2 className="text-md font-semibold text-center">{product.title}</h2>
+        <h2 className="text-md font-semibold">{product.title}</h2>
 
         <ProductPrice
           price={product.price}
