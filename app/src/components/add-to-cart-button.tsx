@@ -49,7 +49,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
                 onClick={
                     handleAddToCart
                 }
-                className="bg-primary-green hover:bg-green-700 text-white rounded-xl px-12 py-4 text-base font-medium cursor-pointer flex items-center justify-center gap-2 transition-colors"
+                className="bg-primary-green hover:bg-primary-green/80 text-white rounded-xl px-12 py-4 text-base font-medium cursor-pointer flex items-center justify-center gap-2 transition-colors"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

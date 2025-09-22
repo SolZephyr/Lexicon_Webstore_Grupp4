@@ -19,8 +19,8 @@ export default async function Sidebar({ category }: { category?: string }) {
 
   return (
     <aside className="flex flex-col sm:w-60 w-full gap-4">
-      <section className="p-2 flex flex-col gap-2 rounded border-2 border-[var(--primary-green)]">
-        <h2 className="text-xl px-2 py-3 font-bold uppercase border border-x-0 border-t-0 border-b-[var(--primary-green)]">
+      <section className="p-2 flex flex-col gap-2 rounded border-2 border-primary-green">
+        <h2 className="text-xl px-2 py-3 font-bold uppercase border border-x-0 border-t-0 border-b-primary-green">
           Categories
         </h2>
         <ul className="p-2">
@@ -36,8 +36,8 @@ export default async function Sidebar({ category }: { category?: string }) {
           ))}
         </ul>
       </section>
-      <section className="p-2 rounded border-2 border-[var(--primary-green)]">
-        <h2 className="text-xl px-2 py-3 font-bold uppercase border border-x-0 border-t-0 border-b-[var(--primary-green)]">
+      <section className="p-2 rounded border-2 border-primary-green">
+        <h2 className="text-xl px-2 py-3 font-bold uppercase border border-x-0 border-t-0 border-b-primary-green">
           Filters
         </h2>
         <Suspense>

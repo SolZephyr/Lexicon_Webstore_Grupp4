@@ -18,7 +18,7 @@ export default function FilterCard({
       className={`${className}`}
       {...props}
     >
-      <AccordionTrigger className="px-2 font-bold">{title}</AccordionTrigger>
+      <AccordionTrigger className="px-2 font-bold hover:cursor-pointer">{title}</AccordionTrigger>
       <AccordionContent className="px-1">{children}</AccordionContent>
     </AccordionItem>
   );

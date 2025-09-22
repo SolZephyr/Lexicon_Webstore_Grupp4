@@ -37,7 +37,7 @@ export default function AboutPage() {
       </section>
 
       <section className="grid md:grid-cols-3 gap-8 mb-12">
-        <div className="bg-[var(--primary-green)] border rounded-lg shadow p-6 flex flex-col items-center">
+        <div className="bg-primary-green border rounded-lg shadow p-6 flex flex-col items-center">
           <svg className="w-12 h-12 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
             <circle cx="12" cy="12" r="3" />
@@ -47,7 +47,7 @@ export default function AboutPage() {
             Proin a dignissim massa. Vestibulum sagittis elit quam, vitae rutrum libero venenatis quis. Maecenas tincidunt sem augue, sit amet finibus risus tempus a.
           </p>
         </div>
-        <div className="bg-[var(--primary-green)] border rounded-lg shadow p-6 flex flex-col items-center">
+        <div className="bg-primary-green border rounded-lg shadow p-6 flex flex-col items-center">
           <svg className="w-12 h-12 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <rect x="5" y="11" width="14" height="12" rx="2" />
             <path d="M7 11V7a5 5 0 0110 0v4" />
@@ -58,7 +58,7 @@ export default function AboutPage() {
             Sed eu ornare lacus. Donec eleifend maximus suscipit. Nam placerat pulvinar mauris et condimentum. Nam condimentum, eros sit amet pretium vehicula.
           </p>
         </div>
-        <div className="bg-[var(--primary-green)] border rounded-lg shadow p-6 flex flex-col items-center">
+        <div className="bg-primary-green border rounded-lg shadow p-6 flex flex-col items-center">
           <svg className="w-12 h-12 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
             <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
             <circle cx="12" cy="12" r="10" />

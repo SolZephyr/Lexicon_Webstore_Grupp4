@@ -46,7 +46,7 @@ export function MultiSelectList({
       {items.map((item) => (
         <div
           key={item.id}
-          className="flex px-2 items-center space-x-3 rounded-lg hover:bg-accent/50 transition-colors"
+          className="flex px-2 items-center space-x-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer focus-within:underline "
           onClick={(e) => handleItemToggle(item.id, e)}
         >
           <Checkbox
@@ -55,9 +55,9 @@ export function MultiSelectList({
             text={item.label}
             checked={selectedItems.includes(item.id)}
             color="#200"
-            className="data-[state=checked]:bg-[var(--primary-green)] data-[state=checked]:border-none border-[var(--primary-green)] rounded-none shadow"
+            className="data-[state=checked]:bg-primary-green data-[state=checked]:border-none border-primary-green rounded-none shadow cursor-pointer"
           />
-          <span className="text-sm inline-block font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer py-2">
+          <span className="text-sm inline-block font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-2">
             {item.label}
           </span>
         </div>

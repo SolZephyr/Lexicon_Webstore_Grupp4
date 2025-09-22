@@ -9,7 +9,7 @@ export default function NotFound() {
         <p className="w-50 rounded p-2">
           The page you were looking for could not be found.
         </p>
-        <Button asChild className="bg-[var(--primary-green)]">
+        <Button asChild className="bg-primary-green hover:bg-primary-green/80">
           <Link className="self-center" href="/">
             Return Home
           </Link>
