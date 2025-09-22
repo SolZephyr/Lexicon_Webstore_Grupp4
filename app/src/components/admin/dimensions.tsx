@@ -14,10 +14,6 @@ export default function DimensionInput({
   onUpdates: (updatedValues: Dimensions) => void;
 }) {
   const [dimensions, setDimensions] = useState<Dimensions>(initialValues);
-  function setValue({ key, value }: { value: string; key: string }): void {
-    setDimensions(prev => ({ ...prev, [key]: +value }));
-  }
-
   useEffect(() => onUpdates(dimensions), [dimensions]);
 
   return (
@@ -33,7 +29,9 @@ export default function DimensionInput({
               id={`dimensions_${key}`}
               name={`dimensions_${key}`}
               min={0}
-              onChange={e => setValue({ key, value: e.target.value })}
+              onChange={e =>
+                setDimensions(prev => ({ ...prev, [key]: +e.target.value }))
+              }
               defaultValue={value}
               type="number"
             />
