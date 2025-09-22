@@ -20,7 +20,6 @@ export default function HeaderCartButton() {
     const {
         cartDetails,
         cartCount,
-        totalPrice,
         formattedTotalPrice,
         incrementItem,
         decrementItem,
