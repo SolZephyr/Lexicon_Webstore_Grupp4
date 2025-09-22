@@ -87,7 +87,7 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: context => toSorted(context, "Create")
+    header: context => toSorted(context, "Created")
   },
   {
     accessorKey: "updatedAt",
