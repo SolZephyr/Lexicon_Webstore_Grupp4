@@ -23,9 +23,11 @@ export default async function HeroSection() {
   const ids = PRODUCT_IDS.map((p) => p.id);
   const products = await getProductsById(ids, "hero");
 
+  const orderedProducts = PRODUCT_IDS.map(p => new Map(products.map(x => [x.id, x])).get(p.id));
+
   return (
     <section className="grid grid-cols-6 grid-rows-6 gap-2 min-h-[32rem]">
-      {products?.map((product, index) => {
+      {orderedProducts?.map((product, index) => {
         const config = PRODUCT_IDS[index];
         if (!product) return null;
 
