@@ -13,7 +13,8 @@ import { useShoppingCart } from "use-shopping-cart"
 import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { CheckoutButton } from "@/components/checkout-button";
+
 
 export default function HeaderCartButton() {
     const {
@@ -48,7 +49,7 @@ export default function HeaderCartButton() {
                         {(cartCount ?? 0) > 0 ? (
                             <>
                                 <span className="text-sm font-bold">
-                                    {(totalPrice ??  0 / 100).toFixed(2)}$
+                                    {(formattedTotalPrice ??  0 )}
                                 </span>
                             </>
                         ) : (
@@ -77,7 +78,7 @@ export default function HeaderCartButton() {
                                 <Link
                                     href={`/products/${item.id}`}
                                     className="font-bold hover:underline mb-1">{item.name}</Link>
-                                <div className="flex flex-row items-center border rounded-lg px-4 py-2 bg-white shadow-sm">
+                                <div className="flex flex-row items-center border rounded-lg px-4 py-2 bg-white shadow-sm w-fit">
                                     <button className="cursor-pointer"
                                         onClick={() => {
                                             if (item.quantity > 1) {
@@ -100,7 +101,7 @@ export default function HeaderCartButton() {
                                 </div>
                             </div>
                             <div className="flex flex-col items-end justify-self-end mr-4 flex-grow">
-                                <span className="font-bold">${(item.price / 100) * item.quantity}</span>
+                                <span className="font-bold">{(item.formattedValue )}</span>
                             </div>
                             <button
                                 onClick={() => {
@@ -116,14 +117,9 @@ export default function HeaderCartButton() {
                     <div className="flex flex-col content-center justify-center text-center">
                         <span className="text-sm text-gray-500">Total:</span>
                         <span className="font-bold">
-                            {formattedTotalPrice ?? "$0"}
+                            {formattedTotalPrice ?? "0 US$"}
                         </span>
-                        <button 
-                            className="mt-4 text-white px-4 py-2 rounded-md bg-primary-green hover:bg-primary-green/80 disabled:opacity-50" 
-                            disabled
-                        >
-                            Checkout
-                        </button>
+                        <CheckoutButton />
                     </div>
                 </SheetFooter>
             </SheetContent>

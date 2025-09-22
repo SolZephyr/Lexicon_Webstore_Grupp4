@@ -7,13 +7,16 @@ import { useShoppingCart } from "use-shopping-cart";
 export default function AddToCartButton({ product }: { product: Product }) {
     const { addItem } = useShoppingCart();
     const [quantity, setQuantity] = useState(1);
+    const adjustedPrice = product.discountPercentage
+        ? + (product.price - (product.price * product.discountPercentage / 100)).toFixed(2)
+        : product.price;
 
     const handleAddToCart = () => {
         addItem(
             {
                 id: product.id,
                 name: product.title, // adjust to your Product type
-                price: product.price * 100, // must be in cents!
+                price: adjustedPrice * 100, // must be in cents!
                 currency: "USD",
                 image: product.thumbnail,
                 description: product.description,

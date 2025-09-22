@@ -18,8 +18,8 @@ export default function FilterCard({
       className={`${className}`}
       {...props}
     >
-      <AccordionTrigger className="px-2 font-bold hover:cursor-pointer">{title}</AccordionTrigger>
-      <AccordionContent className="px-1">{children}</AccordionContent>
+      <AccordionTrigger className="font-bold text-base hover:cursor-pointer py-1.5">{title}</AccordionTrigger>
+      <AccordionContent className="">{children}</AccordionContent>
     </AccordionItem>
   );
 }

@@ -1,25 +1,18 @@
 "use client";
 
 import { SidebarFilterValues } from "@/lib/types";
-import { use } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import StockCheck from "./filter/stock-only";
 import BrandSelect from "./filter/brand-select";
 import PriceSlider from "./filter/price-slider";
 import NameSearch from "./filter/name-search";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { AccordionHeader } from "@radix-ui/react-accordion";
+import { Accordion } from "../ui/accordion";
 
-export default function FilterArea({
-  task,
-}: {
-  task: Promise<SidebarFilterValues>;
-}) {
+type FilterAreaProps = {
+  task: SidebarFilterValues; // resolved data, not a Promise
+};
+
+export default function FilterArea({ task }: FilterAreaProps) {
   const path = usePathname();
   const params = useSearchParams();
   const { replace } = useRouter();
@@ -51,31 +44,18 @@ export default function FilterArea({
     replace(`${path}?${newParams}`);
   };
 
-  const { brand, price } = use(task);
+  const { brand, price } = task;
 
   return (
-    <Accordion
-      type="single"
-      defaultValue="filter"
-    >
-      <AccordionItem value="filter">
-        <AccordionContent className="py-0">
-          <Accordion type="multiple" className="flex flex-col gap-1">
-            <NameSearch params={params} onValueChange={updateRoute} />
-            <BrandSelect
-              params={params}
-              values={brand}
-              onSelectedUpdate={updateRoute}
-            />
-            <StockCheck params={params} onCheckedChange={updateRoute} />
-            <PriceSlider
-              params={params}
-              values={price}
-              onRangeUpdate={updateRoute}
-            />
-          </Accordion>
-        </AccordionContent>
-      </AccordionItem>
+    <Accordion type="multiple" className="flex flex-col gap-2" defaultValue={["search", "brand", "stock", "price"]}>
+      <NameSearch params={params} onValueChange={updateRoute} />
+      <BrandSelect
+        params={params}
+        values={brand}
+        onSelectedUpdate={updateRoute}
+      />
+      <StockCheck params={params} onCheckedChange={updateRoute} />
+      <PriceSlider params={params} values={price} onRangeUpdate={updateRoute} />
     </Accordion>
   );
 }
