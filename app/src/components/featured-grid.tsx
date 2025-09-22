@@ -12,7 +12,11 @@ export default function FeaturedGrid({
   const data = use(productsTask);
   return (
     <div className={`flex flex-col gap-4 ${className || ""}`}>
-      <h2 className="text-3xl font-bold">Featured Products</h2>
+      <div className="flex">
+        <h2 className="text-xl font-bold border-b-brand-600 border-b-2">
+          Featured Products
+        </h2>
+      </div>
       <div className="grid grid-rows-[1fr_auto_auto_auto] grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-3 justify-between">
         {data.map((product) => (
           <ProductCard key={product.id} product={product} />

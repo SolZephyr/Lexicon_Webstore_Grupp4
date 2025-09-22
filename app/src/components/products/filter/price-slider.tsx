@@ -34,19 +34,16 @@ export default function PriceSlider({
     onRangeUpdate?.(["priceMin", "priceMax"], e.map(i => i.toString()));
   }
 
+
   return (
     <FilterCard id="price" title={"Price"}>
-      <div>
-        <div className="flex flex-row mb-2 justify-between">
-          <div>{rangeMin}</div>
-          <div>{rangeMax}</div>
-        </div>
+      <div className="mx-1 mt-3">
         <Slider min={rangeMin} max={rangeMax}
           defaultValue={[selectedMin, selectedMax]}
           onValueChange={(e) => handleAdjust(e)}
           onValueCommit={(e) => handleSelected(e)}
         />
-        <div className="flex flex-row mt-2 justify-between">
+        <div className="flex flex-row mt-3 justify-between font-medium">
           <div>{current[0]}</div>
           <div>{current[1]}</div>
         </div>

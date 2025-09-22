@@ -43,25 +43,28 @@ export function MultiSelectList({
 
   return (
     <FilterCard id="brand" className={className} title={title}>
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className="flex px-2 items-center space-x-3 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer focus-within:underline "
-          onClick={(e) => handleItemToggle(item.id, e)}
-        >
-          <Checkbox
-            id={item.id}
-            name={item.id}
-            text={item.label}
-            checked={selectedItems.includes(item.id)}
-            color="#200"
-            className="data-[state=checked]:bg-primary-green data-[state=checked]:border-none border-primary-green rounded-none shadow cursor-pointer"
-          />
-          <span className="text-sm inline-block font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 py-2">
-            {item.label}
-          </span>
-        </div>
-      ))}
+      {(items ?? [])
+        .slice()
+        .sort((a, b) => a.label.localeCompare(b.label))
+        .map((item) => (
+          <div
+            key={item.id}
+            className="flex items-center space-x-2 rounded-lg transition-colors cursor-pointer focus-within:underline py-1.5 mx-1"
+            onClick={(e) => handleItemToggle(item.id, e)}
+          >
+            <Checkbox
+              id={item.id}
+              name={item.id}
+              text={item.label}
+              checked={selectedItems.includes(item.id)}
+              color="#200"
+              className="data-[state=checked]:bg-primary-green data-[state=checked]:border-none cursor-pointer rounded"
+            />
+            <span className="text-sm inline-block font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {item.label}
+            </span>
+          </div>
+        ))}
     </FilterCard>
   );
 }

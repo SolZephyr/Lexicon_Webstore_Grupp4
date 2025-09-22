@@ -41,18 +41,19 @@ export default function NameSearch({
 
   return (
     <FilterCard id="search" title="Search">
-      <div className="flex focus-within:outline-2 border border-primary-green outline-primary-green rounded-sm">
+      <div className="flex focus-within:outline-2 border rounded my-2 mx-1">
         <Input
           defaultValue={search}
           ref={ref}
           type="search"
+          placeholder="Search..."
           onChange={() => debounced()}
-          className="rounded-s-sm rounded-e-none border-0 focus-visible:ring-0"
+          className="rounded-s rounded-e-none border-0 focus-visible:ring-2 text-sm"
         />
         <Button
           onClick={() => getSearchValue()}
           type="button"
-          className="rounded-s-none rounded-e-sm bg-white border border-y-0 border-e-0 border-s-primary-green hover:text-white text-primary-green hover:bg-primary-green cursor-pointer"
+          className="rounded-s-none rounded-e text-white bg-primary-green cursor-pointer hover:bg-primary-green/80 focus-visible:ring-2"
         >
           <Search />
         </Button>

@@ -13,6 +13,6 @@ export function ContentWrapper<T extends ElementType = "div">({
 }: ContentWrapperProps<T>) {
   const Component = as || "div";
   return (
-    <Component className={cn("rounded p-6 bg-white", className)} {...props} />
+    <Component className={cn("rounded p-4 bg-white", className)} {...props} />
   );
 }
