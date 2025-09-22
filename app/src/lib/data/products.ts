@@ -12,6 +12,19 @@ export const getProduct = async (id: number): Promise<Product> => {
     }
 }
 
+export const getProductsById = async (ids: number[], variant?: 'hero' | 'short'): Promise<Product[]> => {
+    try {
+        const URI = ids.join(',');
+        let finalURI = `${baseURI}/${URI}`;
+        if (variant)
+            finalURI += `/${variant}`;
+        const response = await fetch(finalURI);
+        return await response.json();
+    } catch (e) {
+        throw (e);
+    }
+}
+
 export function convertProductParamsToFilter({ params }: { params: SearchParamsString }): ProductsFilter {
     return {
         ...params,
@@ -60,30 +73,11 @@ export const searchByName = async ({ name, page }: { name: string, page?: { numb
     }
 }
 
-export const getProducts = async ({ limit }: { limit?: number }): Promise<ThinProduct[]> => {
-    const filter = '?' + thinFields;
-    const limitFilter = limit !== undefined ? `${filter}&limit=${Math.ceil(limit / 4)}` : filter;
-    const categories = ['smartphones', 'tablets', 'mobile-accessories', 'laptops'];
-    const filterURIS = categories.map(categoryName => `${baseURI}/category/${categoryName}${limitFilter}`)
-
+export const getRandomProducts = async (): Promise<ThinProduct[]> => {
+    const URI = `${baseURI}/featured`
     try {
-        const tasks = filterURIS.map(async uri => {
-            return new Promise<ThinProductList>((resolve) => {
-                setTimeout(async () => {
-                    const request = await fetch(uri);
-                    const list = await request.json() as ThinProductList;
-                    resolve(list);
-                }, 250);
-            });
-        });
-
-        const data = await Promise.all(tasks);
-        const returnItems = data.reduce((accumulator, currentValue) => {
-            return { ...accumulator, products: accumulator?.products?.concat(currentValue.products) }
-        }).products;
-
-        return limit ? returnItems.slice(0, limit) : returnItems;
-
+        const request = await fetch(URI);
+        return await request.json();
     } catch (e) {
         throw (e);
     }
@@ -115,8 +109,3 @@ export const getProductsByFilter = async (filter: ProductsFilter): Promise<ThinP
     const request = await fetch(decoded);
     return await request.json() as ThinProductList;
 }
-
-// 'https://dummyjson.com/products/category/smartphones/?select=title,price,discountPercentage,thumbnail,rating,availabilityStatus'
-// 'https://dummyjson.com/products/category/tablets/?select=title,price,discountPercentage,thumbnail,rating,availabilityStatus'
-// 'https://dummyjson.com/products/category/mobile-accessories/?select=title,price,discountPercentage,thumbnail,rating,availabilityStatus'
-// 'https://dummyjson.com/products/category/laptops/?select=title,price,discountPercentage,thumbnail,rating,availabilityStatus'
