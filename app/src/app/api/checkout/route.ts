@@ -28,8 +28,8 @@ export async function POST(req: Request) {
     });
 
     return NextResponse.json({ id: session.id, url: session.url });
-  } catch (err: any) {
-    console.error("Stripe Checkout error:", err);
+  } catch (error) {
+    console.error("Stripe Checkout error:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
