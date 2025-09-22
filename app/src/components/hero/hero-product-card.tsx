@@ -107,6 +107,7 @@ export default function HeroProductCard({
           alt={title}
           width={600}
           height={600}
+          priority
           className="z-0"
         />
       </div>
