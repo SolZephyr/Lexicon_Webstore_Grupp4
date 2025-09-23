@@ -18,19 +18,19 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-export type ComboboxOptions = {
+export type ComboboxOption = {
   value: string;
   label: string;
 };
 
 interface ComboboxProps {
-  options: ComboboxOptions[];
-  selected: ComboboxOptions['value'];
+  options: ComboboxOption[];
+  selected: ComboboxOption['value'];
   className?: string;
   placeholder?: string;
   disabled?: boolean;
-  onChange: (option: ComboboxOptions) => void;
-  onCreate?: (label: ComboboxOptions['label']) => void;
+  onChange: (option: ComboboxOption) => void;
+  onCreate?: (label: ComboboxOption['label']) => void;
 }
 
 /**
@@ -64,14 +64,13 @@ function CommandAddItem({
 }
 
 // https://stackblitz.com/edit/shadcn-combobox-example?file=app%2Fpage.tsx
-export function ComboBox({
+export function Combobox({
   options,
   selected,
   className,
   placeholder,
   disabled,
   onChange,
-  onCreate,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
@@ -85,7 +84,7 @@ export function ComboBox({
     setCanCreate(!!(query && isAlreadyCreated));
   }, [query, options]);
 
-  function handleSelect(option: ComboboxOptions) {
+  function handleSelect(option: ComboboxOption) {
     if (onChange) {
       setValue(option.label);
       onChange(option);
@@ -95,9 +94,9 @@ export function ComboBox({
   }
 
   function handleCreate() {
-    if (onCreate && query) {
+    if (onChange && query) {
       setValue("Add: " + query);
-      onCreate(query);
+      onChange({ value: query.toLowerCase(), label: query });
       setOpen(false);
       setQuery('');
     }
