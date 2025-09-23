@@ -72,13 +72,13 @@ export default function HeaderCartButton() {
                     {cartItems.map((item) => (
                         <div
                             key={item.id}
-                            className="flex flex-row items-center border-b py-2 mx-4"
+                            className="flex flex-col items-center border-b py-2 mx-4"
                         >
-                            <div className="flex flex-col content-start justify-self-start mr-4">
-                                <Link
-                                    href={`/products/${item.id}`}
-                                    className="font-bold hover:underline mb-1">{item.name}</Link>
-                                <div className="flex flex-row items-center border rounded-lg px-4 py-2 bg-white shadow-sm w-fit">
+                            <Link
+                                href={`/products/${item.id}`}
+                                className="font-bold hover:underline mb-1">{item.name}</Link>
+                            <div className="flex flex-row content-start justify-self-start mr-4 mt-2">
+                                <div className="flex flex-row items-center border rounded-lg px-4 py-2 bg-white shadow-sm w-fit mr-4">
                                     <button className="cursor-pointer"
                                         onClick={() => {
                                             if (item.quantity > 1) {
@@ -99,32 +99,33 @@ export default function HeaderCartButton() {
                                         +
                                     </button>
                                 </div>
+
+                                <div className="flex flex-row items-end justify-self-end mr-4 flex-grow">
+                                    {item.price_data && (() => {
+                                        const { price, discountPercentage, discountedPrice } = item.price_data as PriceDetails;
+                                        if (discountPercentage && discountedPrice) {
+                                            return (
+                                                <div className="flex flex-row items-center gap-2">
+                                                    {/* Discounted price */}
+                                                    <span className="font-bold text-red-500">{discountedPrice * item.quantity} US$</span>
+                                                    {/* Discount percentage */}
+                                                    <span className="text-sm text-red-500">(-{discountPercentage}%)</span>
+                                                    {/* Original price with strikethrough */}
+                                                    <span className="line-through text-gray-500">{price * item.quantity} US$</span>
+                                                </div>
+                                            );
+                                        }
+                                        return <span className="font-bold">{item.formattedValue}</span>;
+                                    })()}
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        removeItem(item.id)
+                                        toast.success("Item removed from cart!")
+                                    }}
+                                    className="text-sm text-red-500 hover:underline ">X
+                                </button>
                             </div>
-                            <div className="flex flex-row items-end justify-self-end mr-4 flex-grow">
-                                {item.price_data && (() => {
-                                    const { price, discountPercentage, discountedPrice } = item.price_data as PriceDetails;
-                                    if (discountPercentage && discountedPrice) {
-                                        return (
-                                            <div className="flex flex-row items-center gap-2">
-                                                {/* Discounted price */}
-                                                <span className="font-bold text-red-500">{discountedPrice} US$</span>
-                                                {/* Discount percentage */}
-                                                <span className="text-sm text-red-500">(-{discountPercentage}%)</span>
-                                                {/* Original price with strikethrough */}
-                                                <span className="line-through text-gray-500">{price} US$</span>
-                                            </div>
-                                        );
-                                    }
-                                    return <span className="font-bold">{item.formattedValue}</span>;
-                                })()}
-                            </div>
-                            <button
-                                onClick={() => {
-                                    removeItem(item.id)
-                                    toast.success("Item removed from cart!")
-                                }}
-                                className="text-sm text-red-500 hover:underline ">X
-                            </button>
                         </div>
                     ))}
                 </div>
