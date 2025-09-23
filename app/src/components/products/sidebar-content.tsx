@@ -4,6 +4,14 @@ import { SidebarFilterValues } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
+import { Smartphone, Tablet, Headphones, Laptop } from "lucide-react";
+
+const ICONS = {
+  smartphone: Smartphone,
+  tablet: Tablet,
+  headphones: Headphones,
+  laptop: Laptop,
+};
 
 interface SidebarContentProps {
   categories: CategoryProps[];
@@ -18,6 +26,7 @@ export default function SidebarContent({
   filterValues,
   mobile,
 }: SidebarContentProps) {
+  
   return (
     <div
       className={cn(" flex-col gap-4", {
@@ -32,6 +41,7 @@ export default function SidebarContent({
         <ul className="flex flex-col gap-0.5">
           {categories.map((c, index) => {
             const isActive = category === c.href.split("/").pop();
+            const Icon = ICONS[c.icon];
             return (
               <li key={index} className="flex">
                 <Link
@@ -42,7 +52,7 @@ export default function SidebarContent({
                       "bg-primary-green text-white hover:bg-brand-700"
                   )}
                 >
-                  <c.icon size={20} strokeWidth={1} />
+                  <Icon size={20} strokeWidth={1} />
                   {c.label}
                 </Link>
               </li>
