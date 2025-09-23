@@ -1,8 +1,9 @@
 "use client"
 import { toast } from "sonner"
-import { Product } from "@/lib/types"
+import { Product, PriceDetails } from "@/lib/types"
 import { useState } from "react";
 import { useShoppingCart } from "use-shopping-cart";
+import { Product as ShoppingCartProduct } from "use-shopping-cart/core";
 
 export default function AddToCartButton({ product }: { product: Product }) {
     const { addItem } = useShoppingCart();
@@ -11,17 +12,26 @@ export default function AddToCartButton({ product }: { product: Product }) {
         ? + (product.price - (product.price * product.discountPercentage / 100)).toFixed(2)
         : product.price;
 
+    const priceDetails: PriceDetails = {
+        price: product.price,
+        discountPercentage: product.discountPercentage,
+        discountedPrice: adjustedPrice
+    }
+
+    const shoppingCartProduct: ShoppingCartProduct = {
+        id: product.id,
+        name: product.title,
+        price: adjustedPrice * 100,
+        currency: "USD",
+        image: product.thumbnail,
+        description: product.description,
+        sku: product.sku,
+        price_data: priceDetails
+    }
+
     const handleAddToCart = () => {
         addItem(
-            {
-                id: product.id,
-                name: product.title, // adjust to your Product type
-                price: adjustedPrice * 100, // must be in cents!
-                currency: "USD",
-                image: product.thumbnail,
-                description: product.description,
-                sku: product.sku
-            },
+            shoppingCartProduct,
             { count: quantity }
         )
         toast.success(`${product.title} added to cart!`)
