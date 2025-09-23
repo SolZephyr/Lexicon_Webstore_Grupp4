@@ -1,5 +1,10 @@
 export interface SearchParamsString { [key: string]: string | undefined };
 
+export type Partial<T> = {
+    [P in keyof T]?: T[P];
+};
+
+
 export interface ProductsFilter {
   limit?: number;
   page?: number;
@@ -69,9 +74,9 @@ export interface Product {
 }
 
 export interface Dimensions {
-  width: number
-  height: number
   depth: number
+  height: number
+  width: number
 }
 
 export interface Review {
