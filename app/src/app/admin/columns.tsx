@@ -1,14 +1,31 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import { Product } from "@/lib/types";
 import { ColumnDef, HeaderContext, Row } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 
 const toSorted = (context: HeaderContext<Product, unknown>, title: string) => {
   const column = context.column;
   return (
     <Button
-      variant="ghost"
+      variant="link"
       onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
     >
       {title}
@@ -25,17 +42,20 @@ const getRebatedValue = (row: Row<Product>) => {
     : price;
 };
 
+const toPresent = (refStr: string) => {
+  const refDate = new Date(refStr);
+  const dateStr = refDate.toLocaleDateString("sv-SE");
+  const timeStr = refDate.toLocaleTimeString("sv-SE");
+  return `${dateStr} ${timeStr}`;
+};
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "id",
-    header: context => toSorted(context, "ID")
-  },
-  {
-    accessorKey: "title",
-    header: context => toSorted(context, "Title")
+    header: context => toSorted(context, "ID"),
   },
   {
     accessorKey: "category",
@@ -50,6 +70,10 @@ export const columns: ColumnDef<Product>[] = [
         })
         .join(" ");
     }
+  },
+  {
+    accessorKey: "title",
+    header: context => toSorted(context, "Title")
   },
   {
     accessorKey: "price",
@@ -81,23 +105,61 @@ export const columns: ColumnDef<Product>[] = [
     }
   },
   {
-    accessorKey: "sku",
-    header: context => toSorted(context, "SKU")
-  },
-  {
     accessorKey: "availabilityStatus",
     header: context => toSorted(context, "Available")
   },
   {
     accessorKey: "meta.createdAt",
     header: context => toSorted(context, "Created"),
-    cell: ({ row }) =>
-      new Date(row.original.meta.createdAt).toLocaleDateString("sv-SE")
+    cell: ({ row }) => toPresent(row.original.meta.createdAt)
   },
   {
     accessorKey: "meta.updatedAt",
     header: context => toSorted(context, "Updated"),
-    cell: ({ row }) =>
-      new Date(row.original.meta.updatedAt).toLocaleDateString("sv-SE")
+    cell: ({ row }) => toPresent(row.original.meta.updatedAt)
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const product = row.original;
+      return (
+        <Dialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="default" className="bg-brand-600 h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                className="hover:bg-gray-200 hover:underline"
+                asChild
+              >
+                <Link href={`admin/${product.id}`}>Show Details</Link>
+              </DropdownMenuItem>
+              <DialogTrigger asChild>
+                <DropdownMenuItem className="text-destructive focus:hover:bg-destructive/10 focus:text-destructive focus:underline">
+                  Delete Product
+                </DropdownMenuItem>
+              </DialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. Are you sure you want to
+                permanently delete this file from our servers?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant={"destructive"} type="submit">
+                Delete
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      );
+    }
   }
 ];
