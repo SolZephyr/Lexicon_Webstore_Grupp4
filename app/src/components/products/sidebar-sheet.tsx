@@ -1,8 +1,10 @@
+"use client";
 import SidebarContent from "@/components/products/sidebar-content";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -24,7 +26,7 @@ export default function SidebarSheet({
 }: SidebarSheetProps) {
   return (
     <div className="flex md:hidden">
-      <Sheet>
+      <Sheet key={category || "all"}>
         <SheetTrigger asChild id="filters-trigger">
           <Button className="w-full rounded cursor-pointer bg-brand-600 hover:bg-brand-700">
             <SlidersHorizontal />
@@ -39,6 +41,9 @@ export default function SidebarSheet({
           <SheetHeader className="shadow">
             <SheetTitle>Filters</SheetTitle>
           </SheetHeader>
+          <SheetDescription className="sr-only">
+            Adjust your product filters here.
+          </SheetDescription>
           <SidebarContent
             categories={categories}
             category={category}

@@ -1,5 +1,5 @@
 "use client";
-import { Product, ProductList } from "@/lib/types";
+import { ProductList } from "@/lib/types";
 import React, { use } from "react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";

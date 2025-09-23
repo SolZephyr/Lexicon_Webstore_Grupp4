@@ -1,3 +1,4 @@
+import BrandSelect from "@/components/admin/brand-select";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,6 +45,8 @@ export default function CreateProductPage() {
                                 }
                             </SelectContent>
                         </Select>
+                        <Label htmlFor="brand">Brand</Label>
+                        <BrandSelect className="bg-white my-2"/>
                         <Label htmlFor="title">Description</Label>
                         <Textarea id="description" name="description" rows={5} className="bg-white my-2" />
                     </section>
