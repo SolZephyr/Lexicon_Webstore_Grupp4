@@ -49,7 +49,7 @@ export default function HeaderCartButton() {
                         {(cartCount ?? 0) > 0 ? (
                             <>
                                 <span className="text-sm font-bold">
-                                    {(formattedTotalPrice ??  0 )}
+                                    {(formattedTotalPrice ?? 0)}
                                 </span>
                             </>
                         ) : (
@@ -101,8 +101,22 @@ export default function HeaderCartButton() {
                                 </div>
                             </div>
                             <div className="flex flex-row items-end justify-self-end mr-4 flex-grow">
-                                {item.price_data }
-                                <span className="font-bold">{(item.formattedValue )}</span>
+                                {item.price_data && (() => {
+                                    const { price, discountPercentage, discountedPrice } = item.price_data as PriceDetails;
+                                    if (discountPercentage && discountedPrice) {
+                                        return (
+                                            <div className="flex flex-row items-center gap-2">
+                                                {/* Discounted price */}
+                                                <span className="font-bold text-red-500">{discountedPrice} US$</span>
+                                                {/* Discount percentage */}
+                                                <span className="text-sm text-red-500">(-{discountPercentage}%)</span>
+                                                {/* Original price with strikethrough */}
+                                                <span className="line-through text-gray-500">{price} US$</span>
+                                            </div>
+                                        );
+                                    }
+                                    return <span className="font-bold">{item.formattedValue}</span>;
+                                })()}
                             </div>
                             <button
                                 onClick={() => {
