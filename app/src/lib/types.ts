@@ -100,6 +100,12 @@ export interface ShoppingCartItem {
   quantity: number
 }
 
+export interface PriceDetails {
+  price: number,
+  discountPercentage?: number,
+  discountedPrice?: number
+}
+
 export const contactTypes = [
   { value: "support", label: "Support" },
   { value: "info", label: "Information" },

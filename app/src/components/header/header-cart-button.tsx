@@ -14,6 +14,7 @@ import Link from "next/link";
 import { ShoppingBasket } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CheckoutButton } from "@/components/checkout-button";
+import { PriceDetails } from "@/lib/types";
 
 
 export default function HeaderCartButton() {
@@ -99,7 +100,8 @@ export default function HeaderCartButton() {
                                     </button>
                                 </div>
                             </div>
-                            <div className="flex flex-col items-end justify-self-end mr-4 flex-grow">
+                            <div className="flex flex-row items-end justify-self-end mr-4 flex-grow">
+                                {item.price_data }
                                 <span className="font-bold">{(item.formattedValue )}</span>
                             </div>
                             <button
