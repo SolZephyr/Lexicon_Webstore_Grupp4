@@ -4,7 +4,7 @@ import ProductsGrid from "@/components/products-grid";
 import Sidebar from "@/components/products/sidebar";
 import {
   convertProductParamsToFilter,
-  getProductsByFilter,
+  getThinProductsByFilter,
 } from "@/lib/data/products";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
@@ -32,7 +32,7 @@ export default async function CategoryDetailsPage({
   const filter = convertProductParamsToFilter({ params: query });
   filter.categories = [name];
 
-  const products = getProductsByFilter(filter);
+  const products = getThinProductsByFilter(filter);
 
   return (
     <ContentWrapper className="grow flex flex-col" as="article">
@@ -51,7 +51,7 @@ export default async function CategoryDetailsPage({
           Voluptates, ea!
         </span>
       </p>
-      <div className="flex flex-col grow sm:flex-row gap-4">
+      <div className="flex flex-col grow md:flex-row gap-4">
         <Sidebar category={name} />
         <Suspense fallback={<Loader />}>
           <ProductsGrid productsTask={products} />

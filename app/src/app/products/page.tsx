@@ -4,7 +4,7 @@ import ProductsGrid from "@/components/products-grid";
 import Sidebar from "@/components/products/sidebar";
 import {
   convertProductParamsToFilter,
-  getProductsByFilter,
+  getThinProductsByFilter,
 } from "@/lib/data/products";
 import { SearchParamsString } from "@/lib/types";
 import { Metadata } from "next";
@@ -22,14 +22,14 @@ export default async function ProductsPage({
 }) {
   const params = await searchParams;
   const filter = convertProductParamsToFilter({ params });
-  const data = getProductsByFilter(filter);
+  const data = getThinProductsByFilter(filter);
 
   const searchTitle = filter.search
     ? `Search for "${filter.search}" yielded:`
     : "";
 
   return (
-    <ContentWrapper className="flex flex-col gap-4 sm:flex-row" as="article">
+    <ContentWrapper className="flex flex-col gap-4 md:flex-row" as="article">
       <Sidebar />
       <Suspense fallback={<Loader />}>
         <ProductsGrid title={searchTitle} productsTask={data} />

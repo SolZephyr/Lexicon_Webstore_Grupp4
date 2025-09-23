@@ -1,30 +1,11 @@
 import { cn } from "@/lib/utils";
-import {
-  Headphones,
-  Laptop,
-  LucideIcon,
-  Smartphone,
-  Tablet,
-} from "lucide-react";
 import Link from "next/link";
 
-interface CategoryCardProps {
-  href?: string;
-  icon: LucideIcon;
-  label: string;
+import { categories, CategoryProps } from "@/lib/constants";
+
+interface CategoryCardProps extends CategoryProps {
   className?: string;
 }
-
-const categories: CategoryCardProps[] = [
-  { href: "/category/smartphones", icon: Smartphone, label: "Smartphones" },
-  { href: "/category/tablets", icon: Tablet, label: "Tablets" },
-  {
-    href: "/category/mobile-accessories",
-    icon: Headphones,
-    label: "Mobile Accessories",
-  },
-  { href: "/category/laptops", icon: Laptop, label: "Laptops" },
-];
 
 export default function CategoryGrid() {
   return (
