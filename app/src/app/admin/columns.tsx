@@ -42,10 +42,13 @@ export const columns: ColumnDef<Product>[] = [
     header: context => toSorted(context, "Category"),
     cell: ({ row }) => {
       const category = row.getValue("category")?.toString();
-      return category?.split("-").map(i => {
-        const [first, ...rest] = i;
-        return first.toUpperCase() + rest.join("");
-      }).join(' ');
+      return category
+        ?.split("-")
+        .map(i => {
+          const [first, ...rest] = i;
+          return first.toUpperCase() + rest.join("");
+        })
+        .join(" ");
     }
   },
   {
@@ -64,7 +67,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "priceWithRebate",
     size: 10,
     header: context => toSorted(context, "Price (incl. Discount)"),
-    sortingFn: (rowA, rowB, columnId) => {
+    sortingFn: (rowA, rowB) => {
       return getRebatedValue(rowA) - getRebatedValue(rowB);
     },
     cell: ({ row }) => {
@@ -86,11 +89,15 @@ export const columns: ColumnDef<Product>[] = [
     header: context => toSorted(context, "Available")
   },
   {
-    accessorKey: "createdAt",
-    header: context => toSorted(context, "Created")
+    accessorKey: "meta.createdAt",
+    header: context => toSorted(context, "Created"),
+    cell: ({ row }) =>
+      new Date(row.original.meta.createdAt).toLocaleDateString("sv-SE")
   },
   {
-    accessorKey: "updatedAt",
-    header: context => toSorted(context, "Updated")
+    accessorKey: "meta.updatedAt",
+    header: context => toSorted(context, "Updated"),
+    cell: ({ row }) =>
+      new Date(row.original.meta.updatedAt).toLocaleDateString("sv-SE")
   }
 ];
