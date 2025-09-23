@@ -1,5 +1,4 @@
 "use client";
-
 import {
   SortingState,
   ColumnDef,
@@ -49,7 +48,6 @@ export function DataTable<TData, TValue>({
       sorting
     }
   });
-  table;
 
   return (
     <>
