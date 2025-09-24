@@ -1,7 +1,6 @@
 "use client";
 import { Dimensions } from "@/lib/types";
-import { Fragment, useEffect, useState } from "react";
-import { Input } from "../ui/input";
+import { useEffect, useState } from "react";
 import { FormField } from "./product-form";
 import { NumberInput } from "./number-input";
 
@@ -23,18 +22,19 @@ export default function DimensionInput({
   }, [dimensions]);
 
   return (
-    <div className="flex flex-wrap grow justify-between gap-6 items-center">
+    <div className='flex flex-wrap grow justify-between gap-6 items-center'>
       {Object.entries(initialValues).map(([key, value], i) => (
-        <FormField key={i} name={`dimensions_${key}`} label={key}>
+        <FormField key={i} name={`dimensions_${key}`} label={key} required>
           <NumberInput
             id={`dimensions_${key}`}
             name={`dimensions_${key}`}
             value={value}
+            placeholder='0.00'
             min={0}
-            className="w-full"
-            onChange={e => setDimensions(prev => ({ ...prev, [key]: e }))}
             max={999}
             step={1}
+            className='w-full'
+            onChange={e => setDimensions(prev => ({ ...prev, [key]: e }))}
           />
         </FormField>
       ))}

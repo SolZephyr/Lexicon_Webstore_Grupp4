@@ -1,18 +1,12 @@
 "use client";
 import { ContentWrapper } from "@/components/content-wrapper";
 import ProductForm from "../../../components/admin/product-form";
-import { Product } from "@/lib/types";
+import { Create } from "../actions";
 
 export default function CreateProductPage() {
-
-  function postProduct(newState: Product): void {
-    console.log("New State");
-    console.dir(newState, { depth: null });
-  }
-
   return (
     <ContentWrapper>
-      <ProductForm initialState={{}} onSubmit={postProduct} />
+      <ProductForm initialState={{}} serverAction={Create} />
     </ContentWrapper>
   );
 }

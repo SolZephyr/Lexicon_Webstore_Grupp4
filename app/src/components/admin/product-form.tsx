@@ -20,55 +20,47 @@ import BrandSelect from "./brand-select";
 
 export default function ProductForm({
   initialState,
-  onSubmit
+  serverAction
 }: {
   initialState: Partial<Product>;
-  onSubmit: (newState: Product) => void;
+  serverAction: (data: FormData) => void;
 }) {
   const originalState = structuredClone(initialState);
   const [product, setProduct] = useState<Partial<Product>>(originalState);
-
-  function submitProduct(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    const finalProduct = product as Product;
-    onSubmit(finalProduct);
-  }
 
   const setValue = (index: keyof Product, value: any) => {
     setProduct({ ...product, [index]: value });
   };
 
-  const { title, category, brand, description } = product;
-
   return (
     <form
-      onSubmit={submitProduct}
-      className="m-auto max-w-[50rem] flex p-4 flex-col gap-5"
+      action={serverAction}
+      className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
-      <h2 className="text-4xl font-bold">Create New Product</h2>
-      <div className=" flex flex-wrap gap-8">
+      <h2 className='text-4xl font-bold'>Create New Product</h2>
+      <div className=' flex flex-wrap space-y-4'>
         <FormRow>
           {/* Basic information */}
           <FormSection>
-            <FormField name={"title"} label={"Title"}>
+            <FormField name={"title"} label={"Title"} required>
               <Input
-                type="text"
-                id="title"
-                name="title"
-                defaultValue={title}
+                type='text'
+                id='title'
+                name='title'
+                defaultValue={product.title}
                 onChange={val => setValue("title", val.currentTarget.value)}
-                placeholder="Product name"
+                placeholder='Product name'
                 maxLength={50}
               />
             </FormField>
-            <FormField name="category" label="Category">
+            <FormField name='category' label='Category' required>
               <Select
-                name="category"
-                defaultValue={category}
+                name='category'
+                defaultValue={product.category}
                 onValueChange={v => setValue("category", v)}
               >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Category" />
+                <SelectTrigger className='w-full'>
+                  <SelectValue placeholder='Category' />
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((item, index) => (
@@ -79,17 +71,18 @@ export default function ProductForm({
                 </SelectContent>
               </Select>
             </FormField>
-            <FormField name="brand" label="Brand">
+            <FormField name='brand' label='Brand' required>
               <BrandSelect
-                initialValue={brand}
+                initialValue={product.brand}
                 onChange={e => setValue("brand", e)}
               />
             </FormField>
-            <FormField name="description" label={"Description"}>
+            <FormField name='description' label={"Description"}>
               <Textarea
-                id="description"
-                name="description"
-                value={description ?? ""}
+                id='description'
+                name='description'
+                value={product.description ?? ""}
+                placeholder='Describe the product...'
                 onChange={val =>
                   setValue("description", val.currentTarget.value)
                 }
@@ -99,48 +92,48 @@ export default function ProductForm({
           </FormSection>
           {/* Extra information */}
           <FormSection>
-            <FormField name={"number"} label={"Weight"}>
-              <Input
-                type="number"
-                id="weight"
-                name="weight"
-                defaultValue={product.weight ?? 0}
-                onChange={v => setValue("weight", v.currentTarget.value)}
+            <FormField name={"weight"} label={"Weight"}>
+              <NumberInput
+                id='weight'
+                name='weight'
+                value={product.weight}
+                placeholder='0.00'
+                onChange={value => setValue("weight", value)}
                 min={1}
                 step={1}
               />
             </FormField>
-            <FormField name="price" label="Price">
+            <FormField name='price' label='Price'>
               <NumberInput
-                id="price"
-                name="price"
+                id='price'
+                name='price'
                 value={product.price}
                 onChange={v => setValue("price", v)}
-                placeholder="0.00"
+                placeholder='0.00'
                 decimalScale={2}
-                prefix="$"
+                prefix='$'
                 thousandSeparator={true}
                 allowNegative={false}
               />
             </FormField>
-            <FormField name="discount" label="Discount (percentage)">
+            <FormField name='discount' label='Discount (percentage)'>
               <NumberInput
-                id="discount"
-                name="discount"
+                id='discount'
+                name='discount'
                 value={product.discountPercentage}
                 onChange={v => setValue("discountPercentage", v)}
-                placeholder="0.00"
+                placeholder='0.00'
                 decimalScale={2}
-                suffix="%"
+                suffix='%'
                 min={0}
                 max={100}
               />
             </FormField>
-            <FormField name="stock" label="Stock (Amount)">
+            <FormField name='stock' label='Stock (Amount)'>
               <Input
-                type="number"
-                id="stock"
-                name="stock"
+                type='number'
+                id='stock'
+                name='stock'
                 defaultValue={product.stock ?? 0}
                 onChange={e => setValue("stock", e.currentTarget.value)}
                 min={0}
@@ -148,7 +141,7 @@ export default function ProductForm({
                 step={1}
               />
             </FormField>
-            <FormField name="warranty" label="Warranty">
+            <FormField name='warranty' label='Warranty'>
               <WarrantySelect
                 onChange={w => setValue("warrantyInformation", w)}
                 initialValue={product.warrantyInformation}
@@ -167,8 +160,8 @@ export default function ProductForm({
           </FormSection>
         </FormRow>
       </div>
-      <section className="py-4">
-        <Button type="submit" size="lg" className="cursor-pointer">
+      <section className='py-4'>
+        <Button type='submit' size='lg' className='cursor-pointer'>
           Add product
         </Button>
       </section>
@@ -177,7 +170,7 @@ export default function ProductForm({
 }
 
 const FormRow = ({ children }: React.ComponentProps<"div">) => (
-  <div className="grid sm:grid-cols-2 grid-cols-1 justify-evenly grow gap-4 ">
+  <div className='grid sm:grid-cols-2 grid-cols-1 justify-evenly grow gap-4 '>
     {children}
   </div>
 );
@@ -189,15 +182,23 @@ const FormSection = ({ children }: React.ComponentProps<"div">) => {
 export const FormField = ({
   name,
   label,
+  required,
   children
 }: {
   name?: string;
   label: string;
+  required?: boolean;
 } & React.ComponentProps<"div">) => {
   return (
-    <div className="flex flex-col gap-2 grow">
-      <Label className="capitalize" htmlFor={name}>
+    <div className='flex flex-col grow gap-2'>
+      <Label
+        className='capitalize flex flex-row gap-0 relative w-fit'
+        htmlFor={name}
+      >
         {label}
+        {required && (
+          <span className='text-destructive absolute -right-2 -top-0.5'>*</span>
+        )}
       </Label>
       {children}
     </div>
