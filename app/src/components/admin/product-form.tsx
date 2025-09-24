@@ -17,6 +17,7 @@ import { FormState, Partial, Product } from "@/lib/types";
 import React, { useActionState, useState } from "react";
 import { NumberInput } from "./number-input";
 import BrandSelect from "./brand-select";
+import ShippingInfoSelect from "./shipping-info-select";
 
 export default function ProductForm({
   submitButtonText,
@@ -27,18 +28,21 @@ export default function ProductForm({
   initialState: Partial<Product>;
   serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
 }) {
-  const originalState = structuredClone(initialState);
-  const [product, setProduct] = useState<Partial<Product>>(originalState);
+  const originalData = structuredClone(initialState);
+  const [form, setForm] = useState<Partial<Product>>(originalData);
 
   const setValue = (index: keyof Product, value: unknown) => {
-    setProduct({ ...product, [index]: value });
+    setForm({ ...form, [index]: value });
   };
-  const formState: FormState = { success: true };
+  const formState: FormState = {};
 
   const [state, formAction, isPending] = useActionState(
     serverAction,
     formState
   );
+
+  const e = (name: string) =>
+    state.success ? undefined : state.errors?.[name];
 
   return (
     <form
@@ -46,26 +50,25 @@ export default function ProductForm({
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>Create New Product</h2>
-      <pre className='border block text-wrap '>{JSON.stringify(state)}</pre>
       <div className=' flex flex-wrap space-y-4'>
         <FormRow>
           {/* Basic information */}
           <FormSection>
-            <FormField name={"title"} label={"Title"} required>
+            <FormField name={"title"} label={"Title"} error={e("title")}>
               <Input
                 type='text'
                 id='title'
                 name='title'
-                defaultValue={product.title}
+                defaultValue={form.title}
                 onChange={val => setValue("title", val.currentTarget.value)}
                 placeholder='Product name'
                 maxLength={50}
               />
             </FormField>
-            <FormField name='category' label='Category' required>
+            <FormField name='category' label='Category' error={e("category")}>
               <Select
                 name='category'
-                defaultValue={product.category}
+                defaultValue={form.category}
                 onValueChange={v => setValue("category", v)}
               >
                 <SelectTrigger className='w-full'>
@@ -80,17 +83,21 @@ export default function ProductForm({
                 </SelectContent>
               </Select>
             </FormField>
-            <FormField name='brand' label='Brand' required>
+            <FormField name='brand' label='Brand' error={e("brand")}>
               <BrandSelect
-                initialValue={product.brand}
+                initialValue={form.brand}
                 onChange={e => setValue("brand", e)}
               />
             </FormField>
-            <FormField name='description' label={"Description"}>
+            <FormField
+              name='description'
+              label={"Description"}
+              error={e("description")}
+            >
               <Textarea
                 id='description'
                 name='description'
-                value={product.description ?? ""}
+                value={form.description ?? ""}
                 placeholder='Describe the product...'
                 onChange={val =>
                   setValue("description", val.currentTarget.value)
@@ -101,11 +108,11 @@ export default function ProductForm({
           </FormSection>
           {/* Extra information */}
           <FormSection>
-            <FormField name={"weight"} label={"Weight"}>
+            <FormField name={"weight"} label={"Weight"} error={e("weight")}>
               <NumberInput
                 id='weight'
                 name='weight'
-                value={product.weight}
+                value={form.weight}
                 placeholder='0.00'
                 onChange={value => {
                   setValue("weight", value);
@@ -114,11 +121,11 @@ export default function ProductForm({
                 step={1}
               />
             </FormField>
-            <FormField name='price' label='Price'>
+            <FormField name='price' label='Price' error={e("price")}>
               <NumberInput
                 id='price'
                 name='price'
-                value={product.price}
+                value={form.price}
                 onChange={v => setValue("price", v)}
                 placeholder='0.00'
                 decimalScale={2}
@@ -127,11 +134,15 @@ export default function ProductForm({
                 allowNegative={false}
               />
             </FormField>
-            <FormField name='discount' label='Discount (percentage)'>
+            <FormField
+              name='discount'
+              label='Discount (percentage)'
+              error={e("discount")}
+            >
               <NumberInput
                 id='discount'
                 name='discount'
-                value={product.discountPercentage}
+                value={form.discountPercentage}
                 onChange={v => setValue("discountPercentage", v)}
                 placeholder='0.00'
                 decimalScale={2}
@@ -140,22 +151,22 @@ export default function ProductForm({
                 max={100}
               />
             </FormField>
-            <FormField name='stock' label='Stock (Amount)'>
+            <FormField name='stock' label='Stock (Amount)' error={e("stock")}>
               <Input
                 type='number'
                 id='stock'
                 name='stock'
-                defaultValue={product.stock ?? 0}
+                defaultValue={form.stock ?? 0}
                 onChange={e => setValue("stock", e.currentTarget.value)}
                 min={0}
                 max={999}
                 step={1}
               />
             </FormField>
-            <FormField name='warranty' label='Warranty'>
+            <FormField name='warranty' label='Warranty' error={e("warranty")}>
               <WarrantySelect
                 onChange={w => setValue("warrantyInformation", w)}
-                initialValue={product.warrantyInformation}
+                initialValue={form.warrantyInformation}
               />
             </FormField>
           </FormSection>
@@ -163,11 +174,20 @@ export default function ProductForm({
         <FormRow>
           <FormSection>
             <DimensionInput
+              errors={state.errors}
               onUpdates={d => {
                 setValue("dimensions", d);
               }}
-              initialValues={product.dimensions}
+              initialValues={form.dimensions}
             />
+          </FormSection>
+          <FormSection>
+            <FormField name='shipping' label='Shipping' error={e("shipping")}>
+              <ShippingInfoSelect
+                initialValue={form.shippingInformation}
+                onChange={w => setValue("shippingInformation", w)}
+              />
+            </FormField>
           </FormSection>
         </FormRow>
       </div>
@@ -198,23 +218,18 @@ const FormSection = ({ children }: React.ComponentProps<"div">) => {
 export const FormField = ({
   name,
   label,
-  required,
+  error,
   children
 }: {
   name?: string;
   label: string;
-  required?: boolean;
+  error?: string;
 } & React.ComponentProps<"div">) => {
   return (
-    <div className='flex flex-col grow gap-2'>
-      <Label
-        className='capitalize flex flex-row gap-0 relative w-fit'
-        htmlFor={name}
-      >
-        {label}
-        {required && (
-          <span className='text-destructive absolute -right-2 -top-0.5'>*</span>
-        )}
+    <div className='flex flex-col grow gap-1'>
+      <Label className='flex justify-between h-5' htmlFor={name}>
+        <span className='relative capitalize '>{label}</span>
+        <span className='text-destructive text-sm py-0'>{error}</span>
       </Label>
       {children}
     </div>

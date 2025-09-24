@@ -1,13 +1,12 @@
 "use server"
 
 import { FormState } from "@/lib/types";
-import { formToProduct } from "@/lib/utils";
-import { create as entryProduct } from "@/lib/validations/product";
-import z from "zod";
+import { formToObject } from "@/lib/utils";
+import { entryForm } from "@/lib/validations/product";
 
 export async function Create(state: FormState, data: FormData): Promise<FormState> {
-    const item = formToProduct(data);
-    const p = await entryProduct.safeParseAsync(item);
+    const item = formToObject(data);
+    const p = await entryForm.safeParseAsync(item);
     const errors = p.error;
     if (errors) {
         const formattedErrors = p.error.issues.reduce((acc: Record<string, string>, issue) => {
@@ -15,14 +14,10 @@ export async function Create(state: FormState, data: FormData): Promise<FormStat
             acc[field] = issue.message;
             return acc;
         }, {});
-
         return {
             success: p.success, errors: formattedErrors
         }
     }
-    await new Promise(resolve => {
-        setTimeout(resolve, 1000);
-    });
     return { success: p.success }
 }
 

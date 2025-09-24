@@ -27,19 +27,16 @@ export function generateSKU(
 
   return `${catPart}-${brandPart}-${titlePart}-${idPart}`;
 }
+const toFloat = (value: FormDataEntryValue | null) => {
+  const float = parseFloat(value as string);
+  return isNaN(float) ? 0 : float;
+}
+const toInt = (value: FormDataEntryValue | null) => {
+  const int = parseInt(value as string);
+  return isNaN(int) ? 0 : int;
+}
 
 export function formToProduct(form: FormData): Product {
-  const toFloat = (value: FormDataEntryValue | null) => {
-    if (value === null) return 0;
-    const str = value as string;
-    return parseFloat(str);
-  }
-  const toInt = (value: FormDataEntryValue | null) => {
-    if (value === null) return 0;
-    const str = value as string;
-    return parseInt(str);
-  }
-
   const weight = toFloat(form.get("weight"));
   const discountPercentage = toFloat(form.get("discount"));
   const price = toFloat(form.get('price'));
@@ -65,4 +62,22 @@ export function formToProduct(form: FormData): Product {
   };
 
   return data as Product;
+}
+
+export function formToObject(form: FormData) {
+  return {
+    title: form.get("title")?.toString(),
+    category: form.get('category')?.toString(),
+    brand: form.get('brand')?.toString(),
+    description: form.get('description')?.toString(),
+    warranty: form.get('warranty')?.toString(),
+    shipping: form.get('shipping')?.toString(),
+    price: toFloat(form.get('price')),
+    weight: toFloat(form.get("weight")),
+    discount: toFloat(form.get("discount")),
+    stock: toInt(form.get('stock')),
+    dimensions_depth: toFloat(form.get('dimensions_depth')),
+    dimensions_height: toFloat(form.get('dimensions_height')),
+    dimensions_width: toFloat(form.get('dimensions_width'))
+  };
 }
