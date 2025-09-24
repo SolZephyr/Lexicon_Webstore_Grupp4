@@ -11,19 +11,22 @@ export default function StockCheck({
   params: ReadonlyURLSearchParams;
   onCheckedChange: (index: string, checked: string | undefined) => void;
 }) {
-  const prevValue = params.has("stock");
-  const [stock, setStock] = useState(prevValue);
+  const [stock, setStock] = useState(params.has("stock"));
+
+  useEffect(() => {
+    setStock(params.has("stock"));
+  }, [params]);
 
   const flipState = () => setStock((val) => !val);
 
   // Debounce callback
-  const debounced = useDebouncedCallback(() => {
-    if (prevValue !== stock) onCheckedChange("stock", stock ? "1" : undefined);
-  }, 750);
+  const debounced = useDebouncedCallback((next: boolean) => {
+    onCheckedChange("stock", next ? "1" : undefined);
+  }, 500);
 
   useEffect(() => {
-    if (stock != prevValue) debounced();
-  }, [debounced, prevValue, stock]);
+    debounced(stock);
+  }, [stock, debounced]);
 
   return (
     <FilterCard id="stock" title="Stock">
