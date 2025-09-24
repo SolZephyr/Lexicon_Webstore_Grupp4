@@ -1,7 +1,7 @@
 import { getFullProductsByFilter } from "@/lib/data/products";
-import TableLoader from "./table-loader";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
+import TableLoader from "@/components/admin/table-loader";
 
 export default async function AdminPage() {
   const task = getFullProductsByFilter({ limit: 100 });
