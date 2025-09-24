@@ -30,7 +30,7 @@ export default function ProductForm({
   const originalState = structuredClone(initialState);
   const [product, setProduct] = useState<Partial<Product>>(originalState);
 
-  const setValue = (index: keyof Product, value: any) => {
+  const setValue = (index: keyof Product, value: unknown) => {
     setProduct({ ...product, [index]: value });
   };
   const formState: FormState = { success: true };
@@ -46,7 +46,7 @@ export default function ProductForm({
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>Create New Product</h2>
-      <pre className="border block text-wrap ">{JSON.stringify(state)}</pre>
+      <pre className='border block text-wrap '>{JSON.stringify(state)}</pre>
       <div className=' flex flex-wrap space-y-4'>
         <FormRow>
           {/* Basic information */}
@@ -107,7 +107,9 @@ export default function ProductForm({
                 name='weight'
                 value={product.weight}
                 placeholder='0.00'
-                onChange={value => setValue("weight", value)}
+                onChange={value => {
+                  setValue("weight", value);
+                }}
                 min={1}
                 step={1}
               />
