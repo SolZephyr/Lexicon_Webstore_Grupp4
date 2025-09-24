@@ -6,7 +6,11 @@ import { Create } from "../actions";
 export default function CreateProductPage() {
   return (
     <ContentWrapper>
-      <ProductForm initialState={{}} serverAction={Create} />
+      <ProductForm
+        initialState={{}}
+        serverAction={Create}
+        submitButtonText='Add Product'
+      />
     </ContentWrapper>
   );
 }

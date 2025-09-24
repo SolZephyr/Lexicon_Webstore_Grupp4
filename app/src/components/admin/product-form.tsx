@@ -13,17 +13,19 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { categories } from "@/lib/constants";
-import { Partial, Product } from "@/lib/types";
-import React, { FormEvent, useState } from "react";
+import { FormState, Partial, Product } from "@/lib/types";
+import React, { FormEvent, useActionState, useState } from "react";
 import { NumberInput } from "./number-input";
 import BrandSelect from "./brand-select";
 
 export default function ProductForm({
+  submitButtonText,
   initialState,
   serverAction
 }: {
+  submitButtonText: string;
   initialState: Partial<Product>;
-  serverAction: (data: FormData) => void;
+  serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
 }) {
   const originalState = structuredClone(initialState);
   const [product, setProduct] = useState<Partial<Product>>(originalState);
@@ -31,10 +33,16 @@ export default function ProductForm({
   const setValue = (index: keyof Product, value: any) => {
     setProduct({ ...product, [index]: value });
   };
+  const formState: FormState = { success: true };
+
+  const [state, formAction, isPending] = useActionState(
+    serverAction,
+    formState
+  );
 
   return (
     <form
-      action={serverAction}
+      action={formAction}
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>Create New Product</h2>
@@ -161,8 +169,13 @@ export default function ProductForm({
         </FormRow>
       </div>
       <section className='py-4'>
-        <Button type='submit' size='lg' className='cursor-pointer'>
-          Add product
+        <Button
+          type='submit'
+          disabled={isPending}
+          size='lg'
+          className='cursor-pointer'
+        >
+          {submitButtonText}
         </Button>
       </section>
     </form>

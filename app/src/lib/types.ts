@@ -1,9 +1,9 @@
 export interface SearchParamsString { [key: string]: string | undefined };
 
 export type Partial<T> = {
-    [P in keyof T]?: T[P];
+  [P in keyof T]?: T[P];
 };
-
+export type FormState = { success: boolean; errors?: []; message?: string; }
 
 export interface ProductsFilter {
   limit?: number;
