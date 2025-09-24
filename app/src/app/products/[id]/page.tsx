@@ -4,7 +4,7 @@ import { getProduct } from "@/lib/data/products";
 import { Metadata } from "next";
 import ProductInfo from "@/components/products/product-info";
 import Loader from "@/components/loader";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 type Props = { params: Promise<{ [key: string]: string | undefined }> };
 
@@ -14,12 +14,15 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   if (!productId) return { title: "Not Found" };
 
-  const product = await getProduct(productId);
-
-  return {
-    title: `Webshop - Details: ${product.title}`,
-    description: `Page for ${product.title}`,
-  };
+  try{
+    const product = await getProduct(productId); 
+    return {
+      title: `Webshop - Details: ${product.title}`,
+      description: `Page for ${product.title}`,
+    };
+  } catch{
+    redirect("/");
+  }
 }
 
 export default async function ProductPage(props: Props) {

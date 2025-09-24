@@ -67,6 +67,8 @@ import { z } from "zod";
 //     shippingInformation: z.string().nonempty({ error: "Shipping is required" }),
 // });
 
+export type formProduct = z.infer<typeof entryForm>;
+
 export const entryForm = z.object({
     title: z.string().nonempty({ error: "Title is required" }),
     description: z.string().nonempty({ error: "Description is required" }),

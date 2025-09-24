@@ -13,7 +13,7 @@ export default function BrandSelect({
   onChange: (newValue: string) => void;
 }) {
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialValue);
 
   const brands: string[] = [
     "Apple",

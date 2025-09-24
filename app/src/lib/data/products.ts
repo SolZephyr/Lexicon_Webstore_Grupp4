@@ -1,6 +1,7 @@
 import { Product, ProductList, ProductsFilter, SearchParamsString, SidebarFilterValues, ThinProduct, ThinProductList } from "../types";
+import { formProduct } from "../validations/product";
 //const baseURI = 'https://dummyjson.com/products';
-const baseURI = 'https://www.kippeves.se/products';
+const baseURI = 'https://kippeves.se/products';
 const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,availabilityStatus';
 
 export const getProduct = async (id: number): Promise<Product> => {
@@ -93,6 +94,19 @@ export const getRandomProducts = async (): Promise<ThinProduct[]> => {
     } catch (e) {
         throw (e);
     }
+}
+
+export const postProduct = async (product: formProduct) => {
+    const uri = `${baseURI}/add`
+    const request = await fetch(uri, {
+        method: "POST",
+        body: JSON.stringify({ ...product }),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    const result = await request.json();
+    return result;
 }
 
 export const getFullProductsByFilter = async (filter: ProductsFilter): Promise<ProductList> => {

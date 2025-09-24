@@ -39,7 +39,7 @@ export default function ProductInfo({
       <ContentWrapper className="flex flex-col lg:flex-row gap-4" as="section">
         <div className="flex-shrink-0">
           <Image
-            src={product.images[0]}
+            src={product.images?.[0] ?? "/placeholder-image.svg"}
             alt={product.title}
             width={500}
             height={500}

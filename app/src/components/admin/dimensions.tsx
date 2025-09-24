@@ -1,6 +1,6 @@
 "use client";
 import { Dimensions } from "@/lib/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormField } from "./product-form";
 import { NumberInput } from "./number-input";
 
@@ -19,10 +19,9 @@ export default function DimensionInput({
 }) {
   const [dimensions, setDimensions] = useState<Dimensions>(initialValues);
 
-  const setValues = (key: string, value: number | undefined) => {
-    if (value) setDimensions(prev => ({ ...prev, [key]: value }));
-    onUpdates(dimensions);
-  };
+  useEffect(() => {
+    if (dimensions !== initialValues) onUpdates(dimensions);
+  }, [dimensions, initialValues, onUpdates]);
 
   return (
     <div className='flex flex-wrap grow justify-between gap-6 items-center'>
@@ -42,7 +41,7 @@ export default function DimensionInput({
             max={999}
             step={1}
             className='w-full'
-            onChange={e => setValues(key, e)}
+            onChange={e => setDimensions(prev => ({ ...prev, [key]: e }))}
           />
         </FormField>
       ))}
