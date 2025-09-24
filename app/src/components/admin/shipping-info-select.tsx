@@ -9,7 +9,7 @@ import {
 } from "../ui/select";
 
 import { Label } from "../ui/label";
-export default function WarrantySelect({
+export default function ShippingInfoSelect({
   initialValue,
   onChange
 }: {
@@ -18,26 +18,24 @@ export default function WarrantySelect({
 }) {
   return (
     <>
-      <Label htmlFor="warranty">Category</Label>
+      <Label htmlFor="shipping">Shipping Info</Label>
       <Select>
         <SelectTrigger
-          name="warranty"
-          id="warranty"
+          name="shipping"
+          id="shipping"
           defaultValue={initialValue}
           onChange={e => onChange(e.currentTarget.value)}
         >
-          <SelectValue placeholder={"Type of Warranty"} />
+          <SelectValue placeholder={"Shipping Info"} />
         </SelectTrigger>
         <SelectContent>
           {[
-            "No warranty",
-            "1 month warranty",
-            "3 months warranty",
-            "6 months warranty",
-            "1 year warranty",
-            "2 year warranty",
-            "3 year warranty",
-            "Lifetime warranty"
+            "Ships overnight",
+            "Ships in 1-2 business days",
+            "Ships in 3-5 business days",
+            "Ships in 1 week",
+            "Ships in 2 weeks",
+            "Ships in 1 month",
           ].map((v, i) => (
             <SelectItem key={i} value={v}>
               {v}
@@ -48,4 +46,3 @@ export default function WarrantySelect({
     </>
   );
 }
- 
