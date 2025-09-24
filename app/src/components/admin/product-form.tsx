@@ -14,7 +14,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { categories } from "@/lib/constants";
 import { FormState, Partial, Product } from "@/lib/types";
-import React, { FormEvent, useActionState, useState } from "react";
+import React, { useActionState, useState } from "react";
 import { NumberInput } from "./number-input";
 import BrandSelect from "./brand-select";
 
@@ -46,6 +46,7 @@ export default function ProductForm({
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>Create New Product</h2>
+      <pre className="border block text-wrap ">{JSON.stringify(state)}</pre>
       <div className=' flex flex-wrap space-y-4'>
         <FormRow>
           {/* Basic information */}

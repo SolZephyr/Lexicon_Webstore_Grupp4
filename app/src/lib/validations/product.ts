@@ -52,8 +52,8 @@ import { z } from "zod";
 export const create = z.object({
     title: z.string({ error: "Title is required" }),
     description: z.string({ error: "Description is required" }),
-    category: z.string({ error: "Category is requried" }),
-    price: z.number().gt(0, { error: 'The product can not be free' }),
+    category: z.string({ error: "Category is required" }),
+    price: z.number({error: "Price is required"}).gt(0, { error: 'The product can not be free' }),
     discountPercentage: z.number({ error: "Discount percentage is required: Can be 0" }),
     stock: z.number({ error: "Stock is required: Can be 0" }),
     brand: z.string({ error: "Brand is required" }),
