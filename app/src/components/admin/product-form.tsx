@@ -108,7 +108,6 @@ export default function ProductForm({
                 value={product.weight}
                 placeholder='0.00'
                 onChange={value => {
-                  console.log(value);
                   setValue("weight", value);
                 }}
                 min={1}
