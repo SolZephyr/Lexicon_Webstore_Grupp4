@@ -36,25 +36,13 @@ export default async function CategoryDetailsPage({
 
   return (
     <ContentWrapper className="grow flex flex-col" as="article">
-      <h2 className="text-2xl capitalize p-2">Category: {name}</h2>
-      <p className="flex flex-col sm:flex-row text-justify gap-8 p-4 justify-evenly mb-4">
-        <span className="col w-auto">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo
-          provident, itaque facere soluta nihil corporis ut magni ipsum? Nihil,
-          ut repellat ipsum saepe consectetur eius hic minima iste nemo
-          voluptatibus!
-        </span>
-        <span className="col w-auto">
-          Corporis accusantium nulla, harum, ullam ab optio veritatis ipsa
-          recusandae maiores ut illo quas laudantium nemo autem mollitia vel
-          quam tempore. Amet tempore ducimus blanditiis provident omnis a?
-          Voluptates, ea!
-        </span>
-      </p>
       <div className="flex flex-col grow md:flex-row gap-4">
         <Sidebar category={name} />
         <Suspense fallback={<Loader />}>
-          <ProductsGrid productsTask={products} />
+          <ProductsGrid productsTask={products} gridHeader={{
+            title: name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates enim nesciunt reiciendis nisi eveniet! Vitae expedita asperiores labore inventore fugiat consequuntur dolore. Nam quidem vel vitae deleniti, necessitatibus esse accusamus!",
+          }} />
         </Suspense>
       </div>
     </ContentWrapper>

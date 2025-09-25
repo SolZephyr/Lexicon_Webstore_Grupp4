@@ -32,7 +32,14 @@ export default async function ProductsPage({
     <ContentWrapper className="flex flex-col gap-4 md:flex-row" as="article">
       <Sidebar />
       <Suspense fallback={<Loader />}>
-        <ProductsGrid title={searchTitle} productsTask={data} />
+        <ProductsGrid
+          title={searchTitle}
+          productsTask={data}
+          gridHeader={{
+            title: "All Products",
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates enim nesciunt reiciendis nisi eveniet! Vitae expedita asperiores labore inventore fugiat consequuntur dolore. Nam quidem vel vitae deleniti, necessitatibus esse accusamus!",
+          }}
+        />
       </Suspense>
     </ContentWrapper>
   );
