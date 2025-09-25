@@ -1,7 +1,7 @@
-export default function StockStatus({ availabilityStatus }: { availabilityStatus: string }) {
+export default function StockStatus({ amount }: { amount: number }) {
     return (
         <p className="text-sm text-gray-500 flex items-center gap-2">
-            {availabilityStatus === "In Stock" ? (
+            {amount > 7 ? (
                 <span className="inline-flex items-center">
                     <span className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center mr-1">
                         <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 16 16">
@@ -10,7 +10,7 @@ export default function StockStatus({ availabilityStatus }: { availabilityStatus
                     </span>
                     In Stock
                 </span>
-            ) : availabilityStatus === "Low Stock" ? (
+            ) : amount <= 7 && amount > 0 ? (
                 <span className="inline-flex items-center">
                     <span className="w-4 h-4 bg-yellow-500 rounded-full flex items-center justify-center mr-1">
                         <svg
@@ -25,7 +25,7 @@ export default function StockStatus({ availabilityStatus }: { availabilityStatus
                             <circle cx="12" cy="17" r="1.2" fill="none" stroke="currentColor" />
                         </svg>
                     </span>
-                    {availabilityStatus}
+                    Low Stock
                 </span>
             ) : (
                 <span className="inline-flex items-center">
@@ -34,7 +34,7 @@ export default function StockStatus({ availabilityStatus }: { availabilityStatus
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 5l6 6M11 5l-6 6" />
                         </svg>
                     </span>
-                    {availabilityStatus}
+                    Out of Stock
                 </span>
             )}
         </p>

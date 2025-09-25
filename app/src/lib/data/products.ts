@@ -2,7 +2,7 @@ import { PostStatus, Product, ProductList, ProductsFilter, SearchParamsString, S
 import { entryFormProduct } from "../validations/product";
 //const baseURI = 'https://dummyjson.com/products';
 const baseURI = 'https://kippeves.se/products';
-const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,availabilityStatus';
+const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,stock';
 
 export const getProduct = async (id: number): Promise<Product> => {
     try {
