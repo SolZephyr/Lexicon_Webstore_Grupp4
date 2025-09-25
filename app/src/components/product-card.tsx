@@ -13,7 +13,7 @@ export default function ProductCard({ product }: { product: ThinProduct }) {
       >
         <div className="flex flex-col items-center gap-3">
           <Image
-            src={product.thumbnail}
+            src={product.thumbnail ?? "/placeholder-image.svg"}
             alt={product.title}
             className="w-full object-cover rounded"
             priority

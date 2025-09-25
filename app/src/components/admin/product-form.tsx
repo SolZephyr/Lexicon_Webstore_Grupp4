@@ -14,31 +14,55 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { categories } from "@/lib/constants";
 import { FormState, Partial, Product } from "@/lib/types";
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { NumberInput } from "./number-input";
-import BrandSelect from "./brand-select";
+import ShippingInfoSelect from "./shipping-info-select";
+import { AddableSelect } from "../addable-select";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function ProductForm({
   submitButtonText,
   initialState,
+  brands,
   serverAction
 }: {
   submitButtonText: string;
   initialState: Partial<Product>;
+  brands: { brand: string[] };
   serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
 }) {
-  const originalState = structuredClone(initialState);
-  const [product, setProduct] = useState<Partial<Product>>(originalState);
+  const originalData = structuredClone(initialState);
+  const [form, setForm] = useState<Partial<Product>>(originalData);
+  const { replace } = useRouter();
 
   const setValue = (index: keyof Product, value: unknown) => {
-    setProduct({ ...product, [index]: value });
+    setForm({ ...form, [index]: value });
   };
-  const formState: FormState = { success: true };
+
+  const initState: FormState = { result: "init" };
+  const categoryValues = categories.map(v => ({
+    value: v.label.toLowerCase().split(" ").join("-"),
+    label: v.label
+  }));
 
   const [state, formAction, isPending] = useActionState(
     serverAction,
-    formState
+    initState
   );
+
+  const errors = state && state?.result === "error" ? state.errors : undefined;
+  const formError = (name: string) => (errors ? errors?.[name] : undefined);
+
+  const errorCSS = (name: string) =>
+    formError(name) ? "formError" : undefined;
+
+  useEffect(() => {
+    if (state.result === "success") {
+      toast.success("Product created!");
+      replace(`/admin/${state.id}`);
+    }
+  }, [replace, state]);
 
   return (
     <form
@@ -46,67 +70,92 @@ export default function ProductForm({
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>Create New Product</h2>
-      <pre className='border block text-wrap '>{JSON.stringify(state)}</pre>
       <div className=' flex flex-wrap space-y-4'>
         <FormRow>
           {/* Basic information */}
           <FormSection>
-            <FormField name={"title"} label={"Title"} required>
+            <FormField
+              name={"title"}
+              label={"Title"}
+              error={formError("title")}
+            >
               <Input
                 type='text'
                 id='title'
                 name='title'
-                defaultValue={product.title}
+                className={errorCSS("title")}
+                defaultValue={form.title}
                 onChange={val => setValue("title", val.currentTarget.value)}
                 placeholder='Product name'
                 maxLength={50}
+                required
               />
             </FormField>
-            <FormField name='category' label='Category' required>
+            <FormField
+              name='category'
+              label='Category'
+              error={formError("category")}
+            >
               <Select
                 name='category'
-                defaultValue={product.category}
+                defaultValue={form.category}
                 onValueChange={v => setValue("category", v)}
+                required
               >
-                <SelectTrigger className='w-full'>
+                <SelectTrigger className={`w-full ${errorCSS("category")}`}>
                   <SelectValue placeholder='Category' />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((item, index) => (
-                    <SelectItem key={index} value={item.label}>
+                  {categoryValues.map((item, index) => (
+                    <SelectItem key={index} value={item.value}>
                       {item.label}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </FormField>
-            <FormField name='brand' label='Brand' required>
-              <BrandSelect
-                initialValue={product.brand}
-                onChange={e => setValue("brand", e)}
+            <FormField name='brand' label='Brand' error={formError("brand")}>
+              <AddableSelect
+                id='brand'
+                name='brand'
+                defaultValue={form.brand}
+                options={brands.brand}
+                onValueChange={e => setValue("brand", e)}
               />
             </FormField>
-            <FormField name='description' label={"Description"}>
+            <FormField
+              name='description'
+              label={"Description"}
+              error={formError("description")}
+            >
               <Textarea
                 id='description'
                 name='description'
-                value={product.description ?? ""}
+                className={errorCSS("description")}
+                value={form.description ?? ""}
                 placeholder='Describe the product...'
                 onChange={val =>
                   setValue("description", val.currentTarget.value)
                 }
                 rows={5}
+                required
               />
             </FormField>
           </FormSection>
           {/* Extra information */}
           <FormSection>
-            <FormField name={"weight"} label={"Weight"}>
+            <FormField
+              name={"weight"}
+              label={"Weight"}
+              error={formError("weight")}
+            >
               <NumberInput
                 id='weight'
                 name='weight'
-                value={product.weight}
+                className={errorCSS("weight")}
+                value={form.weight}
                 placeholder='0.00'
+                required
                 onChange={value => {
                   setValue("weight", value);
                 }}
@@ -114,48 +163,66 @@ export default function ProductForm({
                 step={1}
               />
             </FormField>
-            <FormField name='price' label='Price'>
+            <FormField name='price' label='Price' error={formError("price")}>
               <NumberInput
                 id='price'
                 name='price'
-                value={product.price}
+                className={errorCSS("price")}
+                value={form.price}
                 onChange={v => setValue("price", v)}
-                placeholder='0.00'
+                placeholder='$0.00'
                 decimalScale={2}
                 prefix='$'
+                required
                 thousandSeparator={true}
                 allowNegative={false}
               />
             </FormField>
-            <FormField name='discount' label='Discount (percentage)'>
+            <FormField
+              name='discount'
+              label='Discount (percentage)'
+              error={formError("discount")}
+            >
               <NumberInput
                 id='discount'
                 name='discount'
-                value={product.discountPercentage}
+                className={errorCSS("discount")}
+                value={form.discountPercentage}
                 onChange={v => setValue("discountPercentage", v)}
-                placeholder='0.00'
+                placeholder='0.00%'
                 decimalScale={2}
                 suffix='%'
                 min={0}
                 max={100}
               />
             </FormField>
-            <FormField name='stock' label='Stock (Amount)'>
+            <FormField
+              name='stock'
+              label='Stock (Amount)'
+              error={formError("stock")}
+            >
               <Input
                 type='number'
                 id='stock'
                 name='stock'
-                defaultValue={product.stock ?? 0}
+                className={errorCSS("stock")}
+                placeholder='0'
+                defaultValue={form.stock ?? 0}
                 onChange={e => setValue("stock", e.currentTarget.value)}
                 min={0}
                 max={999}
                 step={1}
               />
             </FormField>
-            <FormField name='warranty' label='Warranty'>
+            <FormField
+              name='warranty'
+              label='Warranty'
+              error={formError("warranty")}
+            >
               <WarrantySelect
+                className={errorCSS("warranty")}
                 onChange={w => setValue("warrantyInformation", w)}
-                initialValue={product.warrantyInformation}
+                initialValue={form.warrantyInformation}
               />
             </FormField>
           </FormSection>
@@ -163,11 +230,25 @@ export default function ProductForm({
         <FormRow>
           <FormSection>
             <DimensionInput
+              errors={errors}
               onUpdates={d => {
                 setValue("dimensions", d);
               }}
-              initialValues={product.dimensions}
+              initialValues={form.dimensions}
             />
+          </FormSection>
+          <FormSection>
+            <FormField
+              name='shipping'
+              label='Shipping'
+              error={formError("shipping")}
+            >
+              <ShippingInfoSelect
+                initialValue={form.shippingInformation}
+                onChange={w => setValue("shippingInformation", w)}
+                className={errorCSS("shipping")}
+              />
+            </FormField>
           </FormSection>
         </FormRow>
       </div>
@@ -198,23 +279,20 @@ const FormSection = ({ children }: React.ComponentProps<"div">) => {
 export const FormField = ({
   name,
   label,
-  required,
+  error,
   children
 }: {
   name?: string;
   label: string;
-  required?: boolean;
+  error?: string;
 } & React.ComponentProps<"div">) => {
   return (
-    <div className='flex flex-col grow gap-2'>
-      <Label
-        className='capitalize flex flex-row gap-0 relative w-fit'
-        htmlFor={name}
-      >
-        {label}
-        {required && (
-          <span className='text-destructive absolute -right-2 -top-0.5'>*</span>
-        )}
+    <div className='flex flex-col grow gap-1'>
+      <Label className='flex justify-between h-5' htmlFor={name}>
+        <span className={`relative capitalize ${error && "text-destructive"}`}>
+          {label}
+        </span>
+        <span className='text-destructive text-sm py-0'>{error}</span>
       </Label>
       {children}
     </div>

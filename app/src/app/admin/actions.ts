@@ -1,31 +1,50 @@
 "use server"
 
+import { postProduct } from "@/lib/data/products";
 import { FormState } from "@/lib/types";
-import { formToProduct } from "@/lib/utils";
-import { create as entryProduct } from "@/lib/validations/product";
-import z from "zod";
+import { formToObject } from "@/lib/utils";
+import { entryForm } from "@/lib/validations/product";
 
 export async function Create(state: FormState, data: FormData): Promise<FormState> {
-    const item = formToProduct(data);
-    const p = await entryProduct.safeParseAsync(item);
-    const errors = p.error;
-    if (errors) {
-        const formattedErrors = p.error.issues.reduce((acc: Record<string, string>, issue) => {
-            const field = Array.isArray(issue.path) ? issue.path.join('_') : issue.path;
-            acc[field] = issue.message;
-            return acc;
-        }, {});
+    const item = formToObject(data);
+    console.dir(item);
+    const parse = await entryForm.safeParseAsync(item);
 
+    if (!parse.success) {
         return {
-            success: p.success, errors: formattedErrors
+            result: 'error', errors: parse.error.issues.reduce((acc: Record<string, string>, issue) => {
+                const field = Array.isArray(issue.path) ? issue.path.join('_') : issue.path;
+                acc[field] = issue.message;
+                return acc;
+            }, {})
         }
     }
-    await new Promise(resolve => {
-        setTimeout(resolve, 1000);
-    });
-    return { success: p.success }
+    try {
+        const request = await postProduct(parse.data);
+        switch (request.result) {
+            case 'success':
+                return { ...request }
+            case 'error':
+                return { result: request.result, message: 'Product could not be added' }
+        }
+    } catch (error) {
+        console.error("Error creating product:", error);
+        return { result: 'error', message: "Failed to create product. Please try again." };
+    }
 }
 
 export async function Edit(state: FormState, data: FormData): Promise<FormState> {
-    return { success: true }
+    const item = formToObject(data);
+    const parse = await entryForm.safeParseAsync(item);
+
+    if (!parse.success) {
+        return {
+            result: 'error', errors: parse.error.issues.reduce((acc: Record<string, string>, issue) => {
+                const field = Array.isArray(issue.path) ? issue.path.join('_') : issue.path;
+                acc[field] = issue.message;
+                return acc;
+            }, {})
+        }
+    }
+    return { result: "success", id: 0 }
 }

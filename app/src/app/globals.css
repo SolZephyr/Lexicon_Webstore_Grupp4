@@ -172,3 +172,7 @@
   height: 100%;
   width: 1px;
 }
+
+.formError{
+  @apply border-destructive
+}

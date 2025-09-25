@@ -11,18 +11,20 @@ import {
 
 export default function WarrantySelect({
   initialValue,
-  onChange
+  onChange,
+  className
 }: {
   initialValue?: string;
   onChange: (value: string) => void;
+  className?: string;
 }) {
   return (
     <Select
-      name="warranty"
+      name='warranty'
       defaultValue={initialValue}
       onValueChange={e => onChange(e)}
     >
-      <SelectTrigger className="w-full">
+      <SelectTrigger className={`w-full ${className}`}>
         <SelectValue placeholder={"Type of Warranty"} />
       </SelectTrigger>
       <SelectContent>

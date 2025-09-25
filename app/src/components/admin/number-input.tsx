@@ -1,19 +1,19 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from "react"
+import { cn } from "@/lib/utils"
 
-interface NumberInputProps
-  extends Omit<React.ComponentProps<"input">, "type" | "value" | "onChange"> {
-  value?: number;
-  onChange?: (value: number | undefined) => void;
-  decimalScale?: number;
-  allowNegative?: boolean;
-  thousandSeparator?: boolean;
-  prefix?: string;
-  suffix?: string;
-  min?: number;
-  max?: number;
+interface NumberInputProps extends Omit<React.ComponentProps<"input">, "type" | "value" | "onChange"> {
+  value?: number
+  onChange?: (value: number | undefined) => void
+  decimalScale?: number
+  allowNegative?: boolean
+  thousandSeparator?: boolean
+  prefix?: string
+  suffix?: string
+  min?: number
+  max?: number
+  name?: string
 }
 
 function NumberInput({
@@ -27,97 +27,93 @@ function NumberInput({
   suffix = "",
   min,
   max,
+  name,
   ...props
 }: NumberInputProps) {
-  const [displayValue, setDisplayValue] = React.useState("");
-  const [isFocused, setIsFocused] = React.useState(false);
+  const [displayValue, setDisplayValue] = React.useState("")
+  const [isFocused, setIsFocused] = React.useState(false)
 
   // Format number for display
   const formatNumber = React.useCallback(
     (num: number | undefined): string => {
-      if (num === undefined || isNaN(num)) return "";
+      if (num === undefined || isNaN(num)) return ""
 
-      let formatted = num.toFixed(decimalScale);
+      let formatted = num.toFixed(decimalScale)
 
       if (thousandSeparator) {
-        const parts = formatted.split(".");
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        formatted = parts.join(".");
+        const parts = formatted.split(".")
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        formatted = parts.join(".")
       }
 
-      return `${prefix}${formatted}${suffix}`;
+      return `${prefix}${formatted}${suffix}`
     },
-    [decimalScale, thousandSeparator, prefix, suffix]
-  );
+    [decimalScale, thousandSeparator, prefix, suffix],
+  )
 
   // Parse display value to number
   const parseNumber = React.useCallback(
     (str: string): number | undefined => {
-      if (!str) return undefined;
+      if (!str) return undefined
 
       // Remove prefix, suffix, and thousand separators
-      let cleaned = str.replace(
-        new RegExp(`^${prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`),
-        ""
-      );
-      cleaned = cleaned.replace(
-        new RegExp(`${suffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`),
-        ""
-      );
-      cleaned = cleaned.replace(/,/g, "");
+      let cleaned = str.replace(new RegExp(`^${prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`), "")
+      cleaned = cleaned.replace(new RegExp(`${suffix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`), "")
+      cleaned = cleaned.replace(/,/g, "")
 
-      const num = Number.parseFloat(cleaned);
-      return isNaN(num) ? undefined : num;
+      const num = Number.parseFloat(cleaned)
+      return isNaN(num) ? undefined : num
     },
-    [prefix, suffix]
-  );
+    [prefix, suffix],
+  )
 
   // Update display value when value prop changes
   React.useEffect(() => {
     if (!isFocused) {
-      setDisplayValue(formatNumber(value));
+      setDisplayValue(formatNumber(value))
     }
-  }, [value, formatNumber, isFocused]);
+  }, [value, formatNumber, isFocused])
 
   // Initialize display value
   React.useEffect(() => {
-    setDisplayValue(formatNumber(value));
-  }, []);
+    setDisplayValue(formatNumber(value))
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setDisplayValue(inputValue);
-    const numericValue = parseNumber(inputValue);
+    const inputValue = e.target.value
+    setDisplayValue(inputValue)
+
+    const numericValue = parseNumber(inputValue)
 
     // Validate constraints
     if (numericValue !== undefined) {
-      if (!allowNegative && numericValue < 0) return;
-      if (min !== undefined && numericValue < min) return;
-      if (max !== undefined && numericValue > max) return;
+      if (!allowNegative && numericValue < 0) return
+      if (min !== undefined && numericValue < min) return
+      if (max !== undefined && numericValue > max) return
 
       // Check decimal places
-      const decimalPart = inputValue.split(".")[1];
-      if (decimalPart && decimalPart.length > decimalScale) return;
+      const decimalPart = inputValue.split(".")[1]
+      if (decimalPart && decimalPart.length > decimalScale) return
     }
 
-    onChange?.(numericValue);
-  };
+    onChange?.(numericValue)
+  }
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(true);
+    setIsFocused(true)
     // Show raw number without formatting when focused
     if (value !== undefined) {
-      setDisplayValue(value.toString());
+      setDisplayValue(value.toString())
     }
-    props.onFocus?.(e);
-  };
+    props.onFocus?.(e)
+  }
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(false);
+    setIsFocused(false)
     // Format the number when focus is lost
-    setDisplayValue(formatNumber(value));
-    props.onBlur?.(e);
-  };
+    setDisplayValue(formatNumber(value))
+    props.onBlur?.(e)
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Allow: backspace, delete, tab, escape, enter
@@ -131,7 +127,7 @@ function NumberInput({
       // Allow: home, end, left, right
       (e.keyCode >= 35 && e.keyCode <= 39)
     ) {
-      return;
+      return
     }
 
     // Ensure that it is a number or decimal point and stop the keypress
@@ -143,32 +139,36 @@ function NumberInput({
     ) {
       // Allow minus sign if negative numbers are allowed
       if (!(allowNegative && e.keyCode === 189)) {
-        e.preventDefault();
+        e.preventDefault()
       }
     }
 
-    props.onKeyDown?.(e);
-  };
+    props.onKeyDown?.(e)
+  }
 
   return (
-    <input
-      {...props}
-      type='text'
-      inputMode='decimal'
-      value={displayValue}
-      onChange={handleChange}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
-      onKeyDown={handleKeyDown}
-      data-slot='input'
-      className={cn(
-        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary w-full selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
-        className
-      )}
-    />
-  );
+    <div className="relative">
+      {name && <input type="hidden" name={name} value={value ?? ""} />}
+      <input
+        {...props}
+        name={undefined} // Remove name from display input to avoid duplicate form fields
+        type="text"
+        inputMode="decimal"
+        value={displayValue}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        data-slot="input"
+        className={cn(
+          "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+          "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+          "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+          className,
+        )}
+      />
+    </div>
+  )
 }
 
-export { NumberInput };
+export { NumberInput }
