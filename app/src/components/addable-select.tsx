@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 interface AddableSelectProps {
   options: string[];
   value?: string;
+  defaultValue?: string;
   placeholder?: string;
   onValueChange?: (value: string) => void;
   onAddItem?: (item: string) => void;
@@ -20,6 +21,7 @@ interface AddableSelectProps {
 export function AddableSelect({
   options: initialOptions,
   value,
+  defaultValue,
   placeholder = "Select an option...",
   onValueChange,
   onAddItem,
@@ -33,10 +35,21 @@ export function AddableSelect({
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const [isAddingNew, setIsAddingNew] = useState(false);
   const [newItemValue, setNewItemValue] = useState("");
+  const [internalValue, setInternalValue] = useState(
+    value || defaultValue || ""
+  );
 
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setInternalValue(value);
+    }
+  }, [value]);
+
+  const currentValue = value !== undefined ? value : internalValue;
 
   const filteredOptions = options.filter(option =>
     option.toLowerCase().includes(searchTerm.toLowerCase())
@@ -126,6 +139,7 @@ export function AddableSelect({
   };
 
   const handleSelect = (option: string) => {
+    setInternalValue(option);
     onValueChange?.(option);
     setIsOpen(false);
     setSearchTerm("");
@@ -172,8 +186,10 @@ export function AddableSelect({
         aria-label={placeholder}
         id={id}
       >
-        <span className={cn("truncate", !value && "text-muted-foreground")}>
-          {value || placeholder}
+        <span
+          className={cn("truncate", !currentValue && "text-muted-foreground")}
+        >
+          {currentValue || placeholder}
         </span>
         <ChevronDown
           className={cn(
@@ -183,7 +199,7 @@ export function AddableSelect({
         />
       </button>
 
-      {name && <input type='hidden' name={name} value={value || ""} />}
+      {name && <input type='hidden' name={name} value={currentValue} />}
 
       {isOpen && (
         <div className='absolute top-full z-50 mt-1 w-full rounded-md border border-border bg-popover shadow-lg'>
@@ -226,12 +242,13 @@ export function AddableSelect({
               <li
                 key={option}
                 role='option'
-                aria-selected={value === option}
+                aria-selected={currentValue === option}
                 className={cn(
                   "relative cursor-pointer select-none px-3 py-2 text-sm",
                   highlightedIndex === index &&
                     "bg-accent text-accent-foreground",
-                  value === option && "bg-primary text-primary-foreground"
+                  currentValue === option &&
+                    "bg-primary text-primary-foreground"
                 )}
                 onClick={() => handleSelect(option)}
               >

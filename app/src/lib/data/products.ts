@@ -96,6 +96,14 @@ export const getRandomProducts = async (): Promise<ThinProduct[]> => {
     }
 }
 
+
+export const getBrandsByProducts = async (): Promise<{ brand: string[] }> => {
+    const params = '/distinct?select=brand';
+    const decoded = decodeURIComponent(`${baseURI}${params}`);
+    const request = await fetch(decoded);
+    return await request.json();
+}
+
 export const postProduct = async (product: entryFormProduct): Promise<PostStatus> => {
     try {
 

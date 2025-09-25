@@ -24,14 +24,13 @@ import { useRouter } from "next/navigation";
 export default function ProductForm({
   submitButtonText,
   initialState,
+  brands,
   serverAction
 }: {
   submitButtonText: string;
   initialState: Partial<Product>;
-  serverAction: (
-    prevState: FormState & {},
-    data: FormData
-  ) => Promise<FormState>;
+  brands: { brand: string[] };
+  serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
 }) {
   const originalData = structuredClone(initialState);
   const [form, setForm] = useState<Partial<Product>>(originalData);
@@ -53,9 +52,10 @@ export default function ProductForm({
   );
 
   const errors = state && state?.result === "error" ? state.errors : undefined;
-  const e = (name: string) => (errors ? errors?.[name] : undefined);
+  const formError = (name: string) => (errors ? errors?.[name] : undefined);
 
-  const errorCSS = (name: string) => (e(name) ? "formError" : undefined);
+  const errorCSS = (name: string) =>
+    formError(name) ? "formError" : undefined;
 
   useEffect(() => {
     if (state.result === "success") {
@@ -74,7 +74,11 @@ export default function ProductForm({
         <FormRow>
           {/* Basic information */}
           <FormSection>
-            <FormField name={"title"} label={"Title"} error={e("title")}>
+            <FormField
+              name={"title"}
+              label={"Title"}
+              error={formError("title")}
+            >
               <Input
                 type='text'
                 id='title'
@@ -87,7 +91,11 @@ export default function ProductForm({
                 required
               />
             </FormField>
-            <FormField name='category' label='Category' error={e("category")}>
+            <FormField
+              name='category'
+              label='Category'
+              error={formError("category")}
+            >
               <Select
                 name='category'
                 defaultValue={form.category}
@@ -106,35 +114,19 @@ export default function ProductForm({
                 </SelectContent>
               </Select>
             </FormField>
-            <FormField name='brand' label='Brand' error={e("brand")}>
+            <FormField name='brand' label='Brand' error={formError("brand")}>
               <AddableSelect
                 id='brand'
                 name='brand'
-                value={form.brand}
-                options={[
-                  "Apple",
-                  "Asus",
-                  "Huawei",
-                  "Lenovo",
-                  "Dell",
-                  "Amazon",
-                  "Beats",
-                  "TechGear",
-                  "GadgetMaster",
-                  "SnapTech",
-                  "ProVision",
-                  "Oppo",
-                  "Realme",
-                  "Samsung",
-                  "Vivo"
-                ]}
+                defaultValue={form.brand}
+                options={brands.brand}
                 onValueChange={e => setValue("brand", e)}
               />
             </FormField>
             <FormField
               name='description'
               label={"Description"}
-              error={e("description")}
+              error={formError("description")}
             >
               <Textarea
                 id='description'
@@ -152,7 +144,11 @@ export default function ProductForm({
           </FormSection>
           {/* Extra information */}
           <FormSection>
-            <FormField name={"weight"} label={"Weight"} error={e("weight")}>
+            <FormField
+              name={"weight"}
+              label={"Weight"}
+              error={formError("weight")}
+            >
               <NumberInput
                 id='weight'
                 name='weight'
@@ -167,7 +163,7 @@ export default function ProductForm({
                 step={1}
               />
             </FormField>
-            <FormField name='price' label='Price' error={e("price")}>
+            <FormField name='price' label='Price' error={formError("price")}>
               <NumberInput
                 id='price'
                 name='price'
@@ -185,7 +181,7 @@ export default function ProductForm({
             <FormField
               name='discount'
               label='Discount (percentage)'
-              error={e("discount")}
+              error={formError("discount")}
             >
               <NumberInput
                 id='discount'
@@ -200,7 +196,11 @@ export default function ProductForm({
                 max={100}
               />
             </FormField>
-            <FormField name='stock' label='Stock (Amount)' error={e("stock")}>
+            <FormField
+              name='stock'
+              label='Stock (Amount)'
+              error={formError("stock")}
+            >
               <Input
                 type='number'
                 id='stock'
@@ -214,7 +214,11 @@ export default function ProductForm({
                 step={1}
               />
             </FormField>
-            <FormField name='warranty' label='Warranty' error={e("warranty")}>
+            <FormField
+              name='warranty'
+              label='Warranty'
+              error={formError("warranty")}
+            >
               <WarrantySelect
                 className={errorCSS("warranty")}
                 onChange={w => setValue("warrantyInformation", w)}
@@ -234,7 +238,11 @@ export default function ProductForm({
             />
           </FormSection>
           <FormSection>
-            <FormField name='shipping' label='Shipping' error={e("shipping")}>
+            <FormField
+              name='shipping'
+              label='Shipping'
+              error={formError("shipping")}
+            >
               <ShippingInfoSelect
                 initialValue={form.shippingInformation}
                 onChange={w => setValue("shippingInformation", w)}
