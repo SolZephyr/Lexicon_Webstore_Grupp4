@@ -22,7 +22,7 @@ export default function DimensionInput({
   useEffect(() => {
     if (dimensions !== initialValues) onUpdates(dimensions);
   }, [dimensions, initialValues, onUpdates]);
-
+  const error = (key: string) => errors?.[`dimensions_${key}`];
   return (
     <div className='flex flex-wrap grow justify-between gap-6 items-center'>
       {Object.entries(initialValues).map(([key, value], i) => (
@@ -33,14 +33,15 @@ export default function DimensionInput({
           error={errors?.[`dimensions_${key}`]}
         >
           <NumberInput
-            id={``}
+            id={`dimensions_${key}`}
             name={`dimensions_${key}`}
             value={value}
             placeholder='0.00'
             min={0}
             max={999}
             step={1}
-            className='w-full'
+            required
+            className={`w-full ${error(key) && "formError"}`}
             onChange={e => setDimensions(prev => ({ ...prev, [key]: e }))}
           />
         </FormField>

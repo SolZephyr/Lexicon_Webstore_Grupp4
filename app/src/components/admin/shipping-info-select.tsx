@@ -10,18 +10,21 @@ import {
 
 export default function ShippingInfoSelect({
   initialValue,
-  onChange
+  onChange,
+  className
 }: {
   initialValue?: string;
   onChange: (value: string) => void;
+  className?: string;
 }) {
   return (
     <Select
       name='shipping'
       defaultValue={initialValue}
       onValueChange={e => onChange(e)}
+      required
     >
-      <SelectTrigger className='w-full'>
+      <SelectTrigger className={`w-full ${className ?? ''}`}>
         <SelectValue placeholder={"Shipping Info"} />
       </SelectTrigger>
       <SelectContent>

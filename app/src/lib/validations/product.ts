@@ -67,28 +67,31 @@ import { z } from "zod";
 //     shippingInformation: z.string().nonempty({ error: "Shipping is required" }),
 // });
 
-export type formProduct = z.infer<typeof entryForm>;
+export type entryFormProduct = z.infer<typeof entryForm>;
+
+const requiredGreaterThanZero = z.number({ error: "Required" }).gt(0, { error: "Must be greater than 0" })
+const notEmpty = z.string().nonempty({ error: "Required" });
 
 export const entryForm = z.object({
-    title: z.string().nonempty({ error: "Title is required" }),
-    description: z.string().nonempty({ error: "Description is required" }),
-    category: z.string().nonempty({ error: "Category is required" }),
-    price: z.number({ error: "Price is required" }).gt(0, { error: 'Price must be greater than 0' }),
-    discount: z.number().gte(0),
-    stock: z.number({ error: "Stock is required: Can be 0" }),
-    brand: z.string().nonempty({ error: "Brand is required" }),
-    weight: z.number().gt(0, { error: 'Weight is required' }),
-    warranty: z.string().nonempty({ error: "Warranty is required" }),
-    shipping: z.string().nonempty({ error: "Shipping is required" }),
-    dimensions_width: z.number().gt(0, { error: "Width is required" }),
-    dimensions_height: z.number().gt(0, { error: "Height is required" }),
-    dimensions_depth: z.number().gt(0, { error: "Depth is required" }),
+    title: notEmpty,
+    description: notEmpty,
+    category: notEmpty,
+    price: requiredGreaterThanZero,
+    weight: requiredGreaterThanZero,
+    dimensions_width: requiredGreaterThanZero,
+    dimensions_height: requiredGreaterThanZero,
+    dimensions_depth: requiredGreaterThanZero,
+    brand: notEmpty,
+    warranty: notEmpty,
+    shipping: notEmpty,
+    discount: z.number(),
+    stock: z.number(),
 }).transform(o => {
     const { title, description, category, price, stock, brand, weight, warranty, shipping, discount, dimensions_width, dimensions_height, dimensions_depth } = o;
     return {
         title,
         description,
-        category,
+        category: category.toLowerCase().split(' ').join('-'),
         price,
         stock,
         brand,

@@ -14,10 +14,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { categories } from "@/lib/constants";
 import { FormState, Partial, Product } from "@/lib/types";
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useEffect, useState } from "react";
 import { NumberInput } from "./number-input";
-import BrandSelect from "./brand-select";
 import ShippingInfoSelect from "./shipping-info-select";
+import { AddableSelect } from "../addable-select";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function ProductForm({
   submitButtonText,
@@ -26,23 +28,41 @@ export default function ProductForm({
 }: {
   submitButtonText: string;
   initialState: Partial<Product>;
-  serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
+  serverAction: (
+    prevState: FormState & {},
+    data: FormData
+  ) => Promise<FormState>;
 }) {
   const originalData = structuredClone(initialState);
   const [form, setForm] = useState<Partial<Product>>(originalData);
+  const { replace } = useRouter();
 
   const setValue = (index: keyof Product, value: unknown) => {
     setForm({ ...form, [index]: value });
   };
-  const formState: FormState = {};
+
+  const initState: FormState = { result: "init" };
+  const categoryValues = categories.map(v => ({
+    value: v.label.toLowerCase().split(" ").join("-"),
+    label: v.label
+  }));
 
   const [state, formAction, isPending] = useActionState(
     serverAction,
-    formState
+    initState
   );
 
-  const e = (name: string) =>
-    state.success ? undefined : state.errors?.[name];
+  const errors = state && state?.result === "error" ? state.errors : undefined;
+  const e = (name: string) => (errors ? errors?.[name] : undefined);
+
+  const errorCSS = (name: string) => (e(name) ? "formError" : undefined);
+
+  useEffect(() => {
+    if (state.result === "success") {
+      toast.success("Product created!");
+      replace(`/admin/${state.id}`);
+    }
+  }, [replace, state]);
 
   return (
     <form
@@ -59,10 +79,12 @@ export default function ProductForm({
                 type='text'
                 id='title'
                 name='title'
+                className={errorCSS("title")}
                 defaultValue={form.title}
                 onChange={val => setValue("title", val.currentTarget.value)}
                 placeholder='Product name'
                 maxLength={50}
+                required
               />
             </FormField>
             <FormField name='category' label='Category' error={e("category")}>
@@ -70,13 +92,14 @@ export default function ProductForm({
                 name='category'
                 defaultValue={form.category}
                 onValueChange={v => setValue("category", v)}
+                required
               >
-                <SelectTrigger className='w-full'>
+                <SelectTrigger className={`w-full ${errorCSS("category")}`}>
                   <SelectValue placeholder='Category' />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((item, index) => (
-                    <SelectItem key={index} value={item.label}>
+                  {categoryValues.map((item, index) => (
+                    <SelectItem key={index} value={item.value}>
                       {item.label}
                     </SelectItem>
                   ))}
@@ -84,9 +107,28 @@ export default function ProductForm({
               </Select>
             </FormField>
             <FormField name='brand' label='Brand' error={e("brand")}>
-              <BrandSelect
-                initialValue={form.brand}
-                onChange={e => setValue("brand", e)}
+              <AddableSelect
+                id='brand'
+                name='brand'
+                value={form.brand}
+                options={[
+                  "Apple",
+                  "Asus",
+                  "Huawei",
+                  "Lenovo",
+                  "Dell",
+                  "Amazon",
+                  "Beats",
+                  "TechGear",
+                  "GadgetMaster",
+                  "SnapTech",
+                  "ProVision",
+                  "Oppo",
+                  "Realme",
+                  "Samsung",
+                  "Vivo"
+                ]}
+                onValueChange={e => setValue("brand", e)}
               />
             </FormField>
             <FormField
@@ -97,12 +139,14 @@ export default function ProductForm({
               <Textarea
                 id='description'
                 name='description'
+                className={errorCSS("description")}
                 value={form.description ?? ""}
                 placeholder='Describe the product...'
                 onChange={val =>
                   setValue("description", val.currentTarget.value)
                 }
                 rows={5}
+                required
               />
             </FormField>
           </FormSection>
@@ -112,8 +156,10 @@ export default function ProductForm({
               <NumberInput
                 id='weight'
                 name='weight'
+                className={errorCSS("weight")}
                 value={form.weight}
                 placeholder='0.00'
+                required
                 onChange={value => {
                   setValue("weight", value);
                 }}
@@ -125,11 +171,13 @@ export default function ProductForm({
               <NumberInput
                 id='price'
                 name='price'
+                className={errorCSS("price")}
                 value={form.price}
                 onChange={v => setValue("price", v)}
-                placeholder='0.00'
+                placeholder='$0.00'
                 decimalScale={2}
                 prefix='$'
+                required
                 thousandSeparator={true}
                 allowNegative={false}
               />
@@ -142,9 +190,10 @@ export default function ProductForm({
               <NumberInput
                 id='discount'
                 name='discount'
+                className={errorCSS("discount")}
                 value={form.discountPercentage}
                 onChange={v => setValue("discountPercentage", v)}
-                placeholder='0.00'
+                placeholder='0.00%'
                 decimalScale={2}
                 suffix='%'
                 min={0}
@@ -156,6 +205,8 @@ export default function ProductForm({
                 type='number'
                 id='stock'
                 name='stock'
+                className={errorCSS("stock")}
+                placeholder='0'
                 defaultValue={form.stock ?? 0}
                 onChange={e => setValue("stock", e.currentTarget.value)}
                 min={0}
@@ -165,6 +216,7 @@ export default function ProductForm({
             </FormField>
             <FormField name='warranty' label='Warranty' error={e("warranty")}>
               <WarrantySelect
+                className={errorCSS("warranty")}
                 onChange={w => setValue("warrantyInformation", w)}
                 initialValue={form.warrantyInformation}
               />
@@ -174,7 +226,7 @@ export default function ProductForm({
         <FormRow>
           <FormSection>
             <DimensionInput
-              errors={state.errors}
+              errors={errors}
               onUpdates={d => {
                 setValue("dimensions", d);
               }}
@@ -186,6 +238,7 @@ export default function ProductForm({
               <ShippingInfoSelect
                 initialValue={form.shippingInformation}
                 onChange={w => setValue("shippingInformation", w)}
+                className={errorCSS("shipping")}
               />
             </FormField>
           </FormSection>
@@ -228,7 +281,9 @@ export const FormField = ({
   return (
     <div className='flex flex-col grow gap-1'>
       <Label className='flex justify-between h-5' htmlFor={name}>
-        <span className='relative capitalize '>{label}</span>
+        <span className={`relative capitalize ${error && "text-destructive"}`}>
+          {label}
+        </span>
         <span className='text-destructive text-sm py-0'>{error}</span>
       </Label>
       {children}

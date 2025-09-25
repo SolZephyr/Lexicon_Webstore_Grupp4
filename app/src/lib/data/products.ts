@@ -1,5 +1,5 @@
-import { Product, ProductList, ProductsFilter, SearchParamsString, SidebarFilterValues, ThinProduct, ThinProductList } from "../types";
-import { formProduct } from "../validations/product";
+import { PostStatus, Product, ProductList, ProductsFilter, SearchParamsString, SidebarFilterValues, ThinProduct, ThinProductList } from "../types";
+import { entryFormProduct } from "../validations/product";
 //const baseURI = 'https://dummyjson.com/products';
 const baseURI = 'https://kippeves.se/products';
 const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,availabilityStatus';
@@ -96,17 +96,29 @@ export const getRandomProducts = async (): Promise<ThinProduct[]> => {
     }
 }
 
-export const postProduct = async (product: formProduct) => {
-    const uri = `${baseURI}/add`
-    const request = await fetch(uri, {
-        method: "POST",
-        body: JSON.stringify({ ...product }),
-        headers: {
-            "Content-Type": "application/json"
+export const postProduct = async (product: entryFormProduct): Promise<PostStatus> => {
+    try {
+
+        const uri = `${baseURI}/add`
+        const request = await fetch(uri, {
+            method: "POST",
+            body: JSON.stringify({ ...product }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const result = await request.json();
+        if (result.status)
+            return {
+                result: "success", id: result.id
+            }
+        return {
+            result: "error", exception: result.message
         }
-    });
-    const result = await request.json();
-    return result;
+    }
+    catch (e) {
+        return { result: "error", exception: `Error: ${e}` }
+    }
 }
 
 export const getFullProductsByFilter = async (filter: ProductsFilter): Promise<ProductList> => {

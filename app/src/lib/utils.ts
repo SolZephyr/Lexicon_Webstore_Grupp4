@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Product } from "./types";
+import { entryForm, entryFormProduct as EntryFormProduct } from "./validations/product";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -34,34 +35,6 @@ const toFloat = (value: FormDataEntryValue | null) => {
 const toInt = (value: FormDataEntryValue | null) => {
   const int = parseInt(value as string);
   return isNaN(int) ? 0 : int;
-}
-
-export function formToProduct(form: FormData): Product {
-  const weight = toFloat(form.get("weight"));
-  const discountPercentage = toFloat(form.get("discount"));
-  const price = toFloat(form.get('price'));
-  const stock = toInt(form.get('stock'));
-  const depth = toFloat(form.get('dimensions_depth'));
-  const height = toFloat(form.get('dimensions_height'));
-  const width = toFloat(form.get('dimensions_width'));
-  const data: Partial<Product> = {
-    title: form.get("title")?.toString(),
-    category: form.get('category')?.toString(),
-    brand: form.get('brand')?.toString(),
-    description: form.get('description')?.toString(),
-    price,
-    weight,
-    discountPercentage,
-    stock,
-    warrantyInformation: form.get('warranty')?.toString(),
-    dimensions: {
-      depth,
-      height,
-      width
-    }
-  };
-
-  return data as Product;
 }
 
 export function formToObject(form: FormData) {

@@ -3,7 +3,49 @@ export interface SearchParamsString { [key: string]: string | undefined };
 export type Partial<T> = {
   [P in keyof T]?: T[P];
 };
-export type FormState = { success?: boolean; errors?: Record<string, string>; message?: string; }
+
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+type FormStates = {
+  init: unknown,
+  success: {
+    id: number
+  },
+  error: {
+    errors?: Record<string, string>,
+    message?: string
+  }
+};
+
+export type FormState = {
+  [K in keyof FormStates]: Prettify<{
+    result: K;
+  } & FormStates[K]>
+}[keyof FormStates]
+
+
+type PostStatusConst = {
+  success: {
+    id: number
+  },
+  error: {
+    exception?: string
+  }
+};
+
+export type PostStatus = {
+  [K in keyof PostStatusConst]: Prettify<{
+    result: K;
+  } & PostStatusConst[K]>
+}[keyof PostStatusConst]
+
+// export type FormState = 
+// { 
+//   success?: boolean; 
+//   ; message?: string; created?: Product 
+// }
 
 export interface ProductsFilter {
   limit?: number;
