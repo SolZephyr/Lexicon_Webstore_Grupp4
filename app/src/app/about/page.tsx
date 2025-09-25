@@ -1,84 +1,134 @@
 import { ContentWrapper } from "@/components/content-wrapper";
+import { Button } from "@/components/ui/button";
+import { CircleCheck, Eye, LockKeyhole, LucideIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Webshop - About Us",
   description: "Who are we?",
 };
 
+const cards = [
+  {
+    icon: Eye,
+    title: "Our Vision",
+    description:
+      "We strive to create a future where innovation and collaboration empower people to achieve more together than they ever could alone.",
+  },
+  {
+    icon: LockKeyhole,
+    title: "Our Mission",
+    description:
+      "Our mission is to nurture meaningful connections, inspire growth, and provide the tools that help individuals and teams thrive with purpose.",
+  },
+  {
+    icon: CircleCheck,
+    title: "Our Goals",
+    description:
+      "We aim to drive lasting impact by setting ambitious targets, measuring our progress, and staying true to values that guide every decision.",
+  },
+] as const;
+
 export default function AboutPage() {
   return (
-    <ContentWrapper className="py-12">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-primary">About Us</h1>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-          Get to know our story, our mission, and the passionate team behind our webstore.
+    <ContentWrapper className="flex flex-col py-12 md:py-16 gap-4 md:gap-16">
+      <section className="flex flex-col items-center gap-4 text-center mb-4 md:mb-0">
+        <h1 className="text-[2.5rem] font-bold">About Us</h1>
+        <p className="text-center text-sm text-muted-foreground max-w-[70ch]">
+          Get to know our story, our mission, and the passionate team behind our
+          webstore.
         </p>
       </section>
-
-      <section className="flex flex-col md:flex-row items-center gap-8 mb-12">
-        <div className="md:w-1/2">
+      <section className="flex flex-col md:flex-row items-center gap-8 mb-8">
+        <div className="flex-1 w-full relative aspect-[3/2]">
           <Image
             src="/team.webp"
             alt="Our Team"
-            width={600}
-            height={400}
-            className="rounded-xl shadow-lg object-cover"
+            fill
+            className="rounded shadow-lg object-cover"
             priority
           />
         </div>
-        <div className="md:w-1/2">
-          <h2 className="text-2xl font-semibold mb-3 text-primary">Our Team</h2>
-          <p className="mb-4 text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam venenatis ut elit quis euismod. Nullam quis ligula sit amet urna rutrum sodales et non leo. Curabitur iaculis condimentum libero, sit amet vehicula erat commodo sed. Donec sit amet odio congue, feugiat lectus in, feugiat sem. Cras consequat efficitur scelerisque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fermentum a nisl sed volutpat. Duis sodales odio varius ante vehicula pulvinar. Ut ultrices lacus in elit euismod maximus. Vestibulum non sem ut magna blandit posuere consequat et tortor. Vivamus vehicula mattis massa, et vehicula quam luctus ut.
+        <div className="flex-1">
+          <h2 className="text-[1.75rem] font-bold mb-3 text-primary">Our Team</h2>
+          <p className="mb-4 text-neutral-800 text-sm">
+            Our team is made up of passionate individuals who bring diverse
+            skills and experiences to everything we do. We believe that
+            collaboration, creativity, and a shared commitment to quality are
+            what drive us forward. Each member of our team plays an important
+            role in shaping the way we grow and serve our customers. Together,
+            we strive to create an environment where ideas can flourish and
+            challenges are met with energy and determination. We value open
+            communication, continuous learning, and supporting one another to
+            reach our goals. At the heart of it all, we are a team that cares
+            about making a difference through the work we do every day.
           </p>
         </div>
       </section>
 
-      <section className="grid md:grid-cols-3 gap-8 mb-12">
-        <div className="bg-primary-green border rounded-lg shadow p-6 flex flex-col items-center">
-          <svg className="w-12 h-12 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-          <h3 className="text-xl font-bold mb-2">Our Vision</h3>
-          <p className="text-center">
-            Proin a dignissim massa. Vestibulum sagittis elit quam, vitae rutrum libero venenatis quis. Maecenas tincidunt sem augue, sit amet finibus risus tempus a.
-          </p>
-        </div>
-        <div className="bg-primary-green border rounded-lg shadow p-6 flex flex-col items-center">
-          <svg className="w-12 h-12 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <rect x="5" y="11" width="14" height="12" rx="2" />
-            <path d="M7 11V7a5 5 0 0110 0v4" />
-            <circle cx="12" cy="17" r="1.5" />
-          </svg>
-          <h3 className="text-xl font-bold mb-2">Our Values</h3>
-          <p className="text-center">
-            Sed eu ornare lacus. Donec eleifend maximus suscipit. Nam placerat pulvinar mauris et condimentum. Nam condimentum, eros sit amet pretium vehicula.
-          </p>
-        </div>
-        <div className="bg-primary-green border rounded-lg shadow p-6 flex flex-col items-center">
-          <svg className="w-12 h-12 text-primary mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="12" cy="12" r="10" />
-          </svg>
-          <h3 className="text-xl font-bold mb-2">Our Promise</h3>
-          <p className="text-center">
-            Donec a elit nec neque placerat commodo in vitae nibh. Nulla a orci sapien. Sed rutrum enim eget elit sagittis porta. Donec pellentesque ex vel turpis porta.
-          </p>
-        </div>
+      <section className="grid md:grid-cols-3 gap-4 mb-8">
+        {cards.map((card, index) => (
+          <InfoCard
+            key={index}
+            icon={card.icon}
+            title={card.title}
+            description={card.description}
+          />
+        ))}
       </section>
 
-      <section className="bg-primary/10 rounded-lg p-8">
-        <h2 className="text-2xl font-semibold mb-4 text-primary">Our Story</h2>
-        <p className="mb-2 text-gray-700">
-          Curabitur convallis orci at purus rutrum, non ornare purus sollicitudin. Pellentesque mollis nisl nec lacinia blandit. Suspendisse ornare quis magna ut consectetur. Nullam condimentum fringilla hendrerit. In a imperdiet massa. Etiam consectetur ac arcu eget mollis.
+      <section className="bg-accent rounded p-8 mb-8">
+        <h2 className="text-xl font-bold mb-4 text-primary">Our Story</h2>
+        <p className="mb-2 text-neutral-800 text-sm">
+          Our story is built on a simple idea: making everyday shopping easier,
+          more enjoyable, and more accessible for everyone. From the very
+          beginning, we&apos;ve focused on creating a place where quality and
+          convenience come together.
         </p>
-        <p className="mb-2 text-gray-700">
-          Vivamus consequat, orci ut porttitor faucibus, massa augue consectetur diam, in facilisis turpis ligula vel diam. Cras libero tellus, vulputate in aliquet quis, efficitur sed mauris. Phasellus eu cursus lorem.
+        <p className="mb-2 text-neutral-800 text-sm">
+          Over time, we&apos;ve grown into a community of people who believe
+          that shopping should be straightforward and stress-free. Today, we
+          continue to evolve while staying true to our goal of delivering
+          products you can trust, with service that puts you first.
         </p>
+      </section>
+      <section className="flex flex-col items-center justify-center gap-2 mb-8">
+        <h2 className="text-3xl font-bold mb-2">Any questions?</h2>
+        <p className="text-muted-foreground mb-6 max-w-md text-sm text-center">
+          We’d love to hear from you. Whether you have a question about our
+          products, your order, or just want to say hello - our team is here to
+          help.
+        </p>
+        <Link href="/contact">
+          <Button size="lg" className="cursor-pointer" variant="brand">
+            Contact Us
+          </Button>
+        </Link>
       </section>
     </ContentWrapper>
+  );
+}
+
+interface InfoCardProps {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+function InfoCard({ icon: Icon, title, description }: InfoCardProps) {
+  return (
+    <div className="flex flex-col items-center border-4 rounded overflow-hidden border-accent">
+      <div className="bg-brand-600 w-full flex h-32 items-center justify-center rounded-t">
+        <Icon size={48} className="text-white" />
+      </div>
+      <div className="flex flex-col items-center p-6 rounded-b">
+        <h3 className="text-xl font-bold mb-2">{title}</h3>
+        <p className="text-center text-sm text-muted-foreground">
+          {description}
+        </p>
+      </div>
+    </div>
   );
 }

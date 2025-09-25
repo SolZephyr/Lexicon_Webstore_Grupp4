@@ -12,7 +12,7 @@ export default async function ContactPage() {
   return (
     <ContentWrapper className="flex flex-col gap-4 py-12 md:py-16 md:gap-8">
       <div className="flex flex-col items-center gap-4 text-center">
-        <h2 className="text-4xl font-bold">Contact our team</h2>
+        <h2 className="text-[2.5rem] font-bold">Contact our team</h2>
         <p className="text-center text-sm text-muted-foreground max-w-[70ch]">
           What types of questions can you have? Why not send us an email or ring
           in if you have any specific questions or rights? We&apos;re here to
