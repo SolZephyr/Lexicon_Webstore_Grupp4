@@ -2,14 +2,17 @@ import ProductForm from "@/components/admin/product-form";
 import { ContentWrapper } from "@/components/content-wrapper";
 import { getBrandsByProducts, getProduct } from "@/lib/data/products";
 import { Edit } from "../actions";
+import { notFound } from "next/navigation";
 
-type Props = { params: Promise<{ [key: string]: string | undefined }> };
+export default async function EditPage({
+  params
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const productId = id ? Number(id) : undefined;
 
-export default async function ProductPage(props: Props) {
-  const params = await props.params;
-  const productId = params.id ? Number(params.id) : undefined;
-
-  if (!productId) return { title: "Not Found" };
+  if (!productId) return notFound();
 
   const [product, brands] = await Promise.all([
     getProduct(productId),
