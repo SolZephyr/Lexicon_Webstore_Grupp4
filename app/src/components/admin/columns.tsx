@@ -171,6 +171,7 @@ function ModalDelete({ id }: { id: number }) {
   const [state, formAction, isPending] = useActionState(Delete, initState);
   const message = state.result === "error" && state.message;
   const { refresh } = useRouter();
+
   useEffect(() => {
     if (state.result === "success") {
       toast.success(`Product with id ${id} deleted successfully`);

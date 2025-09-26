@@ -72,7 +72,8 @@ export async function Delete(_: FormState, data: FormData): Promise<FormState> {
         const request = await deleteProduct(id);
         switch (request.result) {
             case 'success':
-                return { result: 'success', id: request.id }
+                const { id } = request;
+                return { result: 'success', id: id ?? 0, action: 'DELETE' }
             case 'error':
                 return { result: request.result, message: 'Product could not be deleted' }
         }

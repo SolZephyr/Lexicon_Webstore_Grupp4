@@ -119,7 +119,7 @@ export const postProduct = async (product: entryFormProduct): Promise<PostStatus
         const result = await request.json();
         if (result.status)
             return {
-                result: "success", id: result.id
+                result: "success", id: +result.id
             }
         return {
             result: "error", exception: result.message
@@ -139,7 +139,7 @@ export const deleteProduct = async (id: string) => {
         const result = await request.json();
         if (result.success)
             return {
-                result: "success", id: result.id
+                result: "success", id: +result.id
             }
         return {
             result: "error", exception: result.message

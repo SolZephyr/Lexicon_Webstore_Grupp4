@@ -23,14 +23,10 @@ import { useRouter } from "next/navigation";
 import { localDatetime } from "@/lib/utils";
 
 export default function ProductForm({
-  initialState,
-  submitButtonText,
   productData,
   brands,
   serverAction
 }: {
-  initialState: Partial<Product>;
-  submitButtonText: string;
   productData: Partial<Product>;
   brands: { brand: string[] };
   serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
@@ -66,14 +62,16 @@ export default function ProductForm({
   useEffect(() => {
     const { result } = state;
     if (result !== "success") return;
-
+    console.dir(state);
     const { action, id } = state;
     switch (action) {
       case "CREATE":
         toast.success(`Product added successfully.`);
         replace(`/admin/${id}`);
+        break;
       case "UPDATE":
         toast.success(`Product updated successfully.`);
+        break;
     }
   }, [replace, state]);
 
@@ -82,9 +80,11 @@ export default function ProductForm({
       action={formAction}
       className="m-auto max-w-[50rem] flex p-4 flex-col gap-5"
     >
-      <h2 className='text-4xl font-bold'>{form.id ? "Edit Product" : "Add Product"}</h2>
+      <h2 className="text-4xl font-bold">
+        {form.id ? "Edit Product" : "Add Product"}
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr]">
-        <section className='flex flex-wrap gap-4'>
+        <section className="flex flex-wrap gap-4">
           {/* Basic information */}
           <FormSection>
             <FormField
@@ -185,7 +185,7 @@ export default function ProductForm({
           </FormSection>
           {/* Store information */}
           <FormSplitSection>
-            <FormField name='price' label='Price' error={formError("price")}>
+            <FormField name="price" label="Price" error={formError("price")}>
               <NumberInput
                 id="price"
                 name="price"
@@ -262,20 +262,25 @@ export default function ProductForm({
             </FormField>
           </FormSection>
         </section>
-        <FormMeta id={form.id} created={form.meta?.createdAt} updated={form.meta?.updatedAt} submitBtn={{ isPending, submitButtonText: btnText }} />
+        <FormMeta
+          id={form.id}
+          created={form.meta?.createdAt}
+          updated={form.meta?.updatedAt}
+          submitBtn={{ isPending, submitButtonText: btnText }}
+        />
       </div>
     </form>
   );
 }
 
 const FormSection = ({ children }: React.ComponentProps<"div">) => (
-  <div className='w-full grid grid-cols-1 justify-evenly gap-4 '>
+  <div className="w-full grid grid-cols-1 justify-evenly gap-4 ">
     {children}
   </div>
 );
 
 const FormSplitSection = ({ children }: React.ComponentProps<"div">) => (
-  <div className='w-full grid grid-cols-1 sm:grid-cols-2 justify-evenly gap-4 '>
+  <div className="w-full grid grid-cols-1 sm:grid-cols-2 justify-evenly gap-4 ">
     {children}
   </div>
 );
@@ -303,43 +308,57 @@ export const FormField = ({
   );
 };
 
-export const FormMeta = (
-  { id, created, updated, submitBtn }:
-    { id: number | undefined, created: string | undefined, updated: string | undefined, submitBtn?: { isPending: boolean, submitButtonText: string } }) => {
+export const FormMeta = ({
+  id,
+  created,
+  updated,
+  submitBtn
+}: {
+  id: number | undefined;
+  created: string | undefined;
+  updated: string | undefined;
+  submitBtn?: { isPending: boolean; submitButtonText: string };
+}) => {
   return (
     <section className="flex flex-col justify-start gap-4 border border-black rounded p-4 mt-8 md:ml-8 md:mt-0">
-      <div className='flex flex-col gap-2'>
-        <Label className='flex justify-between h-5' htmlFor="meta-id">
+      <div className="flex flex-col gap-2">
+        <Label className="flex justify-between h-5" htmlFor="meta-id">
           <span>ID</span>
         </Label>
         <span id="meta-id">{id ?? "Not set"}</span>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1">
-        <div className='flex flex-col gap-1'>
-          <Label className='flex justify-between h-5' htmlFor="meta-created">
+        <div className="flex flex-col gap-1">
+          <Label className="flex justify-between h-5" htmlFor="meta-created">
             <span>Created</span>
           </Label>
-          <span id="meta-created">{created ? localDatetime(created) : "Not set"}</span>
+          <span id="meta-created">
+            {created ? localDatetime(created) : "Not set"}
+          </span>
         </div>
-        <div className='flex flex-col gap-1'>
-          <Label className='flex justify-between h-5' htmlFor="meta-updated">
+        <div className="flex flex-col gap-1">
+          <Label className="flex justify-between h-5" htmlFor="meta-updated">
             <span>Updated</span>
           </Label>
-          <span id="meta-updated">{updated ? localDatetime(updated) : "Not set"}</span>
+          <span id="meta-updated">
+            {updated ? localDatetime(updated) : "Not set"}
+          </span>
         </div>
       </div>
-      {submitBtn ?
-        <div className='flex flex-col gap-1 mt-auto'>
+      {submitBtn ? (
+        <div className="flex flex-col gap-1 mt-auto">
           <Button
-            type='submit'
+            type="submit"
             disabled={submitBtn.isPending}
-            size='lg'
-            className='cursor-pointer'
+            size="lg"
+            className="cursor-pointer"
           >
             {submitBtn.submitButtonText}
           </Button>
         </div>
-        : ""}
+      ) : (
+        ""
+      )}
     </section>
   );
-}
+};
