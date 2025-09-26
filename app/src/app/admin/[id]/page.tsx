@@ -23,7 +23,7 @@ export default async function EditPage({
       <ContentWrapper>
         <ProductForm
           brands={brands}
-          initialState={product}
+          productData={product}
           serverAction={Edit}
         />
       </ContentWrapper>

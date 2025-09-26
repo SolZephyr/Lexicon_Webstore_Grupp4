@@ -7,12 +7,7 @@ export default async function CreateProductPage() {
   const brands = await getBrandsByProducts();
   return (
     <ContentWrapper>
-      <ProductForm
-        brands={brands}
-        initialState={{}}
-        serverAction={Create}
-        submitButtonText='Add Product'
-      />
+      <ProductForm brands={brands} productData={{}} serverAction={Create} />
     </ContentWrapper>
   );
 }

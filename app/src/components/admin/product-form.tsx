@@ -23,15 +23,15 @@ import { useRouter } from "next/navigation";
 import { localDatetime } from "@/lib/utils";
 
 export default function ProductForm({
-  initialState,
+  productData,
   brands,
   serverAction
 }: {
-  initialState: Partial<Product>;
+  productData: Partial<Product>;
   brands: { brand: string[] };
   serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
 }) {
-  const originalData = structuredClone(initialState);
+  const originalData = structuredClone(productData);
   const [form, setForm] = useState<Partial<Product>>(originalData);
   const { replace } = useRouter();
 
@@ -40,6 +40,8 @@ export default function ProductForm({
   };
 
   const initState: FormState = { result: "init" };
+  if (productData.id) initState.id = productData.id;
+
   const categoryValues = categories.map(v => ({
     value: v.label.toLowerCase().split(" ").join("-"),
     label: v.label
@@ -58,20 +60,31 @@ export default function ProductForm({
     formError(name) ? "formError" : undefined;
 
   useEffect(() => {
-    if (state.result === "success") {
-      toast.success("Product created!");
-      replace(`/admin/${state.id}`);
+    const { result } = state;
+    if (result !== "success") return;
+    console.dir(state);
+    const { action, id } = state;
+    switch (action) {
+      case "CREATE":
+        toast.success(`Product added successfully.`);
+        replace(`/admin/${id}`);
+        break;
+      case "UPDATE":
+        toast.success(`Product updated successfully.`);
+        break;
     }
   }, [replace, state]);
 
   return (
     <form
       action={formAction}
-      className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
+      className="m-auto max-w-[50rem] flex p-4 flex-col gap-5"
     >
-      <h2 className='text-4xl font-bold'>{form.id ? "Edit Product" : "Add Product"}</h2>
+      <h2 className="text-4xl font-bold">
+        {form.id ? "Edit Product" : "Add Product"}
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr]">
-        <section className='flex flex-wrap gap-4'>
+        <section className="flex flex-wrap gap-4">
           {/* Basic information */}
           <FormSection>
             <FormField
@@ -80,30 +93,30 @@ export default function ProductForm({
               error={formError("title")}
             >
               <Input
-                type='text'
-                id='title'
-                name='title'
+                type="text"
+                id="title"
+                name="title"
                 className={errorCSS("title")}
                 defaultValue={form.title}
                 onChange={val => setValue("title", val.currentTarget.value)}
-                placeholder='Product name'
+                placeholder="Product name"
                 maxLength={50}
                 required
               />
             </FormField>
             <FormField
-              name='category'
-              label='Category'
+              name="category"
+              label="Category"
               error={formError("category")}
             >
               <Select
-                name='category'
+                name="category"
                 defaultValue={form.category}
                 onValueChange={v => setValue("category", v)}
                 required
               >
                 <SelectTrigger className={`w-full ${errorCSS("category")}`}>
-                  <SelectValue placeholder='Category' />
+                  <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent>
                   {categoryValues.map((item, index) => (
@@ -114,26 +127,26 @@ export default function ProductForm({
                 </SelectContent>
               </Select>
             </FormField>
-            <FormField name='brand' label='Brand' error={formError("brand")}>
+            <FormField name="brand" label="Brand" error={formError("brand")}>
               <AddableSelect
-                id='brand'
-                name='brand'
+                id="brand"
+                name="brand"
                 defaultValue={form.brand}
                 options={brands.brand}
                 onValueChange={e => setValue("brand", e)}
               />
             </FormField>
             <FormField
-              name='description'
+              name="description"
               label={"Description"}
               error={formError("description")}
             >
               <Textarea
-                id='description'
-                name='description'
+                id="description"
+                name="description"
                 className={errorCSS("description")}
                 value={form.description ?? ""}
-                placeholder='Describe the product...'
+                placeholder="Describe the product..."
                 onChange={val =>
                   setValue("description", val.currentTarget.value)
                 }
@@ -149,11 +162,11 @@ export default function ProductForm({
               error={formError("weight")}
             >
               <NumberInput
-                id='weight'
-                name='weight'
+                id="weight"
+                name="weight"
                 className={errorCSS("weight")}
                 value={form.weight}
-                placeholder='0.00'
+                placeholder="0.00"
                 required
                 onChange={value => {
                   setValue("weight", value);
@@ -172,35 +185,35 @@ export default function ProductForm({
           </FormSection>
           {/* Store information */}
           <FormSplitSection>
-            <FormField name='price' label='Price' error={formError("price")}>
+            <FormField name="price" label="Price" error={formError("price")}>
               <NumberInput
-                id='price'
-                name='price'
+                id="price"
+                name="price"
                 className={errorCSS("price")}
                 value={form.price}
                 onChange={v => setValue("price", v)}
-                placeholder='$0.00'
+                placeholder="$0.00"
                 decimalScale={2}
-                prefix='$'
+                prefix="$"
                 required
                 thousandSeparator={true}
                 allowNegative={false}
               />
             </FormField>
             <FormField
-              name='discount'
-              label='Discount (percentage)'
+              name="discount"
+              label="Discount (percentage)"
               error={formError("discount")}
             >
               <NumberInput
-                id='discount'
-                name='discount'
+                id="discount"
+                name="discount"
                 className={errorCSS("discount")}
                 value={form.discountPercentage}
                 onChange={v => setValue("discountPercentage", v)}
-                placeholder='0.00%'
+                placeholder="0.00%"
                 decimalScale={2}
-                suffix='%'
+                suffix="%"
                 min={0}
                 max={100}
               />
@@ -208,16 +221,16 @@ export default function ProductForm({
           </FormSplitSection>
           <FormSection>
             <FormField
-              name='stock'
-              label='Stock (Amount)'
+              name="stock"
+              label="Stock (Amount)"
               error={formError("stock")}
             >
               <Input
-                type='number'
-                id='stock'
-                name='stock'
+                type="number"
+                id="stock"
+                name="stock"
                 className={errorCSS("stock")}
-                placeholder='0'
+                placeholder="0"
                 defaultValue={form.stock ?? 0}
                 onChange={e => setValue("stock", e.currentTarget.value)}
                 min={0}
@@ -226,8 +239,8 @@ export default function ProductForm({
               />
             </FormField>
             <FormField
-              name='warranty'
-              label='Warranty'
+              name="warranty"
+              label="Warranty"
               error={formError("warranty")}
             >
               <WarrantySelect
@@ -237,8 +250,8 @@ export default function ProductForm({
               />
             </FormField>
             <FormField
-              name='shipping'
-              label='Shipping'
+              name="shipping"
+              label="Shipping"
               error={formError("shipping")}
             >
               <ShippingInfoSelect
@@ -249,20 +262,25 @@ export default function ProductForm({
             </FormField>
           </FormSection>
         </section>
-        <FormMeta id={form.id} created={form.meta?.createdAt} updated={form.meta?.updatedAt} submitBtn={{ isPending, submitButtonText: btnText }} />
+        <FormMeta
+          id={form.id}
+          created={form.meta?.createdAt}
+          updated={form.meta?.updatedAt}
+          submitBtn={{ isPending, submitButtonText: btnText }}
+        />
       </div>
     </form>
   );
 }
 
 const FormSection = ({ children }: React.ComponentProps<"div">) => (
-  <div className='w-full grid grid-cols-1 justify-evenly gap-4 '>
+  <div className="w-full grid grid-cols-1 justify-evenly gap-4 ">
     {children}
   </div>
 );
 
 const FormSplitSection = ({ children }: React.ComponentProps<"div">) => (
-  <div className='w-full grid grid-cols-1 sm:grid-cols-2 justify-evenly gap-4 '>
+  <div className="w-full grid grid-cols-1 sm:grid-cols-2 justify-evenly gap-4 ">
     {children}
   </div>
 );
@@ -278,55 +296,69 @@ export const FormField = ({
   error?: string;
 } & React.ComponentProps<"div">) => {
   return (
-    <div className='flex flex-col grow gap-1'>
-      <Label className='flex justify-between h-5' htmlFor={name}>
+    <div className="flex flex-col grow gap-1">
+      <Label className="flex justify-between h-5" htmlFor={name}>
         <span className={`relative capitalize ${error && "text-destructive"}`}>
           {label}
         </span>
-        <span className='text-destructive text-sm py-0'>{error}</span>
+        <span className="text-destructive text-sm py-0">{error}</span>
       </Label>
       {children}
     </div>
   );
 };
 
-export const FormMeta = (
-  { id, created, updated, submitBtn }:
-    { id: number | undefined, created: string | undefined, updated: string | undefined, submitBtn?: { isPending: boolean, submitButtonText: string } }) => {
+export const FormMeta = ({
+  id,
+  created,
+  updated,
+  submitBtn
+}: {
+  id: number | undefined;
+  created: string | undefined;
+  updated: string | undefined;
+  submitBtn?: { isPending: boolean; submitButtonText: string };
+}) => {
   return (
     <section className="flex flex-col justify-start gap-4 border border-black rounded p-4 mt-8 md:ml-8 md:mt-0">
-      <div className='flex flex-col gap-2'>
-        <Label className='flex justify-between h-5' htmlFor="meta-id">
+      <div className="flex flex-col gap-2">
+        <Label className="flex justify-between h-5" htmlFor="meta-id">
           <span>ID</span>
         </Label>
         <span id="meta-id">{id ?? "Not set"}</span>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1">
-        <div className='flex flex-col gap-1'>
-          <Label className='flex justify-between h-5' htmlFor="meta-created">
+        <div className="flex flex-col gap-1">
+          <Label className="flex justify-between h-5" htmlFor="meta-created">
             <span>Created</span>
           </Label>
-          <span id="meta-created">{created ? localDatetime(created) : "Not set"}</span>
+          <span id="meta-created">
+            {created ? localDatetime(created) : "Not set"}
+          </span>
         </div>
-        <div className='flex flex-col gap-1'>
-          <Label className='flex justify-between h-5' htmlFor="meta-updated">
+        <div className="flex flex-col gap-1">
+          <Label className="flex justify-between h-5" htmlFor="meta-updated">
             <span>Updated</span>
           </Label>
-          <span id="meta-updated">{updated ? localDatetime(updated) : "Not set"}</span>
+          <span id="meta-updated">
+            {updated ? localDatetime(updated) : "Not set"}
+          </span>
         </div>
       </div>
-      {submitBtn ?
-        <div className='flex flex-col gap-1 mt-auto'>
+      {submitBtn ? (
+        <div className="flex flex-col gap-1 mt-auto">
           <Button
-            type='submit'
+            type="submit"
             disabled={submitBtn.isPending}
-            size='lg'
-            className='cursor-pointer'
+            size="lg"
+            className="cursor-pointer"
           >
             {submitBtn.submitButtonText}
           </Button>
         </div>
-        : ""}
+      ) : (
+        ""
+      )}
     </section>
   );
-}
+};

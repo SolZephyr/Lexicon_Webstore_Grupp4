@@ -2,6 +2,7 @@ import { PostStatus, Product, ProductList, ProductsFilter, SearchParamsString, S
 import { entryFormProduct } from "../validations/product";
 //const baseURI = 'https://dummyjson.com/products';
 const baseURI = 'https://kippeves.se/products';
+
 const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,stock';
 
 export const getProduct = async (id: number): Promise<Product> => {
@@ -118,7 +119,7 @@ export const postProduct = async (product: entryFormProduct): Promise<PostStatus
         const result = await request.json();
         if (result.status)
             return {
-                result: "success", id: result.id
+                result: "success", id: +result.id
             }
         return {
             result: "error", exception: result.message
@@ -137,6 +138,31 @@ export const deleteProduct = async (id: string) => {
         });
         const result = await request.json();
         if (result.success)
+            return {
+                result: "success", id: +result.id
+            }
+        return {
+            result: "error", exception: result.message
+        }
+    }
+    catch (e) {
+        return { result: "error", exception: `Error: ${e}` }
+    }
+}
+
+export const editProduct = async (id: number, product: entryFormProduct): Promise<PostStatus> => {
+    try {
+        const uri = `${baseURI}/${id}`
+        const request = await fetch(uri, {
+            method: "PUT",
+            body: JSON.stringify({ ...product }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const result = await request.json();
+        console.debug(result)
+        if (result.status)
             return {
                 result: "success", id: result.id
             }

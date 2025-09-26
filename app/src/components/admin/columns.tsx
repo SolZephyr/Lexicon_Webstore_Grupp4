@@ -21,8 +21,7 @@ import { FormState, Product } from "@/lib/types";
 import { ColumnDef, HeaderContext, Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const toSorted = (context: HeaderContext<Product, unknown>, title: string) => {
@@ -126,57 +125,69 @@ export const columns: ColumnDef<Product>[] = [
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
-      return (
-        <Dialog>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="default" className="bg-brand-600 h-8 w-8 p-0">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem
-                className="hover:bg-gray-200 hover:underline"
-                asChild
-              >
-                <Link href={`admin/${product.id}`}>Show Details</Link>
-              </DropdownMenuItem>
-              <DialogTrigger asChild>
-                <DropdownMenuItem className="text-destructive focus:hover:bg-destructive/10 focus:text-destructive focus:underline">
-                  Delete Product
-                </DropdownMenuItem>
-              </DialogTrigger>
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. Are you sure you want to
-                permanently delete this file from our servers?
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <ModalDelete id={product.id} />
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      );
+      return <Modal product={product} />;
     }
   }
 ];
 
-function ModalDelete({ id }: { id: number }) {
+function Modal({ product }: { product: Product }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="default" className="bg-brand-600 h-8 w-8 p-0">
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            className="hover:bg-gray-200 hover:underline"
+            asChild
+          >
+            <Link href={`admin/${product.id}`}>Show Details</Link>
+          </DropdownMenuItem>
+          <DialogTrigger asChild>
+            <DropdownMenuItem className="text-destructive focus:hover:bg-destructive/10 focus:text-destructive focus:underline">
+              Delete Product
+            </DropdownMenuItem>
+          </DialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you absolutely sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone. Are you sure you want to permanently
+            delete this file from our servers?
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <ModalDelete id={product.id} setOpen={setOpen} />
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ModalDelete({
+  id,
+  setOpen
+}: {
+  id: number;
+  setOpen: (open: boolean) => void;
+}) {
   const initState: FormState = { result: "init" };
   const [state, formAction, isPending] = useActionState(Delete, initState);
   const message = state.result === "error" && state.message;
-  const { refresh } = useRouter();
+
   useEffect(() => {
     if (state.result === "success") {
-      toast.success(`Product with id ${id} deleted successfully`);
-      refresh();
+      toast.success(`Product deleted successfully`);
+      setOpen(false);
     }
-  }, [id, refresh, state]);
+  }, [setOpen, state.result]);
 
   return (
     <form action={formAction}>
