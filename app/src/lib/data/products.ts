@@ -129,6 +129,26 @@ export const postProduct = async (product: entryFormProduct): Promise<PostStatus
     }
 }
 
+export const deleteProduct = async (id: string) => {
+    try {
+        const uri = `${baseURI}/${id}`
+        const request = await fetch(uri, {
+            method: "DELETE"
+        });
+        const result = await request.json();
+        if (result.success)
+            return {
+                result: "success", id: result.id
+            }
+        return {
+            result: "error", exception: result.message
+        }
+    }
+    catch (e) {
+        return { result: "error", exception: `Error: ${e}` }
+    }
+}
+
 export const getFullProductsByFilter = async (filter: ProductsFilter): Promise<ProductList> => {
     const params = filterToParams(filter);
     const decoded = decodeURIComponent(`${baseURI}?${params}`);
