@@ -1,6 +1,6 @@
 "use server"
 
-import { postProduct } from "@/lib/data/products";
+import { deleteProduct, postProduct } from "@/lib/data/products";
 import { FormState } from "@/lib/types";
 import { formToObject } from "@/lib/utils";
 import { entryForm } from "@/lib/validations/product";
@@ -47,4 +47,23 @@ export async function Edit(state: FormState, data: FormData): Promise<FormState>
         }
     }
     return { result: "success", id: 0 }
+}
+
+
+export async function Delete(_: FormState, data: FormData): Promise<FormState> {
+    const id = data.get("id")?.toString();
+    if (!id)
+        return { result: "error", message: "No ID given" }
+    try {
+        const request = await deleteProduct(id);
+        switch (request.result) {
+            case 'success':
+                return { result: 'success', id: request.id }
+            case 'error':
+                return { result: request.result, message: 'Product could not be deleted' }
+        }
+    } catch (e: unknown) {
+        return { result: 'error', message: e?.toString() }
+    }
+    return { result: 'error', message: 'No branch were hit' }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Delete } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,10 +17,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { Product } from "@/lib/types";
+import { FormState, Product } from "@/lib/types";
 import { ColumnDef, HeaderContext, Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 const toSorted = (context: HeaderContext<Product, unknown>, title: string) => {
   const column = context.column;
@@ -55,7 +59,7 @@ const toPresent = (refStr: string) => {
 export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "id",
-    header: context => toSorted(context, "ID"),
+    header: context => toSorted(context, "ID")
   },
   {
     accessorKey: "category",
@@ -153,9 +157,7 @@ export const columns: ColumnDef<Product>[] = [
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant={"destructive"} type="submit">
-                Delete
-              </Button>
+              <ModalDelete id={product.id} />
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -163,3 +165,28 @@ export const columns: ColumnDef<Product>[] = [
     }
   }
 ];
+
+function ModalDelete({ id }: { id: number }) {
+  const initState: FormState = { result: "init" };
+  const [state, formAction, isPending] = useActionState(Delete, initState);
+  const message = state.result === "error" && state.message;
+  const { refresh } = useRouter();
+  useEffect(() => {
+    if (state.result === "success") {
+      toast.success(`Product with id ${id} deleted successfully`);
+      refresh();
+    }
+  }, [id, refresh, state]);
+
+  return (
+    <form action={formAction}>
+      {message && (
+        <p className="border-destructive p-3 text-destructive">{message}</p>
+      )}
+      <input type="hidden" value={id} name="id" />
+      <Button variant={"destructive"} disabled={isPending} type="submit">
+        Delete
+      </Button>
+    </form>
+  );
+}
