@@ -28,8 +28,7 @@ export default function ProductCard({ product }: { product: ThinProduct }) {
           price={product.price}
           discountPercentage={product.discountPercentage}
         />
-
-        <StockStatus availabilityStatus={product.availabilityStatus} />
+        <StockStatus amount={product.stock} />
       </Link>
     </article>
   );

@@ -60,7 +60,7 @@ export default function ProductInfo({
           <Separator />
 
           <div className="flex flex-col mt-2 mb-2">
-            <StockStatus availabilityStatus={product.availabilityStatus} />
+            <StockStatus amount={product.stock} />
             <AddToCartButton product={product} />
 
             <p className="text-sm mb-2">Guaranteed Safe Checkout</p>
