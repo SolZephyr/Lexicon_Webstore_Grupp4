@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { Product } from "./types";
-import { entryForm, entryFormProduct as EntryFormProduct } from "./validations/product";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

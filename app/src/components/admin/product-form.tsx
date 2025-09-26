@@ -23,12 +23,10 @@ import { useRouter } from "next/navigation";
 import { localDatetime } from "@/lib/utils";
 
 export default function ProductForm({
-  submitButtonText,
   initialState,
   brands,
   serverAction
 }: {
-  submitButtonText: string;
   initialState: Partial<Product>;
   brands: { brand: string[] };
   serverAction: (prevState: FormState, data: FormData) => Promise<FormState>;
@@ -52,6 +50,7 @@ export default function ProductForm({
     initState
   );
 
+  const btnText = form.id ? "Update Product" : "Create Product";
   const errors = state && state?.result === "error" ? state.errors : undefined;
   const formError = (name: string) => (errors ? errors?.[name] : undefined);
 
@@ -71,7 +70,7 @@ export default function ProductForm({
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>{form.id ? "Edit Product" : "Add Product"}</h2>
-      <div className="grid md:grid-cols-[3fr_1fr]">
+      <div className="grid md:grid-cols-[2fr_1fr]">
         <section className='flex flex-wrap space-y-4'>
           <FormRow>
             {/* Basic information */}
@@ -254,7 +253,7 @@ export default function ProductForm({
             </FormSection>
           </FormRow>
         </section>
-        <FormMeta id={form.id} created={form.meta?.createdAt} updated={form.meta?.updatedAt} submitBtn={{ isPending, submitButtonText }} />
+        <FormMeta id={form.id} created={form.meta?.createdAt} updated={form.meta?.updatedAt} submitBtn={{ isPending, submitButtonText: btnText }} />
       </div>
     </form>
   );
@@ -304,7 +303,7 @@ export const FormMeta = (
         </Label>
         <span id="meta-id">{id ?? "Not set"}</span>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1">
         <div className='flex flex-col gap-1'>
           <Label className='flex justify-between h-5' htmlFor="meta-created">
             <span>Created</span>
