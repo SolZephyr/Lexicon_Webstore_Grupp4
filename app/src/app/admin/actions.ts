@@ -65,5 +65,5 @@ export async function Delete(_: FormState, data: FormData): Promise<FormState> {
     } catch (e: unknown) {
         return { result: 'error', message: e?.toString() }
     }
-    return { result: 'error', message: 'No branch were hit' }
+    return { result: 'error', message: 'No branch was hit' }
 }
