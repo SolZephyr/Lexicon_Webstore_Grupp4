@@ -2,6 +2,7 @@
 import { HeaderLink } from "@/components/header/headerlink";
 import {
   NavigationMenuContent,
+  NavigationMenuItem,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { NavItem } from "@/lib/types";
@@ -41,7 +42,7 @@ export default function HeaderLinkDropdown({
   const isActive = useIsActive({ label, slug: href, subcategories });
 
   return (
-    <>
+    <NavigationMenuItem>
       <NavigationMenuTrigger
         className={cn(
           "cursor-pointer text-muted-foreground font-bold",
@@ -65,6 +66,6 @@ export default function HeaderLinkDropdown({
           ))}
         </ul>
       </NavigationMenuContent>
-    </>
+    </NavigationMenuItem>
   );
 }
