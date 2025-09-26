@@ -7,7 +7,7 @@ export default async function Home() {
   const products = await getRandomProducts();
   return (
     <>
-      <ContentWrapper className="p-0 sm:p-6 bg-transparent sm:bg-white">
+      <ContentWrapper className="p-0 sm:p-4 bg-transparent sm:bg-white">
         <HeroSection />
       </ContentWrapper>
       <ContentWrapper>

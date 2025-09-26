@@ -7,7 +7,7 @@ export default async function BreadcrumbSlot({
 }) {
   const { name } = await params;
 
-  const formattedName = name.replace(/-/g, " ");
+  const formattedName = name.toLowerCase().replace(/-/g, " ");
 
   const links = [
     { href: "/", title: "Home" },

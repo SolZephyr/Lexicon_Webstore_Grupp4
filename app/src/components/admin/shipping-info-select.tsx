@@ -8,44 +8,39 @@ import {
   SelectValue
 } from "../ui/select";
 
-import { Label } from "../ui/label";
-export default function WarrantySelect({
+export default function ShippingInfoSelect({
   initialValue,
-  onChange
+  onChange,
+  className
 }: {
   initialValue?: string;
   onChange: (value: string) => void;
+  className?: string;
 }) {
   return (
-    <>
-      <Label htmlFor="warranty">Category</Label>
-      <Select>
-        <SelectTrigger
-          name="warranty"
-          id="warranty"
-          defaultValue={initialValue}
-          onChange={e => onChange(e.currentTarget.value)}
-        >
-          <SelectValue placeholder={"Type of Warranty"} />
-        </SelectTrigger>
-        <SelectContent>
-          {[
-            "No warranty",
-            "1 month warranty",
-            "3 months warranty",
-            "6 months warranty",
-            "1 year warranty",
-            "2 year warranty",
-            "3 year warranty",
-            "Lifetime warranty"
-          ].map((v, i) => (
-            <SelectItem key={i} value={v}>
-              {v}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </>
+    <Select
+      name='shipping'
+      defaultValue={initialValue}
+      onValueChange={e => onChange(e)}
+      required
+    >
+      <SelectTrigger className={`w-full ${className ?? ''}`}>
+        <SelectValue placeholder={"Shipping Info"} />
+      </SelectTrigger>
+      <SelectContent>
+        {[
+          "Ships overnight",
+          "Ships in 1-2 business days",
+          "Ships in 3-5 business days",
+          "Ships in 1 week",
+          "Ships in 2 weeks",
+          "Ships in 1 month"
+        ].map((v, i) => (
+          <SelectItem key={i} value={v}>
+            {v}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
- 

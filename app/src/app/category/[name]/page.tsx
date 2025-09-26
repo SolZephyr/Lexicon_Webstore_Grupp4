@@ -18,6 +18,7 @@ export default async function CategoryDetailsPage({
 }) {
   const { name } = await params;
   const query = await searchParams;
+  const formattedName = name.toLowerCase();
 
   const categories = [
     "all",
@@ -27,34 +28,22 @@ export default async function CategoryDetailsPage({
     "laptops",
   ];
 
-  if (!categories.includes(name)) return notFound();
+  if (!categories.includes(formattedName)) return notFound();
 
   const filter = convertProductParamsToFilter({ params: query });
-  filter.categories = [name];
+  filter.categories = [formattedName];
 
   const products = getThinProductsByFilter(filter);
 
   return (
     <ContentWrapper className="grow flex flex-col" as="article">
-      <h2 className="text-2xl capitalize p-2">Category: {name}</h2>
-      <p className="flex flex-col sm:flex-row text-justify gap-8 p-4 justify-evenly mb-4">
-        <span className="col w-auto">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quo
-          provident, itaque facere soluta nihil corporis ut magni ipsum? Nihil,
-          ut repellat ipsum saepe consectetur eius hic minima iste nemo
-          voluptatibus!
-        </span>
-        <span className="col w-auto">
-          Corporis accusantium nulla, harum, ullam ab optio veritatis ipsa
-          recusandae maiores ut illo quas laudantium nemo autem mollitia vel
-          quam tempore. Amet tempore ducimus blanditiis provident omnis a?
-          Voluptates, ea!
-        </span>
-      </p>
       <div className="flex flex-col grow md:flex-row gap-4">
-        <Sidebar category={name} />
+        <Sidebar category={formattedName} />
         <Suspense fallback={<Loader />}>
-          <ProductsGrid productsTask={products} />
+          <ProductsGrid productsTask={products} gridHeader={{
+            title: formattedName.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates enim nesciunt reiciendis nisi eveniet! Vitae expedita asperiores labore inventore fugiat consequuntur dolore. Nam quidem vel vitae deleniti, necessitatibus esse accusamus!",
+          }} />
         </Suspense>
       </div>
     </ContentWrapper>

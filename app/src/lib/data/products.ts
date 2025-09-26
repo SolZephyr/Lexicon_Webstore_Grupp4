@@ -1,7 +1,9 @@
-import { Product, ProductList, ProductsFilter, SearchParamsString, SidebarFilterValues, ThinProduct, ThinProductList } from "../types";
+import { PostStatus, Product, ProductList, ProductsFilter, SearchParamsString, SidebarFilterValues, ThinProduct, ThinProductList } from "../types";
+import { entryFormProduct } from "../validations/product";
 //const baseURI = 'https://dummyjson.com/products';
-const baseURI = 'https://www.kippeves.se/products';
-const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,availabilityStatus';
+const baseURI = 'https://kippeves.se/products';
+
+const thinFields = 'select=title,price,discountPercentage,thumbnail,rating,stock';
 
 export const getProduct = async (id: number): Promise<Product> => {
     try {
@@ -92,6 +94,84 @@ export const getRandomProducts = async (): Promise<ThinProduct[]> => {
         return await request.json();
     } catch (e) {
         throw (e);
+    }
+}
+
+
+export const getBrandsByProducts = async (): Promise<{ brand: string[] }> => {
+    const params = '/distinct?select=brand';
+    const decoded = decodeURIComponent(`${baseURI}${params}`);
+    const request = await fetch(decoded);
+    return await request.json();
+}
+
+export const postProduct = async (product: entryFormProduct): Promise<PostStatus> => {
+    try {
+
+        const uri = `${baseURI}/add`
+        const request = await fetch(uri, {
+            method: "POST",
+            body: JSON.stringify({ ...product }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const result = await request.json();
+        if (result.status)
+            return {
+                result: "success", id: +result.id
+            }
+        return {
+            result: "error", exception: result.message
+        }
+    }
+    catch (e) {
+        return { result: "error", exception: `Error: ${e}` }
+    }
+}
+
+export const deleteProduct = async (id: string) => {
+    try {
+        const uri = `${baseURI}/${id}`
+        const request = await fetch(uri, {
+            method: "DELETE"
+        });
+        const result = await request.json();
+        if (result.success)
+            return {
+                result: "success", id: +result.id
+            }
+        return {
+            result: "error", exception: result.message
+        }
+    }
+    catch (e) {
+        return { result: "error", exception: `Error: ${e}` }
+    }
+}
+
+export const editProduct = async (id: number, product: entryFormProduct): Promise<PostStatus> => {
+    try {
+        const uri = `${baseURI}/${id}`
+        const request = await fetch(uri, {
+            method: "PUT",
+            body: JSON.stringify({ ...product }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const result = await request.json();
+        console.debug(result)
+        if (result.status)
+            return {
+                result: "success", id: result.id
+            }
+        return {
+            result: "error", exception: result.message
+        }
+    }
+    catch (e) {
+        return { result: "error", exception: `Error: ${e}` }
     }
 }
 

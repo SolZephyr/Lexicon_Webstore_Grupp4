@@ -1,6 +1,8 @@
 "use client";
 import { Dimensions } from "@/lib/types";
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { FormField } from "./product-form";
+import { NumberInput } from "./number-input";
 
 export default function DimensionInput({
   initialValues = {
@@ -8,37 +10,41 @@ export default function DimensionInput({
     height: 0,
     width: 0
   },
+  errors,
   onUpdates
 }: {
   initialValues?: Dimensions;
+  errors?: Record<string, string>;
   onUpdates: (updatedValues: Dimensions) => void;
 }) {
   const [dimensions, setDimensions] = useState<Dimensions>(initialValues);
-  useEffect(() => onUpdates(dimensions), [dimensions]);
 
+  useEffect(() => {
+    if (dimensions !== initialValues) onUpdates(dimensions);
+  }, [dimensions, initialValues, onUpdates]);
+  const error = (key: string) => errors?.[`dimensions_${key}`];
   return (
-    <div className="flex flex-col gap-2 w-fit items-center p-2">
-      {Object.entries(dimensions).map(([key, value]) => (
-        <div key={key} className="flex flex-col w-40">
-          <label className="capitalize m-0" htmlFor={`dimensions_${key}`}>
-            {key}
-          </label>
-          <div className="flex gap-2 items-center">
-            <input
-              className="border p-1 rounded grow w-20"
-              id={`dimensions_${key}`}
-              name={`dimensions_${key}`}
-              required
-              min={0}
-              onChange={e =>
-                setDimensions(prev => ({ ...prev, [key]: +e.target.value }))
-              }
-              defaultValue={value}
-              type="number"
-            />
-            <span>Cm.</span>
-          </div>
-        </div>
+    <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 items-center'>
+      {Object.entries(initialValues).map(([key, value], i) => (
+        <FormField
+          key={i}
+          name={`dimensions_${key}`}
+          label={key}
+          error={errors?.[`dimensions_${key}`]}
+        >
+          <NumberInput
+            id={`dimensions_${key}`}
+            name={`dimensions_${key}`}
+            value={value}
+            placeholder='0.00'
+            min={0}
+            max={999}
+            step={1}
+            required
+            className={`w-full ${error(key) && "formError"}`}
+            onChange={e => setDimensions(prev => ({ ...prev, [key]: e }))}
+          />
+        </FormField>
       ))}
     </div>
   );

@@ -1,5 +1,49 @@
 export interface SearchParamsString { [key: string]: string | undefined };
 
+export type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+export type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
+type FormStates = {
+  init: {
+    id?: number
+  },
+  success: {
+    action: 'CREATE' | 'UPDATE' | 'DELETE'
+    id: number
+  },
+  error: {
+    errors?: Record<string, string>,
+    message?: string
+  }
+};
+
+export type FormState = {
+  [K in keyof FormStates]: Prettify<{
+    result: K;
+  } & FormStates[K]>
+}[keyof FormStates]
+
+
+type PostStatusConst = {
+  success: {
+    id: number
+  },
+  error: {
+    exception?: string
+  }
+};
+
+export type PostStatus = {
+  [K in keyof PostStatusConst]: Prettify<{
+    result: K;
+  } & PostStatusConst[K]>
+}[keyof PostStatusConst]
+
 export interface ProductsFilter {
   limit?: number;
   page?: number;
@@ -69,9 +113,9 @@ export interface Product {
 }
 
 export interface Dimensions {
-  width: number
-  height: number
   depth: number
+  height: number
+  width: number
 }
 
 export interface Review {
@@ -125,3 +169,13 @@ export interface NavItem {
     slug: string;
   }[];
 };
+
+export type Roles = "user" | "admin";
+
+declare global {
+  interface CustomJwtSessionClaims {
+    metadata: {
+      role?: Roles
+    }
+  }
+}

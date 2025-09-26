@@ -40,14 +40,24 @@ export default function FilterArea({ task }: FilterAreaProps) {
         newParams.set(index.toString(), exportValue);
       } else newParams.delete(index.toString());
     }
-    if (index !== "page" && newParams.has("page")) newParams.delete("page");
-    replace(`${path}?${newParams}`);
+    if (index !== "page" && newParams.has("page")) {
+      newParams.delete("page");
+    }
+
+    // only update if something has actually changed
+    if (newParams.toString() !== params.toString()) {
+      replace(`${path}?${newParams}`);
+    }
   };
 
   const { brand, price } = task;
 
   return (
-    <Accordion type="multiple" className="flex flex-col gap-2" defaultValue={["search", "brand", "stock", "price"]}>
+    <Accordion
+      type="multiple"
+      className="flex flex-col gap-2"
+      defaultValue={["search", "brand", "stock", "price"]}
+    >
       <NameSearch params={params} onValueChange={updateRoute} />
       <BrandSelect
         params={params}
