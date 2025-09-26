@@ -4,7 +4,7 @@ import { getProduct } from "@/lib/data/products";
 import { Metadata } from "next";
 import ProductInfo from "@/components/products/product-info";
 import Loader from "@/components/loader";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ [key: string]: string | undefined }> };
 
