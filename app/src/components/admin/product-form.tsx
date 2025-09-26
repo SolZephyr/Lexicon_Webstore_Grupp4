@@ -71,8 +71,8 @@ export default function ProductForm({
       className='m-auto max-w-[50rem] flex p-4 flex-col gap-5'
     >
       <h2 className='text-4xl font-bold'>{form.id ? "Edit Product" : "Add Product"}</h2>
-      <div className="grid md:grid-cols-[1fr_200px]">
-        <div className='flex flex-wrap space-y-4'>
+      <div className="grid md:grid-cols-[3fr_1fr]">
+        <section className='flex flex-wrap space-y-4'>
           <FormRow>
             {/* Basic information */}
             <FormSection>
@@ -253,7 +253,7 @@ export default function ProductForm({
               </FormField>
             </FormSection>
           </FormRow>
-        </div>
+        </section>
         <FormMeta id={form.id} created={form.meta?.createdAt} updated={form.meta?.updatedAt} submitBtn={{ isPending, submitButtonText }} />
       </div>
     </form>
