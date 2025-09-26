@@ -60,14 +60,14 @@ export default function ProductForm({
     formError(name) ? "formError" : undefined;
 
   useEffect(() => {
-    const success = state.result === "success";
-    if (!success) return;
+    const { result } = state;
+    if (result !== "success") return;
 
-    const action = success && state.action;
+    const { action, id } = state;
     switch (action) {
       case "CREATE":
         toast.success(`Product added successfully.`);
-        replace(`/admin/${state.id}`);
+        replace(`/admin/${id}`);
       case "UPDATE":
         toast.success(`Product updated successfully.`);
     }
