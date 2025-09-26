@@ -1,7 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { Product } from "./types";
-import { entryForm, entryFormProduct as EntryFormProduct } from "./validations/product";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -53,4 +51,9 @@ export function formToObject(form: FormData) {
     dimensions_height: toFloat(form.get('dimensions_height')),
     dimensions_width: toFloat(form.get('dimensions_width'))
   };
+}
+
+export function localDatetime(str: string) {
+  const date = new Date(str);
+  return date.toLocaleString("se-SV");
 }
