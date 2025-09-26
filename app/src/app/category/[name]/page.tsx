@@ -18,6 +18,7 @@ export default async function CategoryDetailsPage({
 }) {
   const { name } = await params;
   const query = await searchParams;
+  const formattedName = name.toLowerCase();
 
   const categories = [
     "all",
@@ -27,20 +28,20 @@ export default async function CategoryDetailsPage({
     "laptops",
   ];
 
-  if (!categories.includes(name)) return notFound();
+  if (!categories.includes(formattedName)) return notFound();
 
   const filter = convertProductParamsToFilter({ params: query });
-  filter.categories = [name];
+  filter.categories = [formattedName];
 
   const products = getThinProductsByFilter(filter);
 
   return (
     <ContentWrapper className="grow flex flex-col" as="article">
       <div className="flex flex-col grow md:flex-row gap-4">
-        <Sidebar category={name} />
+        <Sidebar category={formattedName} />
         <Suspense fallback={<Loader />}>
           <ProductsGrid productsTask={products} gridHeader={{
-            title: name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            title: formattedName.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
             desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates enim nesciunt reiciendis nisi eveniet! Vitae expedita asperiores labore inventore fugiat consequuntur dolore. Nam quidem vel vitae deleniti, necessitatibus esse accusamus!",
           }} />
         </Suspense>
