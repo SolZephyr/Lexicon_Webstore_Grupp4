@@ -54,3 +54,8 @@ export function formToObject(form: FormData) {
     dimensions_width: toFloat(form.get('dimensions_width'))
   };
 }
+
+export function localDatetime(str: string) {
+  const date = new Date(str);
+  return date.toLocaleString("se-SV");
+}
