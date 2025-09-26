@@ -14,14 +14,16 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   if (!productId) return { title: "Not Found" };
 
-  try{
-    const product = await getProduct(productId); 
+  try {
+    const product = await getProduct(productId);
     return {
       title: `Webshop - Details: ${product.title}`,
-      description: `Page for ${product.title}`,
+      description: `Page for ${product.title}`
     };
-  } catch{
-    redirect("/");
+  } catch {
+    return {
+      title: `Not Found`
+    };
   }
 }
 
@@ -32,10 +34,14 @@ export default async function ProductPage(props: Props) {
   if (typeof productId !== "number" || isNaN(productId)) {
     return notFound();
   }
-  const product = getProduct(productId);
-  return (
-    <Suspense key={productId} fallback={<Loader />}>
-      <ProductInfo productTask={product} />
-    </Suspense>
-  );
+  try {
+    const product = getProduct(productId);
+    return (
+      <Suspense key={productId} fallback={<Loader />}>
+        <ProductInfo productTask={product} />
+      </Suspense>
+    );
+  } catch {
+    return notFound();
+  }
 }
