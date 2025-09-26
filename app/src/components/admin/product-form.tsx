@@ -262,7 +262,7 @@ const FormSection = ({ children }: React.ComponentProps<"div">) => (
 );
 
 const FormSplitSection = ({ children }: React.ComponentProps<"div">) => (
-  <div className='w-full grid grid-cols-2 justify-evenly gap-4 '>
+  <div className='w-full grid grid-cols-1 sm:grid-cols-2 justify-evenly gap-4 '>
     {children}
   </div>
 );
