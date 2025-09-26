@@ -7,7 +7,6 @@ import { entryForm } from "@/lib/validations/product";
 
 export async function Create(state: FormState, data: FormData): Promise<FormState> {
     const item = formToObject(data);
-    console.dir(item);
     const parse = await entryForm.safeParseAsync(item);
 
     if (!parse.success) {
