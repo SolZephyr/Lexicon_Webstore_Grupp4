@@ -24,7 +24,7 @@ export default function DimensionInput({
   }, [dimensions, initialValues, onUpdates]);
   const error = (key: string) => errors?.[`dimensions_${key}`];
   return (
-    <div className='flex flex-wrap grow justify-between gap-6 items-center'>
+    <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 items-center'>
       {Object.entries(initialValues).map(([key, value], i) => (
         <FormField
           key={i}
