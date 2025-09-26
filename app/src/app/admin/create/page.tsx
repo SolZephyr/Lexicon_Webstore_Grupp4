@@ -9,7 +9,7 @@ export default async function CreateProductPage() {
     <ContentWrapper>
       <ProductForm
         brands={brands}
-        initialState={{}}
+        productData={{}}
         serverAction={Create}
         submitButtonText='Add Product'
       />

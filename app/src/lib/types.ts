@@ -9,8 +9,11 @@ export type Prettify<T> = {
 } & {};
 
 type FormStates = {
-  init: unknown,
+  init: {
+    id?: number
+  },
   success: {
+    action: 'CREATE' | 'UPDATE' | 'DELETE'
     id: number
   },
   error: {
@@ -40,12 +43,6 @@ export type PostStatus = {
     result: K;
   } & PostStatusConst[K]>
 }[keyof PostStatusConst]
-
-// export type FormState = 
-// { 
-//   success?: boolean; 
-//   ; message?: string; created?: Product 
-// }
 
 export interface ProductsFilter {
   limit?: number;

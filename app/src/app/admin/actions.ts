@@ -1,6 +1,6 @@
 "use server"
 
-import { postProduct } from "@/lib/data/products";
+import { editProduct, postProduct } from "@/lib/data/products";
 import { FormState } from "@/lib/types";
 import { formToObject } from "@/lib/utils";
 import { entryForm } from "@/lib/validations/product";
@@ -23,7 +23,7 @@ export async function Create(state: FormState, data: FormData): Promise<FormStat
         const request = await postProduct(parse.data);
         switch (request.result) {
             case 'success':
-                return { ...request }
+                return { ...request, 'action': 'CREATE' }
             case 'error':
                 return { result: request.result, message: 'Product could not be added' }
         }
@@ -36,6 +36,9 @@ export async function Create(state: FormState, data: FormData): Promise<FormStat
 export async function Edit(state: FormState, data: FormData): Promise<FormState> {
     const item = formToObject(data);
     const parse = await entryForm.safeParseAsync(item);
+    const itemId = state.result === 'init' && state.id;
+    if (!itemId)
+        return { result: 'error', message: 'No ID provided' }
 
     if (!parse.success) {
         return {
@@ -46,5 +49,17 @@ export async function Edit(state: FormState, data: FormData): Promise<FormState>
             }, {})
         }
     }
-    return { result: "success", id: 0 }
+
+    try {
+        const request = await editProduct(itemId, parse.data);
+        switch (request.result) {
+            case 'success':
+                return { ...request, action: 'UPDATE' }
+            case 'error':
+                return { result: request.result, message: request.exception }
+        }
+    } catch (error) {
+        console.error("Error updating product:", error);
+        return { result: 'error', message: "Failed to update product. Please try again." };
+    }
 }
