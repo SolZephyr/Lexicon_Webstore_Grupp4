@@ -20,13 +20,16 @@ import ShippingInfoSelect from "./shipping-info-select";
 import { AddableSelect } from "../addable-select";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { localDatetime } from "@/lib/utils";
 
 export default function ProductForm({
+  initialState,
   submitButtonText,
   productData,
   brands,
   serverAction
 }: {
+  initialState: Partial<Product>;
   submitButtonText: string;
   productData: Partial<Product>;
   brands: { brand: string[] };
@@ -53,6 +56,7 @@ export default function ProductForm({
     initState
   );
 
+  const btnText = form.id ? "Update Product" : "Create Product";
   const errors = state && state?.result === "error" ? state.errors : undefined;
   const formError = (name: string) => (errors ? errors?.[name] : undefined);
 
@@ -78,9 +82,9 @@ export default function ProductForm({
       action={formAction}
       className="m-auto max-w-[50rem] flex p-4 flex-col gap-5"
     >
-      <h2 className="text-4xl font-bold">Create New Product</h2>
-      <div className=" flex flex-wrap space-y-4">
-        <FormRow>
+      <h2 className='text-4xl font-bold'>{form.id ? "Edit Product" : "Add Product"}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr]">
+        <section className='flex flex-wrap gap-4'>
           {/* Basic information */}
           <FormSection>
             <FormField
@@ -151,7 +155,6 @@ export default function ProductForm({
               />
             </FormField>
           </FormSection>
-          {/* Extra information */}
           <FormSection>
             <FormField
               name={"weight"}
@@ -172,7 +175,17 @@ export default function ProductForm({
                 step={1}
               />
             </FormField>
-            <FormField name="price" label="Price" error={formError("price")}>
+            <DimensionInput
+              errors={errors}
+              onUpdates={d => {
+                setValue("dimensions", d);
+              }}
+              initialValues={form.dimensions}
+            />
+          </FormSection>
+          {/* Store information */}
+          <FormSplitSection>
+            <FormField name='price' label='Price' error={formError("price")}>
               <NumberInput
                 id="price"
                 name="price"
@@ -205,6 +218,8 @@ export default function ProductForm({
                 max={100}
               />
             </FormField>
+          </FormSplitSection>
+          <FormSection>
             <FormField
               name="stock"
               label="Stock (Amount)"
@@ -234,19 +249,6 @@ export default function ProductForm({
                 initialValue={form.warrantyInformation}
               />
             </FormField>
-          </FormSection>
-        </FormRow>
-        <FormRow>
-          <FormSection>
-            <DimensionInput
-              errors={errors}
-              onUpdates={d => {
-                setValue("dimensions", d);
-              }}
-              initialValues={form.dimensions}
-            />
-          </FormSection>
-          <FormSection>
             <FormField
               name="shipping"
               label="Shipping"
@@ -259,31 +261,24 @@ export default function ProductForm({
               />
             </FormField>
           </FormSection>
-        </FormRow>
+        </section>
+        <FormMeta id={form.id} created={form.meta?.createdAt} updated={form.meta?.updatedAt} submitBtn={{ isPending, submitButtonText: btnText }} />
       </div>
-      <section className="py-4">
-        <Button
-          type="submit"
-          disabled={isPending}
-          size="lg"
-          className="cursor-pointer"
-        >
-          {submitButtonText}
-        </Button>
-      </section>
     </form>
   );
 }
 
-const FormRow = ({ children }: React.ComponentProps<"div">) => (
-  <div className="grid sm:grid-cols-2 grid-cols-1 justify-evenly grow gap-4 ">
+const FormSection = ({ children }: React.ComponentProps<"div">) => (
+  <div className='w-full grid grid-cols-1 justify-evenly gap-4 '>
     {children}
   </div>
 );
 
-const FormSection = ({ children }: React.ComponentProps<"div">) => {
-  return <div className={`col justify-start space-y-4`}>{children}</div>;
-};
+const FormSplitSection = ({ children }: React.ComponentProps<"div">) => (
+  <div className='w-full grid grid-cols-1 sm:grid-cols-2 justify-evenly gap-4 '>
+    {children}
+  </div>
+);
 
 export const FormField = ({
   name,
@@ -307,3 +302,44 @@ export const FormField = ({
     </div>
   );
 };
+
+export const FormMeta = (
+  { id, created, updated, submitBtn }:
+    { id: number | undefined, created: string | undefined, updated: string | undefined, submitBtn?: { isPending: boolean, submitButtonText: string } }) => {
+  return (
+    <section className="flex flex-col justify-start gap-4 border border-black rounded p-4 mt-8 md:ml-8 md:mt-0">
+      <div className='flex flex-col gap-2'>
+        <Label className='flex justify-between h-5' htmlFor="meta-id">
+          <span>ID</span>
+        </Label>
+        <span id="meta-id">{id ?? "Not set"}</span>
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1">
+        <div className='flex flex-col gap-1'>
+          <Label className='flex justify-between h-5' htmlFor="meta-created">
+            <span>Created</span>
+          </Label>
+          <span id="meta-created">{created ? localDatetime(created) : "Not set"}</span>
+        </div>
+        <div className='flex flex-col gap-1'>
+          <Label className='flex justify-between h-5' htmlFor="meta-updated">
+            <span>Updated</span>
+          </Label>
+          <span id="meta-updated">{updated ? localDatetime(updated) : "Not set"}</span>
+        </div>
+      </div>
+      {submitBtn ?
+        <div className='flex flex-col gap-1 mt-auto'>
+          <Button
+            type='submit'
+            disabled={submitBtn.isPending}
+            size='lg'
+            className='cursor-pointer'
+          >
+            {submitBtn.submitButtonText}
+          </Button>
+        </div>
+        : ""}
+    </section>
+  );
+}

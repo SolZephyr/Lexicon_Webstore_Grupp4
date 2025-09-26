@@ -36,19 +36,20 @@ export default function Header() {
 
         <NavigationMenu className="hidden md:block">
           <NavigationMenuList>
-            {nav.map((item, index) => (
-              <NavigationMenuItem key={index}>
-                {item.subcategories ? (
-                  <HeaderLinkDropdown
-                    label={item.label}
-                    href={item.slug}
-                    subcategories={item.subcategories}
-                  />
-                ) : (
+            {nav.map((item) =>
+              item.subcategories ? (
+                <HeaderLinkDropdown
+                  key={item.slug}
+                  label={item.label}
+                  href={item.slug}
+                  subcategories={item.subcategories}
+                />
+              ) : (
+                <NavigationMenuItem key={item.slug}>
                   <HeaderLink href={item.slug}>{item.label}</HeaderLink>
-                )}
-              </NavigationMenuItem>
-            ))}
+                </NavigationMenuItem>
+              )
+            )}
           </NavigationMenuList>
         </NavigationMenu>
         <section className="ml-auto flex flex-row gap-2">

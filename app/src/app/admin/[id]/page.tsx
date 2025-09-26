@@ -25,7 +25,6 @@ export default async function EditPage({
           brands={brands}
           productData={product}
           serverAction={Edit}
-          submitButtonText='Update Product'
         />
       </ContentWrapper>
     )
