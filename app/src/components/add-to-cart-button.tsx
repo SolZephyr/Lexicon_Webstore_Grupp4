@@ -1,12 +1,12 @@
 "use client"
 import { toast } from "sonner"
-import { Product, PriceDetails } from "@/lib/types"
+import { Product, PriceDetails, ProductStock } from "@/lib/types"
 import { useState } from "react";
 import { useShoppingCart } from "use-shopping-cart";
 import { Product as ShoppingCartProduct } from "use-shopping-cart/core";
 
 export default function AddToCartButton({ product }: { product: Product }) {
-    const { addItem } = useShoppingCart();
+    const { addItem, cartDetails } = useShoppingCart();
     const [quantity, setQuantity] = useState(1);
     const adjustedPrice = product.discountPercentage
         ? + (product.price - (product.price * product.discountPercentage / 100)).toFixed(2)
@@ -18,6 +18,10 @@ export default function AddToCartButton({ product }: { product: Product }) {
         discountedPrice: adjustedPrice
     }
 
+    const productStock: ProductStock = {
+        stock: product.stock
+    }
+
     const shoppingCartProduct: ShoppingCartProduct = {
         id: product.id,
         name: product.title,
@@ -26,22 +30,31 @@ export default function AddToCartButton({ product }: { product: Product }) {
         image: product.thumbnail,
         description: product.description,
         sku: product.sku,
-        price_data: priceDetails
+        price_data: priceDetails,
+        product_data: productStock
     }
 
     const handleAddToCart = () => {
+        if (cartDetails && cartDetails[product.id] && cartDetails[product.id].quantity + quantity > product.stock) {
+            toast.error("Cannot add more items to cart than available in stock.")
+            return;
+        }
+
         addItem(
             shoppingCartProduct,
             { count: quantity }
         )
         toast.success(`${product.title} added to cart!`)
     }
+
     return (
         <div className="flex flex-row justify-start items-center gap-4 mt-2 mb-2">
             <div className="flex flex-row items-center border rounded-lg px-4 py-2 bg-white shadow-sm">
                 <button
                     onClick={() => {
-                        setQuantity((q) => Math.max(1, q - 1));
+                        if (quantity > 1) {
+                            setQuantity((q) => Math.max(1, q - 1));
+                        }
                     }}
                 >
                     −
@@ -49,7 +62,9 @@ export default function AddToCartButton({ product }: { product: Product }) {
                 <span className="mx-4 text-lg font-medium select-none">{quantity}</span>
                 <button
                     onClick={() => {
-                        setQuantity((q) => Math.min(product.stock, q + 1))
+                        if (quantity < product.stock) {
+                            setQuantity((q) => Math.min(product.stock, q + 1))
+                        }
                     }}
                 >
                     +

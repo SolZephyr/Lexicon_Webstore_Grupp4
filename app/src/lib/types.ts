@@ -150,6 +150,10 @@ export interface PriceDetails {
   discountedPrice?: number
 }
 
+export interface ProductStock {
+  stock: number
+}
+
 export const contactTypes = [
   { value: "support", label: "Support" },
   { value: "info", label: "Information" },
