@@ -108,7 +108,7 @@ export default function ProductInfo({
 
       <ContentWrapper>
         <Tabs defaultValue="description" className="w-full">
-          <TabsList className="mb-2 bg-white flex flex-row align-middle justify-start">
+          <TabsList className="bg-white flex flex-row align-middle justify-start">
             <TabsTrigger
               value="description"
               className="px-0 mr-8 text-base font-semibold border-b-2 border-transparent data-[state=active]:text-black data-[state=active]:shadow-none data-[state=inactive]:text-gray-400 transition-colors data-[state=inactive]:hover:text-gray-600 cursor-pointer"
@@ -126,7 +126,7 @@ export default function ProductInfo({
             <Accordion
               type="multiple"
               defaultValue={["item-1", "item-2"]}
-              className="w-full mt-4"
+              className="w-full"
             >
               <AccordionItem value="item-1">
                 <AccordionTrigger>Specifications</AccordionTrigger>
