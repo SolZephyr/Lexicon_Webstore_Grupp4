@@ -13,20 +13,23 @@ export default async function EditPage({
   const productId = id ? Number(id) : undefined;
 
   if (!productId) return notFound();
-
-  const [product, brands] = await Promise.all([
-    getProduct(productId),
-    getBrandsByProducts()
-  ]);
-  return (
-    brands && (
-      <ContentWrapper>
-        <ProductForm
-          brands={brands}
-          productData={product}
-          serverAction={Edit}
-        />
-      </ContentWrapper>
-    )
-  );
+  try {
+    const [product, brands] = await Promise.all([
+      getProduct(productId),
+      getBrandsByProducts()
+    ]);
+    return (
+      brands && (
+        <ContentWrapper>
+          <ProductForm
+            brands={brands}
+            productData={product}
+            serverAction={Edit}
+          />
+        </ContentWrapper>
+      )
+    );
+  } catch {
+    return notFound();
+  }
 }
