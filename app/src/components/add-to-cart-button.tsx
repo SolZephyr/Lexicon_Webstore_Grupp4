@@ -1,6 +1,6 @@
 "use client";
 import { toast } from "sonner";
-import { Product, PriceDetails } from "@/lib/types";
+import { Product, PriceDetails, ProductStock } from "@/lib/types";
 import { useState } from "react";
 import { useShoppingCart } from "use-shopping-cart";
 import { Product as ShoppingCartProduct } from "use-shopping-cart/core";
@@ -8,7 +8,7 @@ import { ShoppingBasket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function AddToCartButton({ product }: { product: Product }) {
-  const { addItem } = useShoppingCart();
+  const { addItem, cartDetails } = useShoppingCart();
   const [quantity, setQuantity] = useState(1);
   const adjustedPrice = product.discountPercentage
     ? +(
@@ -23,6 +23,10 @@ export default function AddToCartButton({ product }: { product: Product }) {
     discountedPrice: adjustedPrice,
   };
 
+  const productStock: ProductStock = {
+    stock: product.stock,
+  };
+
   const shoppingCartProduct: ShoppingCartProduct = {
     id: product.id,
     name: product.title,
@@ -32,19 +36,32 @@ export default function AddToCartButton({ product }: { product: Product }) {
     description: product.description,
     sku: product.sku,
     price_data: priceDetails,
+    product_data: productStock,
   };
 
   const handleAddToCart = () => {
+    if (
+      cartDetails &&
+      cartDetails[product.id] &&
+      cartDetails[product.id].quantity + quantity > product.stock
+    ) {
+      toast.error("Cannot add more items to cart than available in stock.");
+      return;
+    }
+
     addItem(shoppingCartProduct, { count: quantity });
     toast.success(`${product.title} added to cart!`);
   };
+
   return (
     <div className="flex flex-row justify-start items-center gap-4">
       <div className="flex flex-row items-center border rounded bg-white">
         <button
           className="px-4 py-[7px] cursor-pointer bg-accent transition-colors hover:bg-gray-200"
           onClick={() => {
-            setQuantity((q) => Math.max(1, q - 1));
+            if (quantity > 1) {
+              setQuantity((q) => Math.max(1, q - 1));
+            }
           }}
         >
           −
@@ -55,7 +72,9 @@ export default function AddToCartButton({ product }: { product: Product }) {
         <button
           className="px-4 py-[7px] cursor-pointer bg-accent transition-colors hover:bg-gray-200"
           onClick={() => {
-            setQuantity((q) => Math.min(product.stock, q + 1));
+            if (quantity < product.stock) {
+              setQuantity((q) => Math.min(product.stock, q + 1));
+            }
           }}
         >
           +
@@ -66,7 +85,7 @@ export default function AddToCartButton({ product }: { product: Product }) {
         size="lg"
         className="bg-brand-600 hover:bg-brand-700 text-white rounded text-base font-medium cursor-pointer flex items-center justify-center gap-2 transition-colors"
       >
-        <ShoppingBasket/>
+        <ShoppingBasket />
         Add to Cart
       </Button>
     </div>
