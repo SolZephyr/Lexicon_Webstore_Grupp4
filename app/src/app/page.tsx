@@ -1,3 +1,4 @@
+import CategoryGrid from "@/components/category-grid";
 import { ContentWrapper } from "@/components/content-wrapper";
 import FeaturedGrid from "@/components/featured-grid";
 import HeroSection from "@/components/hero";
@@ -9,6 +10,9 @@ export default async function Home() {
     <>
       <ContentWrapper className="p-0 sm:p-4 bg-transparent sm:bg-white">
         <HeroSection />
+      </ContentWrapper>
+      <ContentWrapper>
+        <CategoryGrid/>
       </ContentWrapper>
       <ContentWrapper>
         <FeaturedGrid products={products} />
