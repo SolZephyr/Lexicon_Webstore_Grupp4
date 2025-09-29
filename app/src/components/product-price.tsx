@@ -15,11 +15,11 @@ export default function ProductPrice({
 
   return (
     <div className={"flex flex-row gap-2 items-center justify-start"}>
-      <p className={cn("text-lg font-bold", hasDiscount ? "text-red-600" : "")}>
+      <h3 className={cn("text-lg font-bold", hasDiscount ? "text-red-600" : "")}>
         ${discountedPrice}
-      </p>
+      </h3>
       {hasDiscount && (
-        <p className="text-sm text-muted-foreground line-through">${price}</p>
+        <h3 className="text-sm text-muted-foreground line-through">${price}</h3>
       )}
     </div>
   );

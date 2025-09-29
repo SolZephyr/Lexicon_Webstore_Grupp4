@@ -28,7 +28,9 @@ export function useIsActive(item: NavItem) {
 
   return (
     pathname === main ||
-    item.subcategories?.some((s) => pathname.startsWith(`/${s.slug.replace(/^\/?/, "")}`)) ||
+    item.subcategories?.some((s) =>
+      pathname.startsWith(`/${s.slug.replace(/^\/?/, "")}`)
+    ) ||
     (main === "/products" && pathname.startsWith("/products/"))
   );
 }
@@ -48,8 +50,7 @@ export default function HeaderLinkDropdown({
           "cursor-pointer text-muted-foreground font-bold",
           isActive && " text-black"
         )}
-        onClick={(e) => {
-          e.preventDefault(); // prevent default toggle
+        onClick={() => {
           router.push(href);
         }}
       >

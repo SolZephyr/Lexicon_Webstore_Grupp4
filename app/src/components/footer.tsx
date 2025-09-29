@@ -65,7 +65,7 @@ function Footer() {
   return (
     <footer className="flex flex-col grow full-width border-t-1 bg-white">
       <div className="flex-row border-b-1">
-        <div className="flex flex-col py-12 px-4 justify-evenly sm:flex-row">
+        <div className="flex flex-col py-12 justify-evenly sm:flex-row">
           <div className="flex flex-col gap-5 py-4 grow">
             <h2 className="text-2xl font-bold uppercase">Group 4 Webstore</h2>
             <p className="flex flex-col">

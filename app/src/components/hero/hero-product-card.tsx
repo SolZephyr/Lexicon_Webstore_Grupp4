@@ -97,7 +97,12 @@ export default function HeroProductCard({
               variant === "large" && "w-full xs:w-auto"
             )}
           >
-            <Link href={`/products/${id}`}>{cta}</Link>
+            <Link
+              href={`/products/${id}`}
+              aria-label={"View details for " + title}
+            >
+              {cta}
+            </Link>
           </Button>
         </div>
       </div>

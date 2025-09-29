@@ -12,6 +12,7 @@ export default function ProductCard({ product }: { product: ThinProduct }) {
       <Link
         href={`/products/${product.id}`}
         className="grid grid-rows-subgrid gap-1 row-span-4 focus-within:border-gray-300 transition-colors rounded group"
+        aria-label={"View details for " + product.title}
       >
         <div className="relative flex justify-center items-center bg-accent rounded">
           {product.discountPercentage > 0 && (
