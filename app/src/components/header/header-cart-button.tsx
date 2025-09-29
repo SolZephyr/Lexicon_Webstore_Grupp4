@@ -107,11 +107,11 @@ export default function HeaderCartButton() {
                                             return (
                                                 <div className="flex flex-row items-center gap-2">
                                                     {/* Discounted price */}
-                                                    <span className="font-bold text-red-500">{discountedPrice * item.quantity} US$</span>
+                                                    <span className="font-bold text-red-500">{(discountedPrice * item.quantity).toFixed(2)} US$</span>
                                                     {/* Discount percentage */}
                                                     <span className="text-sm text-red-500">(-{discountPercentage}%)</span>
                                                     {/* Original price with strikethrough */}
-                                                    <span className="line-through text-gray-500">{price * item.quantity} US$</span>
+                                                    <span className="line-through text-gray-500">{(price * item.quantity).toFixed(2)} US$</span>
                                                 </div>
                                             );
                                         }
