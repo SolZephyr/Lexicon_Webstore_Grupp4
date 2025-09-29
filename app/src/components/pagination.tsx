@@ -120,7 +120,7 @@ export function PaginationPaging({
         <PaginationItem key={val}>
           <PaginationLink
             href={pageParams(params, parseInt(val.toString()))}
-            className={page == val ? "bg-brand-600 text-white hover:bg-brand-700 hover:text-white" : ""}
+            className={page == val ? "bg-brand-600 text-white hover:bg-brand-700 hover:text-white rounded" : "rounded"}
           >
             {val}
           </PaginationLink>
@@ -141,7 +141,7 @@ export function PaginationPaging({
         <PaginationContent>
           {total > 0 && page > 1 ? (
             <PaginationItem>
-              <PaginationPrevious href={pageParams(params, page - 1)} />
+              <PaginationPrevious href={pageParams(params, page - 1)} className="rounded"/>
             </PaginationItem>
           ) : (
             ""
@@ -149,7 +149,7 @@ export function PaginationPaging({
           {pages.map((item) => pagingElement(item))}
           {total > 0 && page < pageEnd ? (
             <PaginationItem>
-              <PaginationNext href={pageParams(params, page + 1)} />
+              <PaginationNext href={pageParams(params, page + 1)} className="rounded"/>
             </PaginationItem>
           ) : (
             ""

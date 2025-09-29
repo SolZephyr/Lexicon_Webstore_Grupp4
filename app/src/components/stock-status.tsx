@@ -52,7 +52,12 @@ export default function StockStatus({
   );
 
   return (
-    <div className="text-sm text-gray-500 flex items-center p-1">
+    <div
+      className={cn(
+        "text-sm text-gray-500 flex items-center",
+        showTooltip && "p-1"
+      )}
+    >
       {showTooltip ? (
         <TooltipProvider>
           <Tooltip>
