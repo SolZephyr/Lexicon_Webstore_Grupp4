@@ -8,11 +8,15 @@ import { notFound } from "next/navigation";
 
 type Props = { params: Promise<{ [key: string]: string | undefined }> };
 
+const BLOCKED_RANGES: [number, number][] = [ [1, 77], [83, 98], [113, 120], [137, 158], ];
+
+function isBlockedId(id: number): boolean { return BLOCKED_RANGES.some(([start, end]) => id >= start && id <= end); }
+
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   const productId = params.id ? Number(params.id) : undefined;
 
-  if (!productId) return { title: "Not Found" };
+  if (!productId || isBlockedId(productId)) return { title: "Not Found" };
 
   try {
     const product = await getProduct(productId);
@@ -31,7 +35,7 @@ export default async function ProductPage(props: Props) {
   const params = await props.params;
   const productId = params.id ? Number(params.id) : undefined;
 
-  if (typeof productId !== "number" || isNaN(productId)) {
+  if (typeof productId !== "number" || isNaN(productId) || isBlockedId(productId)) {
     return notFound();
   }
   try {
