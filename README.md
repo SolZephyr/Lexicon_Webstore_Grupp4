@@ -1,106 +1,189 @@
-### **Gruppövning: E-handelsplattform i Next.js**
------
+# E-commerce Storefront
 
-`https://lexicon-webstore-grupp4.vercel.app/`
+## Beskrivning
 
------
+Detta projekt är en e-handelsbutik byggd med Next.js, TypeScript och Tailwind CSS. Den innehåller ett användargränssnitt för att bläddra bland produkter, hantera en kundvagn och slutföra kassaprocessen. Applikationen innehåller också en adminpanel för att hantera produkter och andra butikskonfigurationer.
 
-### **Produktbeskrivning**
+## Innehållsförteckning
 
-Uppgiften är att bygga en **minimalistisk e-handelsplattform** för olika produkter med hjälp av **Next.js 15 App Router**. Plattformen ska visa upp ett urval av produkter från ett externt API, vara fullt responsiv och ha interaktiva inslag. Målet är att ni ska få praktisk erfarenhet av att arbeta med **Server Components**, **Client Components**, **statiska och dynamiska routes**, hantering av asynkron data och praktiskt agilt arbete i grupper.
+- [Funktionalitet](#funktionalitet)
+- [Teknologier](#teknologier)
+- [Skärmdumpar](#skärmdumpar)
+- [Installation](#installation)
+- [Projektstruktur](#projektstruktur)
+- [Arbetsflöde](#arbetsflöde)
+- [Sprint Planning](#sprint-planning)
+- [Användning](#användning)
+- [Bidra](#bidra)
+- [Lärdomar](#lärdomar)
+- [Licens](#licens)
 
------
+## Funktionalitet
 
-### **Ramverk & Teknologier**
+- **Produktkatalog:** Bläddra bland produkter efter kategori, filtrera efter varumärke, pris och lagerstatus.
+- **Produktinformation:** Visa detaljerad information om enskilda produkter, inklusive recensioner och specifikationer.
+- **Kundvagn:** Lägg till produkter i en kundvagn, uppdatera kvantiteter och fortsätt till kassan.
+- **Kassa:** Slutför kassaprocessen säkert med Stripe-integration.
+- **Användarautentisering:** Registrera dig, logga in och hantera användarkonton.
+- **Adminpanel:** Hantera produkter, kategorier och andra butikskonfigurationer (åtkomlig för auktoriserade användare).
+- **Kontaktformulär:** Skicka kontaktförfrågningar.
 
-  * **Next.js 15 (App Router):** Använd det senaste av Next.js för att utnyttja funktioner som Server Components och Server Actions. Se till att optimera med så mycket statiskt och server-renderat som möjligt.
-  * **TypesScript:** Använd typescript i projektet
-  * **DummyJSON API:** Använd API:et `https://dummyjson.com/products` eller `https://fakeapi.platzi.com/` för att hämta produktdata. Titta igenom APIerna tillsammans och se vilka för/nackdelar de har innan ni bestämmer er.
-  * **React:** Arbeta med React-komponenter, både Server och Client.
-  * **Valfri styling:** Använd den stylingmetod ni är bekväma med (CSS-moduler/Tailwind CSS).
-  * **Git & GitHub:** Använd Git för versionskontroll och GitHub för samarbete.
-  * **Projekthanteringsverktyg:** Använd GitHub Projects (agile/scrum board), Trello (kanban board) eller dylikt som alla i grupper kan komma åt och vara bekväma med att använda. Denna ska hela tiden hållas uppdaterad.
-  * **WAVE:** Se till att ha fokus på och testa tillgängligheten under arbetet med WAVE eller dylikt.
+## Teknologier
 
------
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS 4
+- Stripe
+- Shadcn UI
+- Zod (för form-validering)
+- Clerk
 
-### **Funktionalitetskrav**
+- API: Tidigare versioner av projektet byggde på DummyJSON API:et. Senare versioner använder en klonad och reviderad version av API:et med anpassade endpoints som levererar en utökad datastruktur som originalversionen inte stödde.
 
-1.  **Startsida, Om oss, Kontakt:**
-      * På startsidan - Visa en översikt av ett urval av produkter (kan vara ett antal som 20 st eller en/flera kategorier av produkter i grupp). Hämta och rendera produktdata på serversidan. Det ska också finnas en Hero med en CTA högst upp på sidan.
-      * Om Oss - Gör en Lorem-text eller skriv ihop något bara för att ha något där samt en bild.
-      * Kontakt - Formulär för få kontakt med företaget. Kravet här är rutor för e-post och meddelande till företaget och en knapp för att skicka. Vill man kan man lägga till titel (subject) och ev en drop-down för vilken typ av kontakt man önskar - Support, info, reklamation... Ingen faktiskt funktionalitet av denna krävs förutom tillgänglighet med typer, labels osv.
-2.  **Produktsida:**
-      * Skapa en dynamisk route (`/products/[id]`) som visar detaljerad information för en specifik produkt baserat på dess ID. Ni behöver inte ha all info som finns i API här, men titel, beskrivning, bild och pris är minsta kraven.
-      * Hämta enskild produktdetalj från API:et och rendera på serversidan.
-3.  **Interaktiva element (Client Components):**
-      * Lägg till en **sökfunktion** och en fungerande **pagineringsfunktion** för att bläddra mellan olika sidor (sätt en fast gräns för antal/sida, om ni vill kan ni lägga till val för detta senare).
-      * Inkludera en knapp för att **"Lägga till i varukorg"** (behöver inte ha en fungerande varukorg, det räcker att den visar en notifikation eller loggar en händelse).
-4.  **Frivilligt:** Skapa funktionalitet för att skicka kontaktformuläret och skapa upp så att personen som skriver i får en visuell indikation på att det lyckats (ingen funktionalitet med e-post osv behövs).
-5.  **Frivilligt:** Ev annan funktionalitet som ni ser kan vara intressant som visa recensioner, utvalda produkter, filtrerar på kategorier, skicka e-post via kontaktformulär eller dylikt. Tänk bara på att inte dra iväg med extra saker innan allt annat är på plats och faktiskt bra utfört.
+## Skärmdumpar:
 
------
+### Butik
 
-### **Design**
+|                Index                 |              Detaljsida                |                  Produktlista                 |
+| :----------------------------------: | :------------------------------------: | :-------------------------------------------: |
+| ![Index page](readme/main/index.png) | ![Details Page](readme/main/image.png) | ![Product List](readme/main/product-list.png) |
 
-Vi lämnar ingen färdig design på detta, men ni behöver se till att allt som finns i krav är med. För att inte låta det gå för lång tid rekommenderar vi att ni väljer en design utifrån något av förslagen på t ex `https://www.figma.com/community/website-templates/ecommerce?resource_type=mixed&editor_type=all&price=free` eller bildgooglar "e-commerce designs" och väljer en där. Det finns också sidor som denna som ni kan få inspiration från: `https://www.frontendmentor.io/challenges/product-list-with-cart-5MmqLVAp_d` Sedan gör ni ev modifieringar för att den ska passa detta syfte. Innan ni sedan börjar koda vill vi att ni skickar oss ert förslag på detta. Något liknande detta bör vara helt ok (med lite ändringar) <img width="2533" height="1092" alt="image" src="https://github.com/user-attachments/assets/5809977b-a719-4ec2-b8e7-313d3adb1ec4" />
+### Admin
 
------
+Produktlista
+:-------------------------:
+| ![Admin - Product List](readme/admin/list.png)
 
-### **Arbetsflöde & Sprintplan (3-4 veckor)**
+## Installation
 
-Den preliminära planen är på 3 veckor, men ev kommer det en del 2 av arbetet som kommer då vara vecka 3-4. Detta beroende på hur arbetet går i grupperna och vad vi hinner med.
-Denna uppgift är därför uppdelad i 3 sprints, en för varje vecka. Varje sprint fokuserar på specifika delmål. Detta är bara förslag och ni kan själva bestämma om ni vill fördela det på annat sätt. Det finns ingen produktägare i detta projekt så det är upp till er att ha användaren i fokus i arbetet med design och funktionalitet. Det ska vara tydligt och enkelt för den som tittar på sidan att hitta det man vill och behöver (oavsett ev handikapp osv).
+1.  **Klona repository:**
 
-**Innan ni börjar att koda se till att allt är förberett i ert SCRUM board, att ni har valt design och beslutat vem som börjar med vad. Vi vill också att ni visar upp detta för oss lärare och får klartecken innan ni sätter igång med något mer.**
+    ```bash
+    git clone <repository_url>
+    ```
 
-#### **Övergripande arbetsflöde:**
+2.  **Installera beroenden:**
 
-  * **Sprintplanering:** I början av varje vecka går ni igenom veckans mål och fördelar ansvar och uppdaterar löpande er scrum board. Varje person väljer själv sina ansvar, vissa kort kommer vara spärrade då PR inte är granskad/mergad ännu och då väljer ni bara ett annat.
-  * **Löpande arbete:** Arbeta i era egna branches, gör regelbundna `git commit`-operationer och `git push` till er branch (en för varje feature/card/issue).
-  * **Kodgranskning:** I slutet av varje vecka/dag (t.ex. fredag) presenterar ni era slutförda delmål, skapar **Pull Requests (PRs)** och granskar varandras kod (detta kan också ske löpande under veckan vid behov). När koden är godkänd mergas den in i `main`-branchen.
-  * **Feedback & Justering:** Efter granskningen ger ni feedback och justerar eventuella brister innan ni påbörjar nästa sprint.
+    ```bash
+    cd app
+    npm install
+    ```
 
-#### **Dagliga rutiner för effektivt samarbete**
+3.  **Konfigurera miljö-variabler:**
 
-För att underlätta samarbetet och säkerställa att ni hela tiden rör er framåt som en grupp, kan ni införa några enkla men effektiva dagliga rutiner. Detta hjälper er att hantera hinder i tid och hålla koll på allas framsteg.
+    Create a `.env.local` file in the `app` directory and add the necessary environment variables (e.g., Stripe API keys, database connection string).
 
-  * **Morgonmöte (ca 10-15 minuter):** Håll ett kort dagligt möte, gärna på morgonen. Varje person delar kort vad de planerar att arbeta med under dagen. Berätta om eventuella problem eller hinder du stött på, så att gruppen kan hjälpa till att lösa dem.
-  * **Dedikerad tid för Pull Requests (PR):** Att skicka in en **Pull Request** är inte slutet på en uppgift, utan början på en diskussion och ett samarbete. Bestäm en tid varje dag då ni går igenom aktiva PR:s, lämnar feedback och granskar varandras kod. Detta är helt okej att bara göra i par och i mån av behov.
-  * **Arbeta i små, avgränsade delar:** Arbeta gärna med små och hanterbara uppgifter. Bryt ner stora kort som ”Bygg produktsidan” till mindre delar som ”Hämta produktdatan från API:et” eller ”Rendera produktbild och titel”. Detta undviker **merge conflicts** och ger en tydlig känsla av framsteg.
+4.  **Kör utvecklingservern:**
 
------
+    ```bash
+    npm run dev
+    ```
 
-### **Sprint 1: Grundläggande struktur (Vecka 1)**
+    Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-**Mål:** Planera grunderna. Sätt upp Next.js-projektet och skapa meny och de statiska sidorna.
+## Projektstruktur
 
-  * Välj API, UX design att utgå från, ev bibliotek som ni vill använda (t ex Tailwind). **Detta ska förmedlas till oss lärare som ska godkänna innan ni börjar kodandet.**
-  * Skapa ett nytt Next.js-projekt med App Router.
-  * Rensa bort templatekod (eller alternativt gör ett tomt projekt och skapa själv grundstrukturen).
-  * Skapa upp menyer och grundstruktur på projektet
-  * Hämta all produktdata från API endpoint för detta och rendera en lista av produkttitel, bild, pris osv på startsidan.
-  * Gör grundläggande layout/design för startsidan.
+```
+app/
+├── src/
+│   ├── app/             # Next.js routes
+│   ├── components/      # React components
+│   ├── lib/             # Utility functions and data
+│   ├── styles/          # Global styles
+├── next.config.js   # Next.js configuration
+├── package.json       # Project dependencies
+```
 
------
+## Arbetsflöde
 
-### **Sprint 2: Dynamisk routing & Interaktion (Vecka 2)**
+Projektet har utformats genom ett grupparbete med fyra medlemmar.
 
-**Mål:** Bygg de dynamiska sidorna och lägg till de första interaktiva elementen.
+Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en Kanban-bräda har används för att tilldela uppgifter mellan medlemmar. Projektet delades upp i veckolånga sprintar.
 
-  * Skapa den dynamiska routen `app/products/[id]/page.tsx` för produktsidorna.
-  * Hämta en specifik produkts data baserat på ID och rendera detaljerad information.
-  * Lägg till **sökfunktion** och **paginering** där det är aktuellt. Använd client/server-components i samarbete med varandra för att lösa detta.
-  * Lägg till "Lägg till i varukorg"-knappen på produktsidan (behöver inte vara fungerande utan räcker med en indikation att en vara lagts till).
+Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landat. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
 
------
+### Dagsstruktur:
 
-### **Sprint 3: Slutputs (Vecka 3)**
+**Morgonmöte**
 
-**Mål:** Slutför designen, optimering och förbereda presentation.
+- Kort genomgång av vad som har genomförts och vad som ska genomföras av medlemmar.
+- Se över aktuella issues, flytta från backlog till ready.
+- Analys för nya idéer, skapa issues i backlog.
+- Issues i behov av mer förfining/förarbete ligger kvar i backlog
 
-  * **Refaktorera** koden för att göra den mer läsbar, återanvändbar och effektiv.
-  * Se också till att **optimera** med t ex generateStaticParams, lämplig metadata och suspense/loading.tsx.
-  * Se över hela applikationens **responsivitet** och **design** för en sista puts.
-  * Kontrollera **tillgängligheten** med WAVE eller dylikt
-  * Ev redovisning/presentation av projektet (beroende på om det blir en del 2 eller ej)
+Uppdelning av aktuella issues. Varje person tar de issues som de vill arbeta med.
+När deltagare har blivit tilldelade ett issue så öppnar de en feature-branch där de arbetar isolerat på problemet.
+
+**Eftermiddagsmöte**
+Under dagen så har vi haft kontinuerlig kommunikation och bestämt en tid för ett eftermiddagsmöte.
+Under det mötet så går vi igenom de pull requests som har samlats under dagen, och en person blir tilldelad rollen som Merge Master. 
+För att en pull request ska kunna bli merge:ad till utvecklingsbranchen så krävs godkännanden av två övriga gruppmedlemmar, varpå Merge Master kan utföra det.
+
+När alla PR har slutförts så sker samma process som under morgonmötet, alla deltagare går igenom de krav som finns på Kanban-brädan och nya krav analyseras.
+
+
+## Sprint Planning
+
+Projektet utfördes under tre veckolånga sprintar.
+
+### Sprint 1
+
+- Val av API och UX design
+- Planering av sprint samt kort för sprinten (Kanban)
+- Satte upp grundläggande NextJS projekt med statiska sidor
+- Skapa upp grundläggande layout för startsida, kontaktsida och om oss sida
+- Hämtning av data från API endpoint för att presentera det i en lista
+- Skapa den dynamiska routen app/products/[id]/page.tsx för produktsidorna samt hämta data baserat på ID
+- Breadcrumb för produktsidorna
+- Första iteration av sökfunktion, paginering och lägg till i varukorg knapp
+
+### Sprint 2
+
+- Skapa den dynamiska routen app/category/[name]/page.tsx för att filtera produkter baserat på kategorinamn
+- Filteringskolumn där man kan filtrera på namn, brand, in stock och pris
+- Fork av DummyJSON med utökad funktionalitet
+- Sökfunktion färdig och kopplad till produktsida
+- Färdigställning av varukorg samt implementation av varukorg i header
+- Navigering till kategorier från header
+- Validering av fält i formulär på kontaktsida
+- Implementering av inloggning Clerk
+- Implementering av checkout med Stripe
+  
+### Sprint 3
+
+- Skapa admingränssnitt med lista på produkter
+- Implementation av MongoDB
+- Validering av fält i formulär på adminsida
+- CRUD funktionalitet på adminsida
+- Authentication på adminsida via Clerk
+- Bugfixar och förbättring av existerande kod
+- Förbättrad responsivitet, tillgänglighet samt design
+
+## Användning
+
+- **Bläddra Bland Produkter:** Navigera till sidan `/products` för att visa produktkatalogen. Använd sidofältsfiltren för att förfina din sökning.
+- **Visa Produktinformation:** Klicka på ett produktkort för att visa detaljerad information om produkten.
+- **Lägga Till i Varukorgen:** Klicka på knappen "Lägg till i varukorgen" på produktdetaljsidan för att lägga till produkten i din varukorg.
+- **Kassa:** Klicka på varukorgsikonen i sidhuvudet för att visa din varukorg. Fortsätt till kassan för att slutföra ditt köp.
+- **Adminpanel:** Gå till adminpanelen på `/admin` (kräver autentisering).
+ 
+
+## Bidra
+
+Contributions are welcome! Please submit a pull request with your proposed changes.
+
+## Lärdomar
+
+- Arbeta i grupp, anpassa planering efter arbetstakt.
+- Server vs Client komponenter
+- Kontexter och providers
+- Formulärvalidering med Zod, Use action state för felhantering
+- Serverkommunikation med externa API
+- Next.js server functions
+- Externa ramverk som Clerk och Stripe
+- Bestämma när ett projekt är klart/när man ska vara nöjd
+- Mer utförligt användande av Github Projects, Issues, Pull Requests, kodgranskning
+
+## Licens
+
+[MIT](LICENSE)

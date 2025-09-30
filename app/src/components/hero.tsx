@@ -23,10 +23,12 @@ export default async function HeroSection() {
   const ids = PRODUCT_IDS.map((p) => p.id);
   const products = await getProductsById(ids, "hero");
 
-  const orderedProducts = PRODUCT_IDS.map(p => new Map(products.map(x => [x.id, x])).get(p.id));
+  const orderedProducts = PRODUCT_IDS.map((p) =>
+    new Map(products.map((x) => [x.id, x])).get(p.id)
+  );
 
   return (
-    <section className="grid grid-cols-6 grid-rows-6 gap-2 min-h-[32rem]">
+    <ul className="grid grid-cols-6 grid-rows-6 gap-2 min-h-[32rem]">
       {orderedProducts?.map((product, index) => {
         const config = PRODUCT_IDS[index];
         if (!product) return null;
@@ -43,8 +45,12 @@ export default async function HeroSection() {
           id: product.id,
         };
 
-        return <HeroProductCard key={product.id} {...props} />;
+        return (
+          <li key={product.id} className="contents">
+            <HeroProductCard {...props} />
+          </li>
+        );
       })}
-    </section>
+    </ul>
   );
 }

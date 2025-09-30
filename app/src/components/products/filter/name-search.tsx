@@ -42,7 +42,11 @@ export default function NameSearch({
   return (
     <FilterCard id="search" title="Search">
       <div className="flex focus-within:outline-2 border rounded my-2 mx-1">
+        <label htmlFor="filter-search-input" className="sr-only">
+          Filter products by text
+        </label>
         <Input
+          id="filter-search-input"
           defaultValue={search}
           ref={ref}
           type="search"
@@ -54,8 +58,9 @@ export default function NameSearch({
           onClick={() => getSearchValue()}
           type="button"
           className="rounded-s-none rounded-e text-white bg-primary-green cursor-pointer hover:bg-primary-green/80 focus-visible:ring-2"
+          aria-label="Filter products by text"
         >
-          <Search />
+          <Search aria-hidden="true" />
         </Button>
       </div>
     </FilterCard>

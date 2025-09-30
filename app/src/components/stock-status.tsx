@@ -47,12 +47,22 @@ export default function StockStatus({
       >
         <Icon className="w-3 h-3 text-white" strokeWidth={2} />
       </span>
-      {showLabel && label}
+      {showLabel && (
+        <>
+          <span className="mr-1">{label}</span>
+          <span>{amount > 0 ? `(${amount} left)` : ""}</span>
+        </>
+      )}
     </span>
   );
 
   return (
-    <div className="text-sm text-gray-500 flex items-center p-1">
+    <div
+      className={cn(
+        "text-sm text-gray-500 flex items-center",
+        showTooltip && "p-1"
+      )}
+    >
       {showTooltip ? (
         <TooltipProvider>
           <Tooltip>

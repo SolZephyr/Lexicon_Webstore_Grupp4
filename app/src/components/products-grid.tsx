@@ -31,11 +31,13 @@ export default function ProductsGrid({
       )}
       {title && <h3 className="text-xl font-semibold">{title}</h3>}
       <PaginationFilter page={page} limit={limit} total={total} />
-      <div className="grid grid-rows-[1fr_auto_auto_auto] grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-3 justify-between">
+      <ul className="grid grid-rows-[1fr_auto_auto_auto] grid-cols-[repeat(auto-fill,minmax(12rem,1fr))] gap-3 justify-between">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <li key={product.id} className="contents">
+            <ProductCard product={product} />
+          </li>
         ))}
-      </div>
+      </ul>
       {products.length <= 0 && (
         <p className="text-center p-4">{emptyText || "No Content"}</p>
       )}
