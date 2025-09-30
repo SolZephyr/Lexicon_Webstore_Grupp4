@@ -16,12 +16,17 @@ This project is an e-commerce storefront built with Next.js, TypeScript, and Tai
 
 ## Technologies Used
 
-- Next.js
+- Next.js 15 (App Router)
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS 4
 - Stripe
 - Shadcn UI
 - Zod (for form validations)
+- Clerk
+
+- API: Earlier iterations of the project were built upon the DummyJSON API. Later revisions depend on a cloned and revised version of the API with custom endpoints that deliver a extended datastructure that the original version did not support.
+
+
 
 ## Screenshots:
 
