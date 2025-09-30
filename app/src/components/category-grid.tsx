@@ -18,10 +18,11 @@ export default function CategoryGrid() {
       <div className="flex">
       <h2 className="text-xl font-bold border-b-2 border-b-brand-600 pb-1">Categories</h2>
       </div>
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {categoriesWithIcons.map((c) => (
+          <li key={c.href} className="contents">
           <Link
-            key={c.href}
+            
             href={c.href}
             className={cn(
               "border rounded flex flex-col items-center text-center bg-accent/40 py-4 gap-2 hover:bg-accent transition-colors"
@@ -30,8 +31,9 @@ export default function CategoryGrid() {
             <c.Icon size={48} strokeWidth={1} />
             <p className="text-sm font-semibold text-black/80">{c.label}</p>
           </Link>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

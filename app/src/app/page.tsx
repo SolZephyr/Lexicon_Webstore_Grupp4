@@ -8,13 +8,13 @@ export default async function Home() {
   const products = await getRandomProducts();
   return (
     <>
-      <ContentWrapper className="p-0 sm:p-4 bg-transparent sm:bg-white">
+      <ContentWrapper className="p-0 sm:p-4 bg-transparent sm:bg-white" as="section">
         <HeroSection />
       </ContentWrapper>
-      <ContentWrapper>
+      <ContentWrapper as="section">
         <CategoryGrid/>
       </ContentWrapper>
-      <ContentWrapper>
+      <ContentWrapper as="section">
         <FeaturedGrid products={products} />
       </ContentWrapper>
     </>

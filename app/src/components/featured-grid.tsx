@@ -27,11 +27,13 @@ export default function FeaturedGrid({
           View all <ChevronRight size={14} />
         </Link>
       </div>
-      <div className="grid grid-rows-[1fr_auto_auto_auto] grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-3 justify-between">
+      <ul className="grid grid-rows-[1fr_auto_auto_auto] grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-3 justify-between">
         {data?.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <li key={product.id} className="contents">
+            <ProductCard product={product} />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

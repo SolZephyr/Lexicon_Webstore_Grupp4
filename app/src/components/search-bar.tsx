@@ -51,11 +51,21 @@ const SearchForm = () => {
   }
   return (
     <form
+      role="search"
+      aria-label="Product Search"
       className="flex flex-row rounded-3xl pe-1 bg-white items-center focus-within:outline-3 grow outline-green-800"
       action={handleSearch}
     >
-      <Select name="type" defaultValue="all" required>
-        <SelectTrigger className="ps-4 font-semibold ring-0 outline-0 focus-visible:ring-0 border-0 cursor-pointer">
+      <Select
+        name="type"
+        defaultValue="all"
+        required
+        aria-label="Select category"
+      >
+        <SelectTrigger
+          className="ps-4 font-semibold ring-0 outline-0 focus-visible:ring-0 border-0 cursor-pointer"
+          aria-label="Select category"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -75,7 +85,11 @@ const SearchForm = () => {
           })}
         </SelectContent>
       </Select>
+      <label htmlFor="search-input" className="sr-only">
+        Search products
+      </label>
       <Input
+        id="search-input"
         type="search"
         name="productName"
         className="outline-0 focus-visible:ring-0 border-0 text-sm"
@@ -85,8 +99,9 @@ const SearchForm = () => {
         variant={"ghost"}
         className="hover:bg-primary-green hover:text-white rounded-2xl h-7 cursor-pointer"
         type="submit"
+        aria-label="Search"
       >
-        <Search />
+        <Search aria-hidden="true" />
       </Button>
     </form>
   );

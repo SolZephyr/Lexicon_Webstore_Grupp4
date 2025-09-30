@@ -57,9 +57,11 @@ export function PaginationFilter({
         <span>{` of ${total} results`}</span>
       </p>
       <div className="flex flex-row items-center text-sm">
-        <label htmlFor="pagination-limit" className="hidden xs:inline">Show items&nbsp;</label>
+        <span id="pagination-limit-label" className="hidden xs:inline">
+          Show items&nbsp;
+        </span>
         <ToggleGroup
-          id="pagination-limit"
+          aria-labelledby="pagination-limit-label"
           type="single"
           className="bg-accent text-gray-500 text-sm"
           onValueChange={(value) => setLimit(value)}
@@ -120,7 +122,11 @@ export function PaginationPaging({
         <PaginationItem key={val}>
           <PaginationLink
             href={pageParams(params, parseInt(val.toString()))}
-            className={page == val ? "bg-brand-600 text-white hover:bg-brand-700 hover:text-white rounded" : "rounded"}
+            className={
+              page == val
+                ? "bg-brand-600 text-white hover:bg-brand-700 hover:text-white rounded"
+                : "rounded"
+            }
           >
             {val}
           </PaginationLink>
@@ -141,7 +147,10 @@ export function PaginationPaging({
         <PaginationContent>
           {total > 0 && page > 1 ? (
             <PaginationItem>
-              <PaginationPrevious href={pageParams(params, page - 1)} className="rounded"/>
+              <PaginationPrevious
+                href={pageParams(params, page - 1)}
+                className="rounded"
+              />
             </PaginationItem>
           ) : (
             ""
@@ -149,7 +158,10 @@ export function PaginationPaging({
           {pages.map((item) => pagingElement(item))}
           {total > 0 && page < pageEnd ? (
             <PaginationItem>
-              <PaginationNext href={pageParams(params, page + 1)} className="rounded"/>
+              <PaginationNext
+                href={pageParams(params, page + 1)}
+                className="rounded"
+              />
             </PaginationItem>
           ) : (
             ""

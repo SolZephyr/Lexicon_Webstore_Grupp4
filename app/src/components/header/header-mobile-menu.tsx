@@ -26,8 +26,8 @@ export default function HeaderMobileMenu({ nav }: { nav: NavItem[] }) {
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger className="md:hidden px-2 rounded-md cursor-pointer data-[state=open]:bg-accent hover:bg-accent">
-        <Menu width={38} height={38} />
+      <DropdownMenuTrigger className="md:hidden px-2 rounded-md cursor-pointer data-[state=open]:bg-accent hover:bg-accent" aria-label="Open menu">
+        <Menu width={38} height={38} aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-screen rounded-t-none">
         {nav.map((item, index) =>
