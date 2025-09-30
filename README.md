@@ -100,7 +100,7 @@ Projektet har utformats genom ett grupparbete med fyra medlemmar.
 
 Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en Kanban-bräda har används för att tilldela uppgifter mellan medlemmar. Projektet delades upp i veckolånga sprintar.
 
-Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landar. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
+Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landat. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
 
 ### Dagsstruktur:
 
