@@ -26,21 +26,19 @@ This project is an e-commerce storefront built with Next.js, TypeScript, and Tai
 
 - API: Earlier iterations of the project were built upon the DummyJSON API. Later revisions depend on a cloned and revised version of the API with custom endpoints that deliver a extended datastructure that the original version did not support.
 
-
-
 ## Screenshots:
 
 ### Main
 
-Index             |  Details Page | Product List
-:-------------------------:|:-------------------------:|:-------------------------:
-![Index page](readme/main/index.png)  |  ![Details Page](readme/main/image.png) | ![Product List](readme/main/product-list.png)
+|                Index                 |              Details Page              |                 Product List                  |
+| :----------------------------------: | :------------------------------------: | :-------------------------------------------: |
+| ![Index page](readme/main/index.png) | ![Details Page](readme/main/image.png) | ![Product List](readme/main/product-list.png) |
 
 ### Admin
 
 Product List
 :-------------------------:
- | ![Admin - Product List](readme/admin/list.png)
+| ![Admin - Product List](readme/admin/list.png)
 
 ## Getting Started
 
@@ -81,6 +79,49 @@ app/
 ├── next.config.js   # Next.js configuration
 ├── package.json       # Project dependencies
 ```
+
+## Workflow
+
+Projektet har utformats genom ett grupparbete med fyra medlemmar.
+
+Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en KANBAN-bräda har används för att tilldela uppgifter mellan medlemmar. Projektet delades upp i veckolånga sprintar.
+
+Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landar. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
+
+Dagsstruktur:
+
+Morgonmöte
+
+Kort genomgång av genomfört och vad som ska genomföras av medlemmar.
+
+Se över aktuella kort.
+Analys och tankar för nya idéer hamnar i backlog.
+Behövdes mer arbete att utföras förbereds kort i ready.
+
+Uppdelning av prioriterade kort. Man tog dom kort man ville jobba på.
+
+När deltagare har blivit tilldelade ett kort så öppnar de en feature-branch där de arbetar isolerat på problemet.
+
+Eftermiddagsmöte
+Under dagen så har vi kontinuerlig kommunikation och bestämmer en tid för ett eftermiddagsmöte.
+Under det mötet så går vi igenom de pull requests som har samlats under dagen, och en person blir tilldelad rollen som Merge Master. För att en pull request ska kunna bli merge:ad till utvecklingsbranchen så krävs godkännanden av två övriga gruppmedlemmar, varpå Merge Master kan utföra det.
+
+När alla PR har slutförts så sker samma process som under morgonmötet, alla deltagare går igenom de krav som finns på KANBAN-brädan och nya krav analyseras.
+
+Se över aktuella kort.
+…
+
+Krav som har identifierats för projektet har delats upp i form av kort/issues, som varje gruppmedlem har tilldelat sig själv under morgonmöten.
+
+## Sprint Planning
+
+Projektet utfördes under tre veckolånga sprintar.
+
+### Sprint 1
+
+### Sprint 2
+
+### Sprint 3
 
 ## Usage
 
