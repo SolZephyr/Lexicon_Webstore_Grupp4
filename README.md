@@ -36,14 +36,13 @@ app/
 
 ## Screenshots:
 
-### Main Section
-![Index page](readme/main/index.png)
-![Details Page](readme/main/details.png)
-![Product List](readme/main/product-list.png)
+Main - Index             |  Main - Details Page
+:-------------------------:|:-------------------------:
+![Index page](readme/main/index.png)  |  ![Details Page](readme/main/image.png)
 
-### Admin Section
-
-![alt text](readme/admin/list.png)
+Main - Product List             |  Admin - Product List
+:-------------------------:|:-------------------------:
+![Product List](readme/main/product-list.png) | ![Admin - Product List](readme/admin/list.png)
 
 ## Getting Started
 
