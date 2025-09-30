@@ -127,6 +127,15 @@ Funktionellt krav var att hämta produktdata från API endpoint, och kunna prese
 Dessa krav slutfördes snabbare än väntat så vi började se över och utöka målen för sprint 1.
 Utökade målen blev att implementera dynamisk routing och interaktion.
 
+- Val av API och UX design
+- Planering av sprint samt kort för sprinten (Kanban)
+- Satte upp grundläggande NextJS projekt med statiska sidor
+- Skapa upp grundläggande layout för startsida, kontaktsida och om oss sida
+- Hämtning av data från API endpoint för att presentera det i en lista
+- Skapa den dynamiska routen app/products/[id]/page.tsx för produktsidorna samt hämta data baserat på ID
+- Breadcrumb för produktsidorna
+- Första iteration av sökfunktion, paginering och lägg till i varukorg knapp
+
 ### Sprint 2
 
 Sprint 2: Dynamisk routing & Interaktion (Vecka 2)
@@ -136,7 +145,24 @@ Hämta en specifik produkts data baserat på ID och rendera detaljerad informati
 Lägg till sökfunktion och paginering där det är aktuellt. Använd client/server-components i samarbete med varandra för att lösa detta.
 Lägg till "Lägg till i varukorg"-knappen på produktsidan (behöver inte vara fungerande utan räcker med en indikation att en vara lagts till).
 
+- Skapa den dynamiska routen app/category/[name]/page.tsx för att filtera produkter baserat på namn
+- Filteringskolumn där man kan filtrera på namn, brand, in stock och pris
+- Påbyggnad av API? (Kristian)
+- Sökfunktion färdig och kopplad till produktsida
+- Färdigställning av lägg till varukorg samt implementation av varukorg i header
+- Navigering till kategorier från header
+- Validering av fält i formulär på kontaktsida
+- Implementering av Clerk
+- Implementering av Stripe
+  
 ### Sprint 3
+
+- Skapa admingränssnitt
+- Validering av fält i formulär på adminsida
+- CRUD funktionalitet på adminsida för produkter
+- Authentication på adminsida via Clerk
+- Bugfixar och förbättring av existerande kod
+- Förbättrad responsivitet, tillgänglighet samt design
 
 ## Usage
 
