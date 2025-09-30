@@ -23,17 +23,6 @@ This project is an e-commerce storefront built with Next.js, TypeScript, and Tai
 - Shadcn UI
 - Zod (for form validations)
 
-```
-app/
-├── src/
-│   ├── app/             # Next.js routes
-│   ├── components/      # React components
-│   ├── lib/             # Utility functions and data
-│   ├── styles/          # Global styles
-├── next.config.js   # Next.js configuration
-├── package.json       # Project dependencies
-```
-
 ## Screenshots:
 
 ### Main
@@ -77,6 +66,16 @@ Product List
 
 ## Project Structure
 
+```
+app/
+├── src/
+│   ├── app/             # Next.js routes
+│   ├── components/      # React components
+│   ├── lib/             # Utility functions and data
+│   ├── styles/          # Global styles
+├── next.config.js   # Next.js configuration
+├── package.json       # Project dependencies
+```
 
 ## Usage
 
