@@ -119,6 +119,8 @@ Projektet utfördes under tre veckolånga sprintar.
 
 ### Sprint 1
 
+- Analys & Kravhantering
+
 ### Sprint 2
 
 ### Sprint 3
