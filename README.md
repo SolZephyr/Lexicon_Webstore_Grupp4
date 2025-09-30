@@ -119,7 +119,22 @@ Projektet utfördes under tre veckolånga sprintar.
 
 ### Sprint 1
 
+Första målet var att välja API och bestämma en grundläggande design samt layout.
+Andra målet var att förbereda planeringen av kort för sprinten.
+Tredje målet var att förbereda ett grundläggande projekt med Next-js med statiska sidor och enkla komponenter.
+Funktionellt krav var att hämta produktdata från API endpoint, och kunna presentera det i form av en lista med produkttitel, bild, pris osv på startsidan.
+
+Dessa krav slutfördes snabbare än väntat så vi började se över och utöka målen för sprint 1.
+Utökade målen blev att implementera dynamisk routing och interaktion.
+
 ### Sprint 2
+
+Sprint 2: Dynamisk routing & Interaktion (Vecka 2)
+Mål: Bygg de dynamiska sidorna och lägg till de första interaktiva elementen.
+Skapa den dynamiska routen app/products/[id]/page.tsx för produktsidorna.
+Hämta en specifik produkts data baserat på ID och rendera detaljerad information.
+Lägg till sökfunktion och paginering där det är aktuellt. Använd client/server-components i samarbete med varandra för att lösa detta.
+Lägg till "Lägg till i varukorg"-knappen på produktsidan (behöver inte vara fungerande utan räcker med en indikation att en vara lagts till).
 
 ### Sprint 3
 
