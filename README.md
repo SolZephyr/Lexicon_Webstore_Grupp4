@@ -1,65 +1,79 @@
 # E-commerce Storefront
 
-## Description
+## Beskrivning
 
-This project is an e-commerce storefront built with Next.js, TypeScript, and Tailwind CSS. It provides a user interface for browsing products, managing a shopping cart, and completing the checkout process. The application also includes an admin panel for managing products and other store configurations.
+Detta projekt är en e-handelsbutik byggd med Next.js, TypeScript och Tailwind CSS. Den innehåller ett användargränssnitt för att bläddra bland produkter, hantera en kundvagn och slutföra kassaprocessen. Applikationen innehåller också en adminpanel för att hantera produkter och andra butikskonfigurationer.
 
-## Features
+## Innehållsförteckning
 
-- **Product Catalog:** Browse products by category, filter by brand, price, and stock.
-- **Product Details:** View detailed information about individual products, including reviews and specifications.
-- **Shopping Cart:** Add products to a shopping cart, update quantities, and proceed to checkout.
-- **Checkout:** Securely complete the checkout process with Stripe integration.
-- **User Authentication:** Sign up, sign in, and manage user accounts.
-- **Admin Panel:** Manage products, categories, and other store configurations (accessible to authorized users).
-- **Contact Form:** Submit contact requests.
+- [Funktionalitet](#funktionalitet)
+- [Teknologier](#teknologier)
+- [Skärmdumpar](#skärmdumpar)
+- [Installation](#installation)
+- [Projektstruktur](#projektstruktur)
+- [Arbetsflöde](#arbetsflöde)
+- [Sprint Planning](#sprint-planning)
+- [Användning](#användning)
+- [Bidra](#bidra)
+- [Lärdomar](#lärdomar)
+- [Licens](#licens)
 
-## Technologies Used
+## Funktionalitet
+
+- **Produktkatalog:** Bläddra bland produkter efter kategori, filtrera efter varumärke, pris och lagerstatus.
+- **Produktinformation:** Visa detaljerad information om enskilda produkter, inklusive recensioner och specifikationer.
+- **Kundvagn:** Lägg till produkter i en kundvagn, uppdatera kvantiteter och fortsätt till kassan.
+- **Kassa:** Slutför kassaprocessen säkert med Stripe-integration.
+- **Användarautentisering:** Registrera dig, logga in och hantera användarkonton.
+- **Adminpanel:** Hantera produkter, kategorier och andra butikskonfigurationer (åtkomlig för auktoriserade användare).
+- **Kontaktformulär:** Skicka kontaktförfrågningar.
+
+## Teknologier
 
 - Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS 4
 - Stripe
 - Shadcn UI
-- Zod (for form validations)
+- Zod (för form-validering)
 - Clerk
 
-- API: Earlier iterations of the project were built upon the DummyJSON API. Later revisions depend on a cloned and revised version of the API with custom endpoints that deliver a extended datastructure that the original version did not support.
+- API: Tidigare versioner av projektet byggde på DummyJSON API:et. Senare versioner använder en klonad och reviderad version av API:et med anpassade endpoints som levererar en utökad datastruktur som originalversionen inte stödde.
 
-## Screenshots:
+## Skärmdumpar:
 
-### Main
+### Butik
 
-|                Index                 |              Details Page              |                 Product List                  |
+|                Index                 |              Detaljsida                |                  Produktlista                 |
 | :----------------------------------: | :------------------------------------: | :-------------------------------------------: |
 | ![Index page](readme/main/index.png) | ![Details Page](readme/main/image.png) | ![Product List](readme/main/product-list.png) |
 
 ### Admin
 
-Product List
+Produktlista
 :-------------------------:
 | ![Admin - Product List](readme/admin/list.png)
 
-## Getting Started
+## Installation
 
-1.  **Clone the repository:**
+1.  **Klona repository:**
 
     ```bash
     git clone <repository_url>
     ```
 
-2.  **Install dependencies:**
+2.  **Installera beroenden:**
 
     ```bash
     cd app
     npm install
     ```
 
-3.  **Configure environment variables:**
+3.  **Konfigurera miljö-variabler:**
 
     Create a `.env.local` file in the `app` directory and add the necessary environment variables (e.g., Stripe API keys, database connection string).
 
-4.  **Run the development server:**
+4.  **Kör utvecklingservern:**
 
     ```bash
     npm run dev
@@ -67,7 +81,7 @@ Product List
 
     Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-## Project Structure
+## Projektstruktur
 
 ```
 app/
@@ -80,52 +94,39 @@ app/
 ├── package.json       # Project dependencies
 ```
 
-## Workflow
+## Arbetsflöde
 
 Projektet har utformats genom ett grupparbete med fyra medlemmar.
 
-Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en KANBAN-bräda har används för att tilldela uppgifter mellan medlemmar. Projektet delades upp i veckolånga sprintar.
+Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en Kanban-bräda har används för att tilldela uppgifter mellan medlemmar. Projektet delades upp i veckolånga sprintar.
 
 Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landar. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
 
-Dagsstruktur:
+### Dagsstruktur:
 
-Morgonmöte
+**Morgonmöte**
 
-Kort genomgång av genomfört och vad som ska genomföras av medlemmar.
+- Kort genomgång av vad som har genomförts och vad som ska genomföras av medlemmar.
+- Se över aktuella issues, flytta från backlog till ready.
+- Analys för nya idéer, skapa issues i backlog.
+- Issues i behov av mer förfining/förarbete ligger kvar i backlog
 
-Se över aktuella kort.
-Analys och tankar för nya idéer hamnar i backlog.
-Behövdes mer arbete att utföras förbereds kort i ready.
+Uppdelning av aktuella issues. Varje person tar de issues som de vill arbeta med.
+När deltagare har blivit tilldelade ett issue så öppnar de en feature-branch där de arbetar isolerat på problemet.
 
-Uppdelning av prioriterade kort. Man tog dom kort man ville jobba på.
+**Eftermiddagsmöte**
+Under dagen så har vi haft kontinuerlig kommunikation och bestämt en tid för ett eftermiddagsmöte.
+Under det mötet så går vi igenom de pull requests som har samlats under dagen, och en person blir tilldelad rollen som Merge Master. 
+För att en pull request ska kunna bli merge:ad till utvecklingsbranchen så krävs godkännanden av två övriga gruppmedlemmar, varpå Merge Master kan utföra det.
 
-När deltagare har blivit tilldelade ett kort så öppnar de en feature-branch där de arbetar isolerat på problemet.
+När alla PR har slutförts så sker samma process som under morgonmötet, alla deltagare går igenom de krav som finns på Kanban-brädan och nya krav analyseras.
 
-Eftermiddagsmöte
-Under dagen så har vi kontinuerlig kommunikation och bestämmer en tid för ett eftermiddagsmöte.
-Under det mötet så går vi igenom de pull requests som har samlats under dagen, och en person blir tilldelad rollen som Merge Master. För att en pull request ska kunna bli merge:ad till utvecklingsbranchen så krävs godkännanden av två övriga gruppmedlemmar, varpå Merge Master kan utföra det.
-
-När alla PR har slutförts så sker samma process som under morgonmötet, alla deltagare går igenom de krav som finns på KANBAN-brädan och nya krav analyseras.
-
-Se över aktuella kort.
-…
-
-Krav som har identifierats för projektet har delats upp i form av kort/issues, som varje gruppmedlem har tilldelat sig själv under morgonmöten.
 
 ## Sprint Planning
 
 Projektet utfördes under tre veckolånga sprintar.
 
 ### Sprint 1
-
-Första målet var att välja API och bestämma en grundläggande design samt layout.
-Andra målet var att förbereda planeringen av kort för sprinten.
-Tredje målet var att förbereda ett grundläggande projekt med Next-js med statiska sidor och enkla komponenter.
-Funktionellt krav var att hämta produktdata från API endpoint, och kunna presentera det i form av en lista med produkttitel, bild, pris osv på startsidan.
-
-Dessa krav slutfördes snabbare än väntat så vi började se över och utöka målen för sprint 1.
-Utökade målen blev att implementera dynamisk routing och interaktion.
 
 - Val av API och UX design
 - Planering av sprint samt kort för sprinten (Kanban)
@@ -138,44 +139,51 @@ Utökade målen blev att implementera dynamisk routing och interaktion.
 
 ### Sprint 2
 
-Sprint 2: Dynamisk routing & Interaktion (Vecka 2)
-Mål: Bygg de dynamiska sidorna och lägg till de första interaktiva elementen.
-Skapa den dynamiska routen app/products/[id]/page.tsx för produktsidorna.
-Hämta en specifik produkts data baserat på ID och rendera detaljerad information.
-Lägg till sökfunktion och paginering där det är aktuellt. Använd client/server-components i samarbete med varandra för att lösa detta.
-Lägg till "Lägg till i varukorg"-knappen på produktsidan (behöver inte vara fungerande utan räcker med en indikation att en vara lagts till).
-
-- Skapa den dynamiska routen app/category/[name]/page.tsx för att filtera produkter baserat på namn
+- Skapa den dynamiska routen app/category/[name]/page.tsx för att filtera produkter baserat på kategorinamn
 - Filteringskolumn där man kan filtrera på namn, brand, in stock och pris
-- Påbyggnad av API? (Kristian)
+- Fork av DummyJSON med utökad funktionalitet
 - Sökfunktion färdig och kopplad till produktsida
-- Färdigställning av lägg till varukorg samt implementation av varukorg i header
+- Färdigställning av varukorg samt implementation av varukorg i header
 - Navigering till kategorier från header
 - Validering av fält i formulär på kontaktsida
-- Implementering av Clerk
-- Implementering av Stripe
+- Implementering av inloggning Clerk
+- Implementering av checkout med Stripe
   
 ### Sprint 3
 
-- Skapa admingränssnitt
+- Skapa admingränssnitt med lista på produkter
+- Implementation av MongoDB
 - Validering av fält i formulär på adminsida
-- CRUD funktionalitet på adminsida för produkter
+- CRUD funktionalitet på adminsida
 - Authentication på adminsida via Clerk
 - Bugfixar och förbättring av existerande kod
 - Förbättrad responsivitet, tillgänglighet samt design
 
-## Usage
+## Användning
 
-- **Browsing Products:** Navigate to the `/products` page to view the product catalog. Use the sidebar filters to refine your search.
-- **Viewing Product Details:** Click on a product card to view detailed information about the product.
-- **Adding to Cart:** Click the "Add to Cart" button on the product details page to add the product to your shopping cart.
-- **Checkout:** Click the cart icon in the header to view your shopping cart. Proceed to checkout to complete your purchase.
-- **Admin Panel:** Access the admin panel at `/admin` (requires appropriate authentication).
+- **Bläddra Bland Produkter:** Navigera till sidan `/products` för att visa produktkatalogen. Använd sidofältsfiltren för att förfina din sökning.
+- **Visa Produktinformation:** Klicka på ett produktkort för att visa detaljerad information om produkten.
+- **Lägga Till i Varukorgen:** Klicka på knappen "Lägg till i varukorgen" på produktdetaljsidan för att lägga till produkten i din varukorg.
+- **Kassa:** Klicka på varukorgsikonen i sidhuvudet för att visa din varukorg. Fortsätt till kassan för att slutföra ditt köp.
+- **Adminpanel:** Gå till adminpanelen på `/admin` (kräver autentisering).
+ 
 
-## Contributing
+## Bidra
 
 Contributions are welcome! Please submit a pull request with your proposed changes.
 
-## License
+## Lärdomar
+
+- Arbeta i grupp, anpassa planering efter arbetstakt.
+- Server vs Client komponenter
+- Kontexter och providers
+- Formulärvalidering med Zod, Use action state för felhantering
+- Serverkommunikation med externa API
+- Next.js server functions
+- Externa ramverk som Clerk och Stripe
+- Bestämma när ett projekt är klart/när man ska vara nöjd
+- Mer utförligt användande av Github Projects, Issues, Pull Requests, kodgranskning
+
+## Licens
 
 [MIT](LICENSE)
