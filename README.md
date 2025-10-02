@@ -10,6 +10,7 @@ Detta projekt är en e-handelsbutik byggd med Next.js, TypeScript och Tailwind C
 - [Teknologier](#teknologier)
 - [Skärmdumpar](#skärmdumpar)
 - [Installation](#installation)
+- [Bidrag till projektet](#bidrag-till-projektet)
 - [Projektstruktur](#projektstruktur)
 - [Arbetsflöde](#arbetsflöde)
 - [Sprint Planning](#sprint-planning)
@@ -102,9 +103,9 @@ Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en K
 
 Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landat. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
 
-## Bidrag till projektet:
+## Bidrag till projektet
 
-### Butik:
+### Butik
 
 #### Main - Featured Products
 
@@ -122,7 +123,7 @@ Jag skapade den formulärkomponent som används när man skapar och editerar en 
 ### Att arbeta vidare på:
 Idéer för fortsatt arbete skulle nog vara att implementera någon form av klient-cache bibliotek för att filtrera produkterna när det finns möjlighet (t.ex. vid namnsökning för produkter som redan har hämtats i en lista) istället för fullständigt server-side som det är nu. Det skulle göra filtreringen mycket mer responsiv. Det skulle även vara intressant att implementera någon form av "Du har tidigare tittat på produkter som dessa"-funktinalitet genom att spara visningshistorik om användaren är inloggad.
 
-### Dagsstruktur:
+## Dagsstruktur
 
 **Morgonmöte**
 
@@ -140,7 +141,6 @@ Under det mötet så går vi igenom de pull requests som har samlats under dagen
 För att en pull request ska kunna bli merge:ad till utvecklingsbranchen så krävs godkännanden av två övriga gruppmedlemmar, varpå Merge Master kan utföra det.
 
 När alla PR har slutförts så sker samma process som under morgonmötet, alla deltagare går igenom de krav som finns på Kanban-brädan och nya krav analyseras.
-
 
 ## Sprint Planning
 
