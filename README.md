@@ -116,9 +116,11 @@ Jag byggde upp grundstrukturen för filter-sidebaren och Text, Kategori och I La
       
 ### Admin/CRUD
 
+#### Tabellvy för produktdata
+Jag ansvarade för visning av produktinformation i tabellvy på den administrativa delen av sidan. Komponenten är i två lager - en serverkomponent som skapar en task för hämtning av alla produkter som sedan skickas ner och väntas in i en klientkomponent för att kunna visa en laddningsindikator på server-nivån. I klientkomponenten så laddas svaret i ett Tanstack Table för hantering av sorterering och paginering.
+
 #### Formulär-komponent för Create och Edit-vy:
 Jag skapade den formulärkomponent som används när man skapar och editerar en produkt. Det är en klientkomponent som tar emot ett objekt av typen Partial<Product> och en Server Action som körs vid en lyckad inskickning av formuläret. Formulärdatan valideras server-side med hjälp av Zod och visar fångade valideringsfel i formuläret med hjälp av useActionState.
-
 
 ### Att arbeta vidare på:
 Idéer för fortsatt arbete skulle nog vara att implementera någon form av klient-cache bibliotek för att filtrera produkterna när det finns möjlighet (t.ex. vid namnsökning för produkter som redan har hämtats i en lista) istället för fullständigt server-side som det är nu. Det skulle göra filtreringen mycket mer responsiv. Det skulle även vara intressant att implementera någon form av "Du har tidigare tittat på produkter som dessa"-funktinalitet genom att spara visningshistorik om användaren är inloggad.
