@@ -59,7 +59,7 @@ Produktlista
 1.  **Klona repository:**
 
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/kippeves/Lexicon_Webstore_Grupp4.git
     ```
 
 2.  **Installera beroenden:**
@@ -101,6 +101,26 @@ Projektet har utformats genom ett grupparbete med fyra medlemmar.
 Arbetet har utförts i form av ett agilt projekt med SCRUM-struktur, varpå en Kanban-bräda har används för att tilldela uppgifter mellan medlemmar. Projektet delades upp i veckolånga sprintar.
 
 Projektet har utförts genom två branches: Dev och Main. Dev har fungerat som utvecklingsmiljö, och där har kod som fortfarande är under arbete landat. I slutet på varje sprint så skjuts det arbete som har genomförts under veckan mot Main-branchen för deployment.
+
+## Bidrag till projektet:
+
+### Butik:
+
+#### Main - Featured Products
+
+Jag ansvarade för "Featured Items"-komponenten som visas på huvudsidan. Det är en Server-komponent som använder sig utav ProductGrid-komponenten anpassad med kolumnbredder för att tillgodose fem produkter horisontellt stället för fyra. Komponenten visar tio produkter hämtade genom ett API-anrop.
+
+#### Products - Filter/Sidebar:
+Jag byggde upp grundstrukturen för filter-sidebaren och Text, Kategori och I Lager-komponenterna. Varje filter har en callback som använder sig av en gemensam funktion för att uppdatera filtret och skicka användaren till rätt sida. Dessa sökparametrar plockas upp i toppnivåm och används för att bygga en query med sammanslagen filter- och pagineringsdata som sedan hämtas från API:et och väntas in i en underkomponent för minskad renderingstid.
+      
+### Admin/CRUD
+
+#### Formulär-komponent för Create och Edit-vy:
+Jag skapade den formulärkomponent som används när man skapar och editerar en produkt. Det är en klientkomponent som tar emot ett objekt av typen Partial<Product> och en Server Action som körs vid en lyckad inskickning av formuläret. Formulärdatan valideras server-side med hjälp av Zod och visar fångade valideringsfel i formuläret med hjälp av useActionState.
+
+
+### Att arbeta vidare på:
+Idéer för fortsatt arbete skulle nog vara att implementera någon form av klient-cache bibliotek för att filtrera produkterna när det finns möjlighet (t.ex. vid namnsökning för produkter som redan har hämtats i en lista) istället för fullständigt server-side som det är nu. Det skulle göra filtreringen mycket mer responsiv. Det skulle även vara intressant att implementera någon form av "Du har tidigare tittat på produkter som dessa"-funktinalitet genom att spara visningshistorik om användaren är inloggad.
 
 ### Dagsstruktur:
 
