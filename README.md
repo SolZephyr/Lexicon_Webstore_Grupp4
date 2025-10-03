@@ -16,6 +16,8 @@ Detta projekt är en e-handelsbutik byggd med Next.js, TypeScript och Tailwind C
 - [Användning](#användning)
 - [Bidra](#bidra)
 - [Lärdomar](#lärdomar)
+- [Individuellt bidrag](#individuellt-bidrag)
+- [Utvecklingsmöjligheter](#utvecklingsmöjligheter)
 - [Licens](#licens)
 
 ## Funktionalitet
@@ -183,6 +185,26 @@ Contributions are welcome! Please submit a pull request with your proposed chang
 - Externa ramverk som Clerk och Stripe
 - Bestämma när ett projekt är klart/när man ska vara nöjd
 - Mer utförligt användande av Github Projects, Issues, Pull Requests, kodgranskning
+
+## Individuellt bidrag
+
+Jag själv som gruppmedlem bidrog med att utveckla planerad funktionalitet, samt extrafunktioner.
+
+Exempel på funktioner jag utvecklat är:
+- Några statiska och dynamiska routes
+- Komponenter baserade på Shadcn
+- Hantering av searchParams för produktlistan
+- Pagination för filtrering och paging
+- Sortering och filtrering av viss produktdata mot API
+- Slider och hantering för pris-filtrering
+- Implementering av Clerk login
+
+## Utvecklingsmöjligheter
+
+Skulle jag själv fortsätta med detta projekt så skulle jag utöka API:t som det är beroende utav.
+En del information som visas är hårdkodad, samt viss information simulerar bara att det sparas.
+Presentativt ser det något färdigt ut, men mycket kan fortfarande styras från backend.
+Sen om det faktiskt skulle användas så behövs någon form av orderhantering.
 
 ## Licens
 
